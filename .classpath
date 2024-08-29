@@ -2,20 +2,20 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/dev/sysml.jar"/>
-	<classpathentry kind="lib" path="C:/dev/org.eclipse.xtext-2.12.0.jar"/>
-	<classpathentry kind="lib" path="C:/dev/org.eclipse.emf.ecore-2.36.0.jar"/>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.xtend.XTEND_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/dev/org.eclipse.xtext.xbase.lib_2.35.0.v20240528-1523.jar"/>
-	<classpathentry kind="lib" path="C:/Users/osman/Downloads/Cobweb (2023) [1080p] [WEBRip] [5.1] [YTS.MX]/eclipse/plugins/com.google.guava_33.2.0.jre.jar"/>
-	<classpathentry kind="lib" path="C:/Users/osman/Downloads/Cobweb (2023) [1080p] [WEBRip] [5.1] [YTS.MX]/eclipse/plugins/org.eclipse.xtend.lib.macro_2.35.0.v20240528-1523.jar"/>
-	<classpathentry kind="lib" path="C:/Users/osman/Downloads/Cobweb (2023) [1080p] [WEBRip] [5.1] [YTS.MX]/eclipse/plugins/org.eclipse.xtend.lib_2.35.0.v20240528-1523.jar"/>
-	<classpathentry kind="lib" path="C:/dev/guava-19.0-rc3.jar"/>
-	<classpathentry kind="lib" path="C:/dev/guice-3.0.jar"/>
-	<classpathentry kind="lib" path="C:/dev/org.eclipse.emf.common-2.30.0.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
