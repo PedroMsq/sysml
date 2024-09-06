@@ -4,13 +4,19 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.omg.sysml.lang.sysml.Namespace;
+import org.omg.sysml.lang.sysml.ActionDefinition;
+import org.omg.sysml.lang.sysml.AttributeDefinition;
+import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.PartDefinition;
 //import org.omg.sysml.lang.sysml.ConnectionUsage;
 import org.omg.sysml.xtext.SysMLStandaloneSetupGenerated;
-import org.omg.sysml.xtext.sysml.ActionDefinition;
-import org.omg.sysml.xtext.sysml.AttributeDefinition;
-import org.omg.sysml.xtext.sysml.Namespace;
-import org.omg.sysml.xtext.sysml.PartDefinition;
+//import org.omg.sysml.xtext.sysml.Namespace;
+//import org.omg.sysml.xtext.sysml.ActionDefinition;
+//import org.omg.sysml.xtext.sysml.AttributeDefinition;
+//import org.omg.sysml.xtext.sysml.PartDefinition;
 
 import com.google.inject.Injector;
 
@@ -33,25 +39,6 @@ public class SysMLReader {
         	Resource resource = resourceSet.getResource(fileURI, true);
         	Namespace model = (Namespace) resource.getContents().get(0);
         	printNamespace(model, 0);
-//            // Inicializa o SysML
-//            SysMLStandaloneSetupGenerated setup = new SysMLStandaloneSetupGenerated();
-//            Injector injector = setup.createInjectorAndDoEMFRegistration();
-//
-//            // Cria um ResourceSet
-//            XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-//
-//            // Carrega o arquivo SysML
-//            String filePath = "./src/sysml/BatterySystem.sysml";
-//            URI fileURI = URI.createFileURI(filePath);
-//            String content = new String(Files.readAllBytes(Paths.get(filePath)));
-//            System.out.println("Conteudo do Arquivo:\n" + content);
-//            Resource resource = resourceSet.getResource(fileURI, true);
-//
-//            // Obtém o modelo raiz
-//            Namespace model = (Namespace) resource.getContents().get(0);
-//
-//            // Imprime a estrutura do modelo
-//            printNamespace(model, 0);
 
         } catch (Throwable e) {
             e.printStackTrace();
@@ -62,9 +49,10 @@ public class SysMLReader {
         printIndent(indent);
         System.out.println("Namespace: " + namespace.eClass());
 
-        // Aqui você itera sobre os membros do Namespace
-        List<ActionDefinition> memberships = namespace.getOwnedMembership_comp();
-        for (ActionDefinition member : memberships) {
+        // itera sobre os membros do Namespace
+        List<Element> memberships = namespace.getOwnedMember();
+        
+        for (EObject member : memberships) {
             if (member instanceof Namespace) {
                 printNamespace((Namespace) member, indent + 1);
             } else if (member instanceof PartDefinition) {
