@@ -5,14 +5,17 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.EObject;
+//import org.eclipse.xtext.impl.XtextFactoryImpl;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.ActionDefinition;
 import org.omg.sysml.lang.sysml.AttributeDefinition;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.PartDefinition;
+import org.omg.sysml.lang.sysml.SysMLPackage;
 //import org.omg.sysml.lang.sysml.ConnectionUsage;
 import org.omg.sysml.xtext.SysMLStandaloneSetupGenerated;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 //import org.omg.sysml.xtext.sysml.Namespace;
 //import org.omg.sysml.xtext.sysml.ActionDefinition;
 //import org.omg.sysml.xtext.sysml.AttributeDefinition;
@@ -25,21 +28,26 @@ public class SysMLReader {
 	private static Injector injector;
 	private static XtextResourceSet resourceSet;
 	
-	public static void Startup() throws Exception{
-		injector = new SysMLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
-		resourceSet = injector.getInstance(XtextResourceSet.class);
-	}
-	
-    public static void main(String[] args) throws Exception {
-    	Startup();
-    	try {
-        	String filePath = "./src/sysml/BatterySystem.sysml";
-        	URI fileURI = URI.createFileURI(filePath);
-        	
-        	Resource resource = resourceSet.getResource(fileURI, true);
-        	Namespace model = (Namespace) resource.getContents().get(0);
-        	printNamespace(model, 0);
+    public static void Startup() throws Exception {
+        injector = new SysMLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+        resourceSet = injector.getInstance(XtextResourceSet.class);
 
+        // Registro da fábrica de recursos para arquivos XMI
+        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("sysml", new XMIResourceFactoryImpl());
+
+        // Registro do pacote SysML gerado pela gramática
+        SysMLPackage.eINSTANCE.eClass();
+    }
+    
+    public static void main(String[] args) throws Exception {
+        Startup();
+        try {
+            String filePath = "./src/sysml/BatterySystem.sysml";
+            URI fileURI = URI.createFileURI(filePath);
+            
+            Resource resource = resourceSet.getResource(fileURI, true);
+            Namespace model = (Namespace) resource.getContents().get(0);
+            printNamespace(model, 0);
         } catch (Throwable e) {
             e.printStackTrace();
         }
