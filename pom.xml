@@ -43,7 +43,13 @@
 			<artifactId>lib</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>C:\Users\pedro\new-sysml.jar</systemPath>
+			<systemPath>C:\Users\pedro\new-sysml.jar</systemPath> 
 		</dependency>
+		<dependency>
+    <groupId>org.omg.sysml</groupId>
+    <artifactId>org.omg.sysml.interactive</artifactId>
+    <version>0.43.2</version>
+    <scope>system</scope><systemPath>C:\Users\pedro\git\sysml\lib\org.omg.sysml.interactive-0.43.2-SNAPSHOT.jar</systemPath>
+</dependency>
 	</dependencies>
 </project>
