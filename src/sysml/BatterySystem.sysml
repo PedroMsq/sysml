@@ -1,9 +1,9 @@
 package 'BatterySystem' {
-	import ScalarValues::*;
+	private import ScalarValues::*;
 	
 	attribute def TurnSOS;
 
-	// Definição da bateria
+	// Definicao da bateria
 	part def Battery {
 		attribute charge : Real;
 		attribute sosTrigger : Real;
@@ -16,12 +16,12 @@ package 'BatterySystem' {
 		attribute keepRechargeValue : Real = 90;
 	}
 	
-	// Ações
+	// Acoes
 	action MonitorBattery { out charge : Real; }
 	attribute def TurnRecharge;
 	attribute def BatteryDepleted;
 	attribute def TurnOn;
-	// Máquina de estados da bateria
+	// Maquina de estados da bateria
 	state BatteryStates {
 		in battery : Battery;
 		
