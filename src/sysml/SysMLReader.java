@@ -19,14 +19,28 @@ import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.FlowConnectionDefinition;
 import org.omg.sysml.lang.sysml.FlowConnectionUsage;
 
+
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.Charset;
+
 
 public class SysMLReader {
 
 	public static void main(String[] args) {
+		// Load env.
+        String systemLibPath = System.getenv("SYSTEM_LIB_PATH");
+        String filePath = System.getenv("FILE_PATH");
+
+        if (systemLibPath == null || filePath == null) {
+            System.out.println("Erro: As variáveis de ambiente não foram definidas.");
+            return;
+        }
+
+        System.out.println("Loading libraries from: " + systemLibPath);
+        System.out.println("Reading file from: " + filePath);
+		
 		// Get singleton instance.
 		SysMLInteractive sysml = SysMLInteractive.getInstance();
 		sysml.setVerbose(false);
@@ -34,7 +48,6 @@ public class SysMLReader {
 		// Load the KerML and SysML library models. The argument gives the
 		// absolute path to the root "system.library" directory.
 		System.out.println("Loading libraries...");
-		String systemLibPath = "C:\\Users\\pedro\\git\\new pilot install\\SySML-v2-Pilot-Implementation\\sysml.library";
 		sysml.loadLibrary(systemLibPath);
 
 		// Set the base path used for publishing via the API.
@@ -43,7 +56,6 @@ public class SysMLReader {
 		try {
 			// Evaluate (parse and validate) the SysML text read from a file
 			// at the given absolute path.
-			String filePath = "C:/Users/pedro/git/sysml/src/sysml/BatterySystem.sysml";
 			System.out.println("Reading " + filePath);
 			Path of = Path.of(filePath);
 			String string = Files.readString(of, Charset.forName("UTF-8"));
@@ -70,7 +82,8 @@ public class SysMLReader {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// Print file structure
 	public static void printElementStructure(Element element, String indent) {
 	    String declaredName = element.getDeclaredName();
 	    if (declaredName == null) {
@@ -110,7 +123,7 @@ public class SysMLReader {
 	        System.out.println(indent + "Other Element: " + declaredName);
 	    }
 
-	    // Recorre para imprimir membros internos se o elemento for um Namespace
+	    // Recursion
 	    if (element instanceof Namespace) {
 	        for (Element member : ((Namespace) element).getOwnedMember()) {
 	            printElementStructure(member, indent + "  ");
