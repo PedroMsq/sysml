@@ -43,7 +43,7 @@
 			<artifactId>lib</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>/Users/albertins/git/sysml/lib/new-sysml.jar</systemPath> 
+			<systemPath>C:\Users\pedro\git\sysml\lib\new-sysml.jar</systemPath> 
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.uml2</groupId>
