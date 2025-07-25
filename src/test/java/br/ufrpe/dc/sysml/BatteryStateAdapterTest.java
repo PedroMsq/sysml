@@ -21,10 +21,7 @@ class BatteryStateAdapterTest {
     @BeforeAll
     static void init() {
         // Inicializa o parser com caminhos fixos (para testes)
-        sysmlSpec = new SysMLV2Spec(
-            "C:/Users/pedro/OneDrive/desktop/sysml/sysml/src/main/java/sysml",  
-            "C:/Users/pedro/sysml-master/git/SysML-v2-Pilot-Implementation/sysml.library"
-        );
+        sysmlSpec = new SysMLV2Spec();
         // Carrega o arquivo de teste
         sysmlSpec.parseFile("BatterySystem.sysml");
 

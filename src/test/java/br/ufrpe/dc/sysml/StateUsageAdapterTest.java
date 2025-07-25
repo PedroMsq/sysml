@@ -19,7 +19,7 @@ class StateUsageAdapterTest {
     @BeforeAll
     static void setUp() {
         // Carrega o arquivo SysML
-        sysmlSpec = new SysMLV2Spec(null);
+        sysmlSpec = new SysMLV2Spec();
         Namespace rootNamespace = (Namespace) sysmlSpec.getRootNamespace();
         assertNotNull(rootNamespace, "O namespace raiz não deveria ser nulo");
 

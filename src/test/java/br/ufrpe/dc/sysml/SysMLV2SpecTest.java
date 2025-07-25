@@ -17,7 +17,7 @@ class SysMLV2SpecTest {
 
     @BeforeAll
     static void setUp() {
-        sysmlSpec = new SysMLV2Spec(null);
+        sysmlSpec = new SysMLV2Spec();
     }
 
     @Test 

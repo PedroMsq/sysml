@@ -28,10 +28,7 @@ class UnitExampleTest {
     @BeforeAll
     static void setUp() {
         // Instancia SysMLV2Spec usando o construtor que recebe os caminhos fixos (para testes)
-        sysmlSpec = new SysMLV2Spec(
-                "C:/Users/pedro/OneDrive/desktop/sysml/sysml/src/main/java/sysml",
-                "C:/Users/pedro/sysml-master/git/SysML-v2-Pilot-Implementation/sysml.library"
-            );
+        sysmlSpec = new SysMLV2Spec();
         // Carrega o arquivo UnitsExample.sysml
         sysmlSpec.parseFile("UnitsExample.sysml");
 

@@ -1,4 +1,4 @@
-package 'Port Example' {
+package Port Example {
 	
 	attribute def Temp;
 	

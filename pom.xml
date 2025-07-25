@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<lib-systemPath>C:\dev\sysml-lib.jar</lib-systemPath>
+		<lib-systemPath>C:\dev\sysml-lib2.jar</lib-systemPath>
 		<java.version>21</java.version>
 		<spring-cloud.version>2024.0.0</spring-cloud.version>
 	</properties>
@@ -125,6 +125,20 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+       <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>shade</goal>
+          </goals>
+          <configuration>
+            </configuration>
+        </execution>
+      </executions>
+    </plugin>
 		</plugins>
 	</build>
 

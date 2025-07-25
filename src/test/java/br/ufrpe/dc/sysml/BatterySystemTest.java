@@ -26,8 +26,7 @@ class BatterySystemTest {
     @BeforeAll
     static void setUp() {
         // Cria a instância do parser SysMLV2Spec (nos testes, você pode passar valores fixos se necessário)
-        sysmlSpec = new SysMLV2Spec("C:/Users/pedro/Downloads/sysml/src/main/java/sysml", 
-                                     "C:/Users/pedro/git/new pilot install/SySML-v2-Pilot-Implementation/sysml.library");
+        sysmlSpec = new SysMLV2Spec();
         sysmlSpec.parseFile("BatterySystem.sysml");
         rootNamespace = (Namespace) sysmlSpec.getRootNamespace();
         assertNotNull(rootNamespace, "O namespace raiz não deve ser nulo.");

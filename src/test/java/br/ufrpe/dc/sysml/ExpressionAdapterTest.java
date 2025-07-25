@@ -17,10 +17,7 @@ class ExpressionAdapterTest {
 
     @BeforeAll
     static void setup() {
-        sysmlSpec = new SysMLV2Spec(
-                "C:/Users/pedro/OneDrive/desktop/sysml/sysml/src/main/java/sysml",  
-                "C:/Users/pedro/sysml-master/git/SysML-v2-Pilot-Implementation/sysml.library"
-            );
+        sysmlSpec = new SysMLV2Spec();
         sysmlSpec.parseFile("UnitsExample.sysml");
         rootNamespace = (Namespace) sysmlSpec.getRootNamespace();
         assertNotNull(rootNamespace);
