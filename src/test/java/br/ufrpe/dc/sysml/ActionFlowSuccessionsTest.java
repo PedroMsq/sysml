@@ -67,29 +67,28 @@ class ActionFlowSuccessionsTest {
             if (!(membership instanceof SuccessionAsUsage)) continue;
             SuccessionAsUsage su = (SuccessionAsUsage) membership;
 
-            // lista de targets
             EList<Element> targets = su.getTarget();
             String tgtName = null;
             if (!targets.isEmpty() && targets.get(0) instanceof ActionUsage) {
                 tgtName = ((ActionUsage) targets.get(0)).getDeclaredName();
             }
+
             EList<Element> sources = su.getSource();
-            // percorre as sources
-            for (Element srcElem : su.getSource()) {
-            	
+            // percorre a lista até encontrar um source correspondente
+            for (Element srcElem : sources) {
                 String srcName = (srcElem instanceof ActionUsage)
                     ? ((ActionUsage) srcElem).getDeclaredName()
                     : null;
 
-                System.out.printf("DEBUG Succession candidate: %s → %s%n", srcName, tgtName);
-
                 if (sourceName.equals(srcName)) {
-                    return tgtName;
+                    System.out.printf("DEBUG Succession candidate: %s → %s%n", srcName, tgtName);
+                    return tgtName;  
                 }
             }
         }
-        return null;
+        return null; 
     }
+
 
 
 
