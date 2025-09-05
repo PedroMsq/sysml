@@ -35,8 +35,7 @@ package MergeExample {
 		
 		then action display : Display {
 			in item picture;
-		}
-		
+		}	
 		then continue;	
 	}
 }

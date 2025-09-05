@@ -1,9 +1,12 @@
 package br.ufrpe.dc.sysml;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Properties;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -25,9 +28,22 @@ public class SysMLV2Spec {
 
     private SysMLInteractive sysml;
     private Namespace rootNamespace;
+    private String baseFilePath;
 
-    public SysMLV2Spec() {
-        String systemLibPath = System.getenv("SYSTEM_LIB_PATH");
+    public SysMLV2Spec(){
+    	Properties properties = new Properties();
+    	try {
+			properties.load(new FileReader("src/main/resources/application.properties"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	baseFilePath = properties.getProperty("app.baseFilePath");
+        String systemLibPath = properties.getProperty("app.systemLibPath");
         if (systemLibPath == null || systemLibPath.isEmpty()) {
             throw new RuntimeException("Erro: A variável de ambiente SYSTEM_LIB_PATH não foi definida.");
         }
@@ -40,7 +56,6 @@ public class SysMLV2Spec {
     
     public void parseFileWithTransform(String fileName) {
         // Monta o caminho completo
-    	String baseFilePath = System.getenv("BASE_FILE_PATH");
         String fullPath = baseFilePath + "/" + fileName;
 
         KerMLStandaloneSetup.doSetup();
@@ -70,7 +85,6 @@ public class SysMLV2Spec {
     
     
     public void parseFile(String fileName) {
-        String baseFilePath = System.getenv("BASE_FILE_PATH");
 
         if (baseFilePath == null || baseFilePath.isEmpty()) {
             throw new RuntimeException("Erro: A variável de ambiente BASE_FILE_PATH não foi definida.");
@@ -101,7 +115,6 @@ public class SysMLV2Spec {
 
 
     public void parseFromEnvFile() {
-        String baseFilePath = System.getenv("BASE_FILE_PATH");
         String fileName = System.getenv("FILE_NAME");
 
         if (baseFilePath == null || baseFilePath.isEmpty()) {
