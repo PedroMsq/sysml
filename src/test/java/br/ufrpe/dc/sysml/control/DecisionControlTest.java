@@ -30,7 +30,6 @@ class DecisionControlTest {
 	}
 		
 	// Imprime recursivamente qualquer elemento
-	// Imprime recursivamente qualquer elemento (versão enriquecida)
 	private void printSimpleStructure(Element element, int indent) {
 	    String prefix = "  ".repeat(indent);
 

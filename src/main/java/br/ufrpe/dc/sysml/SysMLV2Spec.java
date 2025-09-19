@@ -22,8 +22,6 @@ import org.omg.sysml.lang.sysml.SysMLPackage;
 import org.omg.sysml.util.ElementUtil;
 import org.omg.sysml.xtext.SysMLStandaloneSetup;
 
-
-
 public class SysMLV2Spec {
 
     private SysMLInteractive sysml;
