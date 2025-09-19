@@ -24,9 +24,7 @@ package FlowUsageExample {
 		port engineFuelPort : FuelInPort;
 	}
 	
-	part def Vehicle;
-	
-	part vehicle : Vehicle {
+	part vehicle {
 		part tankAssy : FuelTankAssembly;
 		part eng : Engine;
 		
