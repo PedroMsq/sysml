@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.Feature;
+import org.omg.sysml.lang.sysml.JoinNode;
 import org.omg.sysml.lang.sysml.Namespace;
+import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import br.ufrpe.dc.sysml.SysMLV2Spec;
-
 
 class JoinNodeTest {
     private static SysMLV2Spec sysmlSpec;
@@ -22,7 +24,7 @@ class JoinNodeTest {
         assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
     }
 
-    //percorre o Namespace e imprime a estrutura dos modelo com as classes dos elementos correspondentes
+    // percorre o Namespace e imprime a estrutura do modelo com as classes dos elementos correspondentes
     private void printElementStructure(Element element, int indent) {
         String prefix = "  ".repeat(indent);
         String className = element.getClass().getSimpleName();
@@ -34,6 +36,41 @@ class JoinNodeTest {
                 printElementStructure(child, indent + 1);
             }
         }
+
+        if (element instanceof JoinNode jn) {
+            if (!jn.getOwnedFeature().isEmpty()) {
+                System.out.println("Join Node Features:");
+                for (Feature ffeat : jn.getOwnedFeature()) {
+                    String fclass = ffeat.eClass().getName();
+                    String fdecl = ffeat.getDeclaredName() != null ? ffeat.getDeclaredName()
+                            : (ffeat.getName() != null ? ffeat.getName() : "<no-name>");
+                    System.out.printf("%s    Owned Feature: %s - %s%n", prefix, fclass, fdecl);
+                }
+            } else {
+                System.out.printf("Join node %s nao possui features %n", jn.getDeclaredName());
+            }
+        }
+
+        if (element instanceof SuccessionAsUsage su) {
+            // usa getSource() e getTarget() para mostrar ligações reais
+            System.out.println(prefix + "SuccessionAsUsage:");
+            if (!su.getSource().isEmpty()) {
+                for (Element src : su.getSource()) {
+                    String srcName = src.getDeclaredName() != null ? src.getDeclaredName() : "<no-name>";
+                    System.out.printf("%s    Source -> %s (%s)%n", prefix, srcName, src.getClass().getSimpleName());
+                }
+            } else {
+                System.out.printf("%s    Nenhuma Source%n", prefix);
+            }
+            if (!su.getTarget().isEmpty()) {
+                for (Element tgt : su.getTarget()) {
+                    String tgtName = tgt.getDeclaredName() != null ? tgt.getDeclaredName() : "<no-name>";
+                    System.out.printf("%s    Target -> %s (%s)%n", prefix, tgtName, tgt.getClass().getSimpleName());
+                }
+            } else {
+                System.out.printf("%s    Nenhuma Target%n", prefix);
+            }
+        }
     }
 
     @Test
@@ -42,5 +79,4 @@ class JoinNodeTest {
         System.out.println("=== FULL MODEL STRUCTURE ===");
         printElementStructure(rootNamespace, 0);
     }
-
 }
