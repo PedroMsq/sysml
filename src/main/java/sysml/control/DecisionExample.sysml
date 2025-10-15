@@ -19,7 +19,7 @@ package DecisionExample {
 			out batteryCharge : Real;
 		}
 		
-		then decide;
+		then decide decision1;
 			if monitor.batteryCharge < 100 then addCharge;
 			if monitor.batteryCharge >= 100 then endCharging;
 			
