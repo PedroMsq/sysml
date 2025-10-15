@@ -8,6 +8,7 @@ import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.DecisionNode;
 import org.omg.sysml.lang.sysml.Namespace;
+import org.omg.sysml.lang.sysml.ReferenceUsage;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.Expression; // expressao de guarda
 
@@ -81,6 +82,10 @@ class DecisionNodeTest {
 			 if (!expr.getOwnedFeature().isEmpty()) {
 				System.out.printf("%s  Owned Features:%n", prefix);
 				for (Feature feat : expr.getOwnedFeature()) {
+					if(feat instanceof ReferenceUsage ru) {
+						
+					}
+					
 					String fname = feat.getDeclaredName() != null ? feat.getDeclaredName() : "<no-name>";
 					System.out.printf("%s    Feature: %s (%s)%n", prefix, fname, feat.eClass().getName());
 				}
