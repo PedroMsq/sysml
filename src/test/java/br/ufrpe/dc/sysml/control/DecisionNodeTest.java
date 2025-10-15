@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Feature;
+import org.omg.sysml.lang.sysml.FeatureChainExpression;
 import org.omg.sysml.lang.sysml.DecisionNode;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.ReferenceUsage;
@@ -83,6 +84,9 @@ class DecisionNodeTest {
 				System.out.printf("%s  Owned Features:%n", prefix);
 				for (Feature feat : expr.getOwnedFeature()) {
 					if(feat instanceof ReferenceUsage ru) {
+						
+					}
+					if(feat instanceof FeatureChainExpression fce) {
 						
 					}
 					
