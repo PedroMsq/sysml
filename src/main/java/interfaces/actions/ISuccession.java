@@ -1,4 +1,4 @@
-package adapters.actions;
+package interfaces.actions;
 
 
 import interfaces.nodes.INode;

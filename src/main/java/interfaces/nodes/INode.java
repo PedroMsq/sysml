@@ -1,6 +1,6 @@
 package interfaces.nodes;
 
-import adapters.actions.ISuccession;
+import interfaces.actions.ISuccession;
 
 public interface INode {
 	
