@@ -2,8 +2,18 @@ package interfaces.actions;
 
 import java.util.List;
 
+import interfaces.nodes.INode;
+import interfaces.parts.IPartUsage;
+
 public interface IActionDefinition {
 
+	void setActionDefinition(IActionDefinition actionDefinition);
+
+	INode[] getNodes();
+
+	void setName(String nameAD);
+
+	List<IPartUsage> getPartUsages();
     // Retorna o nome da ActionDefinition
     String getName();
 

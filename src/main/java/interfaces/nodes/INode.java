@@ -1,14 +1,10 @@
 package interfaces.nodes;
 
-import java.util.List;
+import adapters.actions.ISuccession;
 
 public interface INode {
 	
-	List<String> getIncomingSuccessions();
+	ISuccession[] getIncomings();
 	
-	List<String> getOutgoingSuccessions();
-	
-//	List<String> getIncomings();
-//	
-//	List<String> getOutgoings();
+	ISuccession[] getOutgoings();
 }

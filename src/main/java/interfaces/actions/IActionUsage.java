@@ -1,11 +1,24 @@
 package interfaces.actions;
 
-import org.eclipse.emf.common.util.EList;
-import org.omg.sysml.lang.sysml.Behavior;
+import interfaces.nodes.INode;
+import java.util.List;
+import interfaces.utils.IFeature;
 
-public abstract class IActionUsage {
+public interface IActionUsage extends INode {
 
-	abstract EList<Behavior> getActionDefinition();
-	// unsure
+	List<IFeature> getInputFeatures();
+
+	List<IFeature> getOutputFeatures();
+
+	IFeature getFeature(String name);
+
+	IActionDefinition getActionDefinition();
+
+	// boolean isCallBehaviorAction();
+
+	// boolean isSendSignalAction();
+
+	// boolean isAcceptEventAction();
+
 }
 

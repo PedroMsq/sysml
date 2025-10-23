@@ -14,6 +14,8 @@ import org.omg.sysml.lang.sysml.ReferenceUsage;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import interfaces.actions.IActionDefinition;
+import interfaces.nodes.INode;
+import interfaces.parts.IPartUsage;
 
 public class ActionDefinitionAdapter implements IActionDefinition{
 
@@ -168,6 +170,30 @@ public class ActionDefinitionAdapter implements IActionDefinition{
 
 	@Override
 	public List<String> getOutgoingSuccessions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setActionDefinition(IActionDefinition actionDefinition) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public INode[] getNodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setName(String nameAD) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<IPartUsage> getPartUsages() {
 		// TODO Auto-generated method stub
 		return null;
 	}

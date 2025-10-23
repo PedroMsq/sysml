@@ -8,10 +8,10 @@ import interfaces.nodes.INode;
 public interface IJoinNode extends INode {
 
     String getName();
-
-    List<String> getIncomingSuccessions(); //getPredecessor
-
-    List<String> getOutgoingSuccessions(); //getSuccessor 
+//
+//    List<String> getIncomings(); //getPredecessor
+//
+//    List<String> getOutgoings(); //getSuccessor 
 
     String describe(); // toString
 }
