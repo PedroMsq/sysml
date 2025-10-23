@@ -22,9 +22,8 @@ class JoinNodeAdapterTest {
     private static Namespace brakeAction;
     private static JoinNode joinNode;
 
-    // -----------------------------------------------------------
+
     // Busca recursiva para encontrar um elemento por nome e tipo
-    // -----------------------------------------------------------
     private static <T extends Element> Optional<T> findElementByNameRecursive(Element element, String name, Class<T> type) {
         if (type.isInstance(element) && name.equals(element.getDeclaredName())) {
             return Optional.of(type.cast(element));
@@ -72,7 +71,7 @@ class JoinNodeAdapterTest {
         System.out.println(adapter.describe());
 
         assertNotNull(adapter.getName(), "Nome do JoinNode não deve ser nulo");
-        assertFalse(adapter.getInputNames().isEmpty(), "JoinNode deve ter entradas");
-        assertFalse(adapter.getOutputNames().isEmpty(), "JoinNode deve ter saídas");
+        assertFalse(adapter.getIncomingSuccessions().isEmpty(), "JoinNode deve ter entradas");
+        assertFalse(adapter.getOutgoingSuccessions().isEmpty(), "JoinNode deve ter saídas");
     }
 }

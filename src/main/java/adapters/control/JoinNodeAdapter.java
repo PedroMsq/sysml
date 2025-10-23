@@ -27,7 +27,7 @@ public class JoinNodeAdapter implements IJoinNode {
 
  // Retorna todos os elementos que chegam ao JoinNode (target = joinNode)
     @Override
-    public List<String> getInputNames() {
+    public List<String> getIncomingSuccessions() {
         List<String> inputs = new ArrayList<>();
         for (Element elem : actionNamespace.getOwnedMember()) {
             if (!(elem instanceof SuccessionAsUsage su)) continue;
@@ -45,7 +45,7 @@ public class JoinNodeAdapter implements IJoinNode {
 
     // Retorna o elemento único que é o destino do JoinNode
     @Override
-    public List<String> getOutputNames() {
+    public List<String> getOutgoingSuccessions() {
         List<String> outputs = new ArrayList<>();
         for (Element elem : actionNamespace.getOwnedMember()) {
             if (!(elem instanceof SuccessionAsUsage su)) continue;
@@ -66,11 +66,11 @@ public class JoinNodeAdapter implements IJoinNode {
         StringBuilder sb = new StringBuilder();
         sb.append("JoinNode '").append(getName()).append("'\n");
         sb.append("  Entradas:\n");
-        for (String in : getInputNames()) {
+        for (String in : getIncomingSuccessions()) {
             sb.append("    - ").append(in).append("\n");
         }
         sb.append("  Saídas:\n");
-        for (String out : getOutputNames()) {
+        for (String out : getOutgoingSuccessions()) {
             sb.append("    - ").append(out).append("\n");
         }
         return sb.toString();

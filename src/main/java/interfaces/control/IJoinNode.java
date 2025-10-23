@@ -2,14 +2,16 @@ package interfaces.control;
 
 import java.util.List;
 
+import interfaces.nodes.INode;
 
-public interface IJoinNode {
+
+public interface IJoinNode extends INode {
 
     String getName();
 
-    List<String> getInputNames();
+    List<String> getIncomingSuccessions(); //getPredecessor
 
-    List<String> getOutputNames();
+    List<String> getOutgoingSuccessions(); //getSuccessor 
 
-    String describe();
+    String describe(); // toString
 }
