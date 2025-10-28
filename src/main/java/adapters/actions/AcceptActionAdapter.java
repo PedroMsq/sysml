@@ -6,15 +6,14 @@ import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.FeatureReferenceExpression;
 import org.omg.sysml.lang.sysml.ReferenceUsage;
 
-import interfaces.actions.IAcceptAction;
-
-public class AcceptActionAdapter implements IAcceptAction {
+public class AcceptActionAdapter /* implements IAcceptAction*/ {
     private final AcceptActionUsage action;
 
     public AcceptActionAdapter(AcceptActionUsage action) {
         this.action = action;
     }
-
+    
+    /*
     @Override
     public String getName() {
         return action.getDeclaredName();
@@ -43,4 +42,5 @@ public class AcceptActionAdapter implements IAcceptAction {
         }
         return null;
     }
+    */
 }

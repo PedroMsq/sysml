@@ -1,7 +1,7 @@
 package interfaces.states;
 import org.omg.sysml.lang.sysml.ActionUsage;
 
-import interfaces.actions.IAcceptAction;
+import interfaces.actions.IActionUsage;
 
 public interface IStateUsage {
     String getName();
@@ -14,7 +14,7 @@ public interface IStateUsage {
     
     public IStateUsage[] getSubstates();
 
-	IAcceptAction[] getAcceptActions();
+	// IActionUsage[] getAcceptActions();
 
 	ITransition[] getTransitions();
    

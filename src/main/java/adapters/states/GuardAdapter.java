@@ -12,6 +12,7 @@ public class GuardAdapter implements IGuard {
         this.guardExpression = guardExpression;
     }
 
+    /*
     @Override
     public String getCondition() {
         if (guardExpression instanceof OperatorExpression) {
@@ -20,14 +21,16 @@ public class GuardAdapter implements IGuard {
         }
         return "Unknown Condition";
     }
+    
+    @Override
+    public String toString() {
+        return "Guard Condition: " + getCondition();
+    }
+    */
 
     @Override
     public Expression getExpression() {
         return guardExpression;
     }
 
-    @Override
-    public String toString() {
-        return "Guard Condition: " + getCondition();
-    }
 }

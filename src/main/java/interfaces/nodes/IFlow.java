@@ -1,17 +1,17 @@
 package interfaces.nodes;
 
-public interface IFlow {
-    public String toString();
+import interfaces.utils.INamedElement;
+
+public interface IFlow extends INamedElement {
 
     //FlowEnd source
-    public String getSource();
+    public String getSource(); // IFlowEnd getSource();
 
     //FlowEnd target
-    public String getTarget();
+    public String getTarget(); // IFlowEnd getTarget();
 
     //Payload if it exists 
-    public String getPayload();
+    public String getPayload(); // IElement getPayload();
     
-    //FlowEnd name if it exists
-    public String getName();
+    // public String getName();
 }

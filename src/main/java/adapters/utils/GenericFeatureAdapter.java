@@ -9,4 +9,30 @@ public class GenericFeatureAdapter implements IFeature {
 	  public GenericFeatureAdapter(Feature f) { this.f = f; }
 	  @Override 
 	  public String getName() { return f.getDeclaredName(); }
+	  
+	@Override
+	public String getDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean isReadOnly() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isOrdered() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isUnique() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isComposite() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	}

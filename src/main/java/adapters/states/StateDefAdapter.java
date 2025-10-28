@@ -4,20 +4,45 @@ package adapters.states;
 import org.omg.sysml.lang.sysml.StateDefinition;
 import org.omg.sysml.lang.sysml.StateUsage;
 
-import interfaces.states.IStateDef;
 import interfaces.states.IStateUsage;
 import interfaces.states.ITransition;
+import interfaces.structure.IStateDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateDefAdapter implements IStateDef {
+public class StateDefAdapter implements IStateDefinition {
     private StateDefinition stateDefinition;
 
     public StateDefAdapter(StateDefinition stateDefinition) {
         this.stateDefinition = stateDefinition;
     }
 
+    @Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ITransition[] getTransitions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IStateUsage[] getStates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    /*
     @Override
     public String getName() {
         return stateDefinition.getName();
@@ -54,4 +79,6 @@ public class StateDefAdapter implements IStateDef {
         }
         return sb.toString();
     }
+    
+    */
 }

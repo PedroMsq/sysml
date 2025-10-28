@@ -3,7 +3,7 @@ package interfaces.control;
 import interfaces.nodes.INode;
 
 public interface IControlNode extends INode {
-	// Usar interfaces específicas com instanceof ao invés de funções booleanas?
+	// analisar os sinais booleanos de acordo com cada tipo de Control Node
 	boolean isInitialNode();
 
 	boolean isFlowFinalNode();
@@ -15,6 +15,7 @@ public interface IControlNode extends INode {
 	boolean isJoinNode();
 
 	boolean isDecisionNode();
-
+	
 	boolean isMergeNode();
+	
 }

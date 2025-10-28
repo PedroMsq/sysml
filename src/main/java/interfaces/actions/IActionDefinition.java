@@ -19,17 +19,15 @@ public interface IActionDefinition {
 
     // Retorna os nomes dos parâmetros de entrada e saída da ação
     List<String> getParameters();
+    
+    //parameter - getDirection
+    //getInputs
+    //getOutpus
 
     // Retorna os nomes das Flows internas da ação
-    List<String> getFlows();
+    List<String> getFlows(); //Owned
 
     // Retorna os nomes das Successions internas da ação
     List<String> getSuccessions();
 
-    
-    //TO-DO
-    List<String> getIncomingFlows();
-    List<String> getOutgoingFlows();
-    List<String> getIncomingSuccessions();
-    List<String> getOutgoingSuccessions();
 }

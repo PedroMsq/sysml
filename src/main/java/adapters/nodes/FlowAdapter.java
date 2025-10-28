@@ -373,5 +373,11 @@ public class FlowAdapter implements IFlow {
 	    return null;
 	}
 
+	@Override
+	public String getDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

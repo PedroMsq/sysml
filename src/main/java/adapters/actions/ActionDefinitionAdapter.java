@@ -150,29 +150,29 @@ public class ActionDefinitionAdapter implements IActionDefinition{
         return e.getDeclaredName() != null ? e.getDeclaredName() : "<no-name>";
     }
 
-	@Override
-	public List<String> getIncomingFlows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getOutgoingFlows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getIncomingSuccessions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getOutgoingSuccessions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<String> getIncomingFlows() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<String> getOutgoingFlows() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<String> getIncomingSuccessions() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<String> getOutgoingSuccessions() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public void setActionDefinition(IActionDefinition actionDefinition) {

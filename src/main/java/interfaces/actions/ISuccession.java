@@ -9,10 +9,6 @@ public interface ISuccession {
 
 	INode getSource();
 
-	String getGuard();
-
-	void setSource(INode node);
-
-	void setTarget(INode node);
+	String getGuard(); //IGuard
 	// Precisaria de um NamedElement genérico?
 }

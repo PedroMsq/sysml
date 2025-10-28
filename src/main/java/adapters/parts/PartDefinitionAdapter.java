@@ -1,6 +1,5 @@
 package adapters.parts;
 
-import interfaces.parts.IPartDefinition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +11,8 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.PartDefinition;
 import org.omg.sysml.lang.sysml.PartUsage;
 
+import interfaces.structure.IPartDefinition;
+
 
 public class PartDefinitionAdapter implements IPartDefinition {
     private final PartDefinition def;
@@ -20,6 +21,26 @@ public class PartDefinitionAdapter implements IPartDefinition {
         this.def = Objects.requireNonNull(def, "PartDefinition cannot be null");
     }
 
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getOwnedFeatures() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getOwnedPartUsages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    
+    /*
     @Override
     public String getName() {
         String n = def.getDeclaredName();
@@ -87,4 +108,5 @@ public class PartDefinitionAdapter implements IPartDefinition {
 
     // apenas para testes internos
     protected PartDefinition getUnderlying() { return def; }
+    */
 }

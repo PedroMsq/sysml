@@ -9,10 +9,9 @@ package ForkJoinExample {
 	action def Braking { in brakePressure : BrakePressure; in modulationFrequency : Real; }
 	
 	action def Brake {
-	
 		action TurnOn;
 		
-		then fork brakeFork;
+		then fork;
 			then monitorBrakePedal;
 			then monitorTraction;
 			then braking;

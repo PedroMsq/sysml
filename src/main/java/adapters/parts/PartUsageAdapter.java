@@ -6,6 +6,7 @@ import org.omg.sysml.lang.sysml.Type;
 import java.util.List;
 import java.util.Objects;
 import interfaces.parts.IPartUsage;
+import interfaces.utils.IParameter;
 
 public class PartUsageAdapter implements IPartUsage {
     private final PartUsage usage;
@@ -44,4 +45,52 @@ public class PartUsageAdapter implements IPartUsage {
 
     // expose underlying model only for internal tests (avoid exposing to user)
     protected PartUsage getUnderlying() { return usage; }
+
+	@Override
+	public boolean isInput() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isOutput() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IParameter getDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isReadOnly() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isOrdered() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUnique() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isComposite() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

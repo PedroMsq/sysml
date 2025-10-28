@@ -7,9 +7,9 @@ import org.omg.sysml.lang.sysml.AttributeUsage;
 import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.AttributeDefinition;
 
-import interfaces.attributes.IAttributeDefintion;
 import interfaces.attributes.IAttributeUsage;
 import interfaces.utils.IFeature;
+import interfaces.structure.IAttributeDefintion;
 import adapters.attributes.AttributeUsageAdapter;
 import adapters.utils.GenericFeatureAdapter;
 
@@ -45,5 +45,35 @@ public class AttributeDefinitionAdapter implements IAttributeDefintion {
 	        // outros adaptadores para outras subclasses de Feature
 	        return new GenericFeatureAdapter(f);
 	    }
+
+		@Override
+		public boolean isReadOnly() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isOrdered() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isUnique() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isComposite() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public String getDefinition() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 

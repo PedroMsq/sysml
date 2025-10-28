@@ -10,6 +10,7 @@ import org.omg.sysml.lang.sysml.FeatureReferenceExpression;
 
 import adapters.expressions.ExpressionAdapter;
 import interfaces.attributes.IAttributeUsage;
+import interfaces.utils.IParameter;
 
 public class AttributeUsageAdapter implements IAttributeUsage {
     private final AttributeUsage usage;
@@ -37,6 +38,54 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 
 	@Override
 	public String getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isInput() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isOutput() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IParameter getDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isReadOnly() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isOrdered() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUnique() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isComposite() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getDefinition() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,15 +2,16 @@ package interfaces.control;
 
 import java.util.List;
 
-public interface IDecisionNode {
+// poderia usar o polimorfismo de ControlNode ou poderia criar uma interface para cada tipo (talvez reduza os if/instanceof)
+public interface IDecisionNode extends IControlNode {
 	
-	String getName();
+	// String getName(); --> recebe de IControlNode->INode->INamedElement
 	
-	List<String> getInputNames(); // getPredecessor
+	// List<String> getInputNames(); --> recebe de IControlNode->INode
 	
-	List<String> getOutputNames(); // getSuccessor
+	// List<String> getOutputNames(); --> recebe de IControlNode->INode
 	
-	List<String> getGuards();
+	// List<String> getGuards(); --> recebe de ISuccession usado em INode
 	
-	String describe(); // toString readaptado
+	// String describe(); --> desnecessário
 }

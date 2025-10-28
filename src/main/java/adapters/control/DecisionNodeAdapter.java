@@ -10,6 +10,7 @@ import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.Expression;
 
 import interfaces.control.IDecisionNode;
+import interfaces.control.ISuccession;
 
 public class DecisionNodeAdapter implements IDecisionNode {
 	
@@ -26,7 +27,68 @@ public class DecisionNodeAdapter implements IDecisionNode {
 		return decisionNode.getDeclaredName() != null ? decisionNode.getDeclaredName() : "<no-name>";	
 	}
 	
+	@Override
+	public boolean isInitialNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isFlowFinalNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isFinalNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isForkNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isJoinNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isDecisionNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isMergeNode() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ISuccession[] getIncomings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ISuccession[] getOutgoings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDefinition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	// Retorna o elemento único que chega ao DecisionNode (target = decisionNode)
+	/*
 	@Override
 	public List<String> getInputNames() {
 		List<String> inputs = new ArrayList<>();
@@ -101,5 +163,6 @@ public class DecisionNodeAdapter implements IDecisionNode {
 		}
 		return sb.toString();
 	}
+	*/
 
 }
