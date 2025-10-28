@@ -10,7 +10,7 @@ import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.Expression;
 
 import interfaces.control.IDecisionNode;
-import interfaces.control.ISuccession;
+import interfaces.actions.ISuccession;
 
 public class DecisionNodeAdapter implements IDecisionNode {
 	

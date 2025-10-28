@@ -1,6 +1,6 @@
 package interfaces.nodes;
 
-import interfaces.control.ISuccession;
+import interfaces.actions.ISuccession;
 import interfaces.utils.INamedElement;
 
 public interface INode extends INamedElement {

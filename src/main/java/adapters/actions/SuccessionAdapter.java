@@ -5,7 +5,7 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.nodes.NodeAdapter;
-import interfaces.control.ISuccession;
+import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 import interfaces.states.IGuard;
 

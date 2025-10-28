@@ -68,7 +68,7 @@ class JoinNodeAdapterTest {
         JoinNodeAdapter adapter = new JoinNodeAdapter(joinNode, brakeAction);
 
         System.out.println("=== DESCRIÇÃO DO JOIN NODE ===");
-        System.out.println(adapter.describe());
+        //System.out.println(adapter.describe());
 
         assertNotNull(adapter.getName(), "Nome do JoinNode não deve ser nulo");
 //        assertFalse(adapter.getIncomings().isEmpty(), "JoinNode deve ter entradas");

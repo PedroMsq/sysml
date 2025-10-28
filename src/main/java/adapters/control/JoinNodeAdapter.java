@@ -9,7 +9,7 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import interfaces.control.IJoinNode;
-import interfaces.control.ISuccession;
+import interfaces.actions.ISuccession;
 
 public class JoinNodeAdapter implements IJoinNode {
 

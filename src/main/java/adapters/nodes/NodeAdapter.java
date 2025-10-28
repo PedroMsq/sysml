@@ -8,7 +8,7 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.actions.SuccessionAdapter;
-import interfaces.control.ISuccession;
+import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 
 public class NodeAdapter implements INode {
