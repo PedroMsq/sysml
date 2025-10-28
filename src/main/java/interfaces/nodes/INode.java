@@ -8,5 +8,5 @@ public interface INode extends INamedElement {
 	ISuccession[] getIncomings();
 	
 	ISuccession[] getOutgoings();
-	
+	// teste
 }
