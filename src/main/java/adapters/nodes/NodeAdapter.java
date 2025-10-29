@@ -6,6 +6,7 @@ import java.util.List;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
+import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.actions.SuccessionAdapter;
 import interfaces.actions.ISuccession;
@@ -31,11 +32,22 @@ public class NodeAdapter implements INode {
         List<ISuccession> incomings = new ArrayList<>();
 
         for (Element elem : actionNamespace.getOwnedMember()) {
-            if (!(elem instanceof SuccessionAsUsage su)) continue;
+            if (elem instanceof SuccessionAsUsage su) {
+                for (Element tgt : su.getTarget()) {
+                    if (getName().equals(tgt.getDeclaredName())) {
+                        incomings.add(new SuccessionAdapter(su, actionNamespace));
+                    }
+                }
+            }
 
-            for (Element tgt : su.getTarget()) {
-                if (getName().equals(tgt.getDeclaredName())) {
-                    incomings.add(new SuccessionAdapter(su, actionNamespace));
+            if (elem instanceof TransitionUsage tu) {
+                for (Element sub : tu.getOwnedMember()) {
+                    if (!(sub instanceof SuccessionAsUsage su)) continue;
+                    for (Element tgt : su.getTarget()) {
+                        if (getName().equals(tgt.getDeclaredName())) {
+                            incomings.add(new SuccessionAdapter(su, actionNamespace));
+                        }
+                    }
                 }
             }
         }
@@ -43,22 +55,37 @@ public class NodeAdapter implements INode {
         return incomings.toArray(new ISuccession[0]);
     }
 
+
     @Override
     public ISuccession[] getOutgoings() {
         List<ISuccession> outgoings = new ArrayList<>();
 
         for (Element elem : actionNamespace.getOwnedMember()) {
-            if (!(elem instanceof SuccessionAsUsage su)) continue;
+            // pega SuccessionAsUsage diretas
+            if (elem instanceof SuccessionAsUsage su) {
+                for (Element src : su.getSource()) {
+                    if (getName().equals(src.getDeclaredName())) {
+                        outgoings.add(new SuccessionAdapter(su, actionNamespace));
+                    }
+                }
+            }
 
-            for (Element src : su.getSource()) {
-                if (getName().equals(src.getDeclaredName())) {
-                    outgoings.add(new SuccessionAdapter(su, actionNamespace));
+            // pega SuccessionAsUsage dentro de TransitionUsage
+            if (elem instanceof TransitionUsage tu) {
+                for (Element sub : tu.getOwnedMember()) {
+                    if (!(sub instanceof SuccessionAsUsage su)) continue;
+                    for (Element src : su.getSource()) {
+                        if (getName().equals(src.getDeclaredName())) {
+                            outgoings.add(new SuccessionAdapter(su, actionNamespace));
+                        }
+                    }
                 }
             }
         }
 
         return outgoings.toArray(new ISuccession[0]);
     }
+
 
 	@Override
 	public String getDefinition() {
