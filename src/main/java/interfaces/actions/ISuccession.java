@@ -7,11 +7,11 @@ import interfaces.utils.INamedElement;
 
 public interface ISuccession extends INamedElement{
 
-	INode getTarget();
+	public INode getTarget();
 
-	INode getSource();
+	public INode getSource();
 
-	IGuard getGuard();
+	public IGuard getGuard();
 	
 	// Precisaria de um NamedElement genérico?
 }

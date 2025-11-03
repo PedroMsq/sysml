@@ -187,12 +187,6 @@ public class ActionDefinitionAdapter implements IActionDefinition{
 	}
 
 	@Override
-	public void setName(String nameAD) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<IPartUsage> getPartUsages() {
 		// TODO Auto-generated method stub
 		return null;

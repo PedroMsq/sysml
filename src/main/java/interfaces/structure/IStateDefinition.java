@@ -6,8 +6,8 @@ import interfaces.utils.INamedElement;
 
 public interface IStateDefinition extends INamedElement {
     
-    ITransition[] getTransitions();
+	public ITransition[] getTransitions();
     
-    IStateUsage[] getStates();
+	public IStateUsage[] getStates();
     
 }

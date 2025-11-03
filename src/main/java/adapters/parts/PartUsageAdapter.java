@@ -59,7 +59,7 @@ public class PartUsageAdapter implements IPartUsage {
 	}
 
 	@Override
-	public IParameter getDirection() {
+	public ParameterDirection getDirection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,7 +89,7 @@ public class PartUsageAdapter implements IPartUsage {
 	}
 
 	@Override
-	public String getDefinition() {
+	public String getDeclaredName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

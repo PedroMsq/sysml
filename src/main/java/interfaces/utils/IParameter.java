@@ -1,16 +1,16 @@
 package interfaces.utils;
 
 // incorpora PartUsage, AttributeUsage e ItemUsage
-public interface IParameter extends IFeature {
+public interface IParameter extends IFeature { // TROCAR PARA NAMED ELEMENT
 	
-	boolean isInput();
+	public boolean isInput();
 	
-	boolean isOutput();
+	public boolean isOutput();
 	
-	IParameter getDirection(); // poderia ser um Enum?
+	public ParameterDirection getDirection();
 	
-	// public enum ParameterDirection {
-	// 	IN, OUT, INOUT;
-	// }
+	public enum ParameterDirection {
+	 	IN, OUT, INOUT;
+	}
 	
 }

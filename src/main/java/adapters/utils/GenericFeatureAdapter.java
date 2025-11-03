@@ -11,11 +11,6 @@ public class GenericFeatureAdapter implements IFeature {
 	  public String getName() { return f.getDeclaredName(); }
 	  
 	@Override
-	public String getDefinition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
 	public boolean isReadOnly() {
 		// TODO Auto-generated method stub
 		return false;
@@ -34,5 +29,10 @@ public class GenericFeatureAdapter implements IFeature {
 	public boolean isComposite() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public String getDeclaredName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	}

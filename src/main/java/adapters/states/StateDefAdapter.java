@@ -24,11 +24,6 @@ public class StateDefAdapter implements IStateDefinition {
 		return null;
 	}
 
-	@Override
-	public String getDefinition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ITransition[] getTransitions() {
@@ -38,6 +33,12 @@ public class StateDefAdapter implements IStateDefinition {
 
 	@Override
 	public IStateUsage[] getStates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDeclaredName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

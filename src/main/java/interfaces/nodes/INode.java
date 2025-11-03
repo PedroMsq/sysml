@@ -5,8 +5,8 @@ import interfaces.utils.INamedElement;
 
 public interface INode extends INamedElement {
 
-	ISuccession[] getIncomings();
+	public ISuccession[] getIncomings();
 	
-	ISuccession[] getOutgoings();
+	public ISuccession[] getOutgoings();
 	// teste
 }

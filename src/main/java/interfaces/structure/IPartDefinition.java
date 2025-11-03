@@ -6,11 +6,14 @@ import interfaces.utils.IFeature;
 
 public interface IPartDefinition {
     // Nome declarado da part definition
-    String getName();
+	public String getName();
+	
     // Retornas as features (subelementos) da definition
-    List<String> getOwnedFeatures();
+	public List<String> getOwnedFeatures();
+	
     // PartUsages dentro da PartDefinition (internas)
-    List<String> getOwnedPartUsages();
-    String toString();
+	public List<String> getOwnedPartUsages();
+	
+	public String toString();
     
 }

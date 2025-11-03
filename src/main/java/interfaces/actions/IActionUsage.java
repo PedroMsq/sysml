@@ -8,16 +8,16 @@ import interfaces.structure.IActionDefinition;
 
 public interface IActionUsage extends INode {
 
-	INode[] getNodes();
+	public INode[] getNodes();
 	
-	IParameter[] getParameters(); // ao invés de IParameter getDirection(); ser implementado aqui?
+	public IParameter[] getParameters(); // ao invés de IParameter getDirection(); ser implementado aqui?
 	
-	IActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
+	public IActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
 	
-	boolean isCallBehaviorAction();
+	public boolean isCallBehaviorAction();
 
-	boolean isSendSignalAction();
+	public boolean isSendSignalAction();
 
-	boolean isAcceptEventAction();
+	public boolean isAcceptEventAction();
 	
 }

@@ -1,7 +1,10 @@
 package interfaces.states;
 
 public interface IStateDef {
-    String getName();
-    ITransition[] getTransitions();
-    IStateUsage[] getStates();
+	public String getName();
+	
+    public ITransition[] getTransitions();
+    
+    public IStateUsage[] getStates();
+    
 }

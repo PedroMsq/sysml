@@ -5,9 +5,11 @@ import org.omg.sysml.lang.sysml.Expression;
 
 
 public interface ITrigger {
-	String getTriggerType(); //update later
-    Expression getTriggerArgument();
+	public String getTriggerType(); //update later
+	
+	public Expression getTriggerArgument();
+	
 	/** helper que retorna só o nome (p.ex. "s") */
-	String getArgumentName();
+	public String getArgumentName();
     
 }

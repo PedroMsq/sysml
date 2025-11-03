@@ -4,10 +4,11 @@ import interfaces.utils.IParameter;
 
 public interface IPartUsage extends IParameter {
 
-    String getName();
+	public String getName();
     // Nome da especialização (classifier/type) 
-    String getSpecialization();
+	
+	public String getSpecialization();
     
-    String toString();
+	public String toString();
     
 }

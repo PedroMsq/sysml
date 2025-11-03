@@ -4,7 +4,7 @@ import org.omg.sysml.lang.sysml.ActionUsage;
 import interfaces.actions.IActionUsage;
 
 public interface IStateUsage {
-    String getName();
+	public String getName();
     
     public ActionUsage getEntry();
     public ActionUsage getDoActivity();
@@ -16,6 +16,6 @@ public interface IStateUsage {
 
 	// IActionUsage[] getAcceptActions();
 
-	ITransition[] getTransitions();
+    public ITransition[] getTransitions();
    
 }

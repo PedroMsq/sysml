@@ -3,6 +3,8 @@ package interfaces.states;
 import org.omg.sysml.lang.sysml.ActionUsage;
 
 public interface IEffect {
-    String getEffectType();
-    ActionUsage getAction();
+	public String getEffectType();
+	
+	public ActionUsage getAction();
+	
 }

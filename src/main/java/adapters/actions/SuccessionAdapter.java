@@ -12,18 +12,16 @@ import interfaces.states.IGuard;
 public class SuccessionAdapter implements ISuccession {
 
     private final SuccessionAsUsage succession;
-    private final Namespace actionNamespace;
 
     public SuccessionAdapter(SuccessionAsUsage succession, Namespace actionNamespace) {
         this.succession = succession;
-        this.actionNamespace = actionNamespace;
     }
 
     @Override
     public INode getSource() {
         for (Element src : succession.getSource()) {
             if (src instanceof Namespace ns)
-                return new NodeAdapter(ns, actionNamespace);
+                return new NodeAdapter(ns);
         }
         return null;
     }
@@ -32,7 +30,7 @@ public class SuccessionAdapter implements ISuccession {
     public INode getTarget() {
         for (Element tgt : succession.getTarget()) {
             if (tgt instanceof Namespace ns)
-                return new NodeAdapter(ns, actionNamespace);
+                return new NodeAdapter(ns);
         }
         return null;
     }
@@ -44,13 +42,13 @@ public class SuccessionAdapter implements ISuccession {
 	}
 
 	@Override
-	public String getDefinition() {
+	public IGuard getGuard() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IGuard getGuard() {
+	public String getDeclaredName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

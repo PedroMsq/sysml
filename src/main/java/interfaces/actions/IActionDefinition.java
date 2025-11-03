@@ -7,27 +7,25 @@ import interfaces.parts.IPartUsage;
 
 public interface IActionDefinition {
 
-	void setActionDefinition(IActionDefinition actionDefinition);
+	public void setActionDefinition(IActionDefinition actionDefinition);
 
-	INode[] getNodes();
+	public INode[] getNodes();
 
-	void setName(String nameAD);
-
-	List<IPartUsage> getPartUsages();
+	public List<IPartUsage> getPartUsages();
     // Retorna o nome da ActionDefinition
-    String getName();
+	public String getName();
 
     // Retorna os nomes dos parâmetros de entrada e saída da ação
-    List<String> getParameters();
+	public List<String> getParameters();
     
     //parameter - getDirection
     //getInputs
     //getOutpus
 
     // Retorna os nomes das Flows internas da ação
-    List<String> getFlows(); //Owned
+	public List<String> getFlows(); //Owned
 
     // Retorna os nomes das Successions internas da ação
-    List<String> getSuccessions();
+	public List<String> getSuccessions();
 
 }

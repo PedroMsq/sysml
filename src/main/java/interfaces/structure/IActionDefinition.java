@@ -9,10 +9,10 @@ import interfaces.utils.IParameter;
 
 public interface IActionDefinition extends INamedElement {
 
-	INode[] getNodes();
+	public INode[] getNodes();
 	
-	IParameter[] getParameters(); // input e output parameters
+	public IParameter[] getParameters(); // input e output parameters
 	
-	IPartUsage[] getPartUsages();
+	public IPartUsage[] getPartUsages();
 	
 }

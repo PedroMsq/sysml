@@ -4,8 +4,8 @@ import interfaces.utils.IFeature;
 import interfaces.utils.IParameter;
 
 public interface IAttributeUsage extends IParameter {
-    String getName();
-    String getType();        // Retorna o tipo: Real, Integer, etc.
-    String getUnit();        // Ex: SI::kg
-    String getValue();       // Ex: "1350"
+	public String getName();
+	public String getType();        // Retorna o tipo: Real, Integer, etc.
+	public String getUnit();        // Ex: SI::kg
+	public String getValue();       // Ex: "1350"
 }

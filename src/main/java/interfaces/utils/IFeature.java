@@ -1,18 +1,18 @@
 package interfaces.utils;
 
 // um elemento (dentro das definições do SysML ex: attribute, port, ...)
-public interface IFeature extends INamedElement {
+public interface IFeature extends INamedElement { // IGNORAR
 	// IType getType();
 	
     // IElement getOwningType();
     
-    boolean isReadOnly();
+	public boolean isReadOnly();
     
-    boolean isOrdered();
+	public boolean isOrdered();
     
-    boolean isUnique();
+	public boolean isUnique();
     
-    boolean isComposite();
+	public boolean isComposite();
     
     // Multiplicity?
     

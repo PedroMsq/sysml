@@ -3,9 +3,14 @@ package interfaces.states;
 //import interfaces.actions.IActionUsage;
 
 public interface ITransition {
-    String getSourceName();
-    String getTargetName();
-    IGuard   getGuard();
-    ITrigger getTrigger();
-    IEffect  getEffect();
+	public String getSourceName();
+	
+    public String getTargetName();
+    
+    public IGuard   getGuard();
+    
+    public ITrigger getTrigger();
+    
+    public IEffect  getEffect();
+    
 }

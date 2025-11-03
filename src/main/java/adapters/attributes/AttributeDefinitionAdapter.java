@@ -71,7 +71,7 @@ public class AttributeDefinitionAdapter implements IAttributeDefintion {
 		}
 
 		@Override
-		public String getDefinition() {
+		public String getDeclaredName() {
 			// TODO Auto-generated method stub
 			return null;
 		}

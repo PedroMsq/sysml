@@ -3,6 +3,7 @@ package adapters.states;
 import org.omg.sysml.lang.sysml.Expression;
 import org.omg.sysml.lang.sysml.OperatorExpression;
 
+import interfaces.expressions.IExpression;
 import interfaces.states.IGuard;
 
 public class GuardAdapter implements IGuard {
@@ -29,8 +30,8 @@ public class GuardAdapter implements IGuard {
     */
 
     @Override
-    public Expression getExpression() {
-        return guardExpression;
+    public IExpression getExpression() {
+        return (IExpression) guardExpression;
     }
 
 }

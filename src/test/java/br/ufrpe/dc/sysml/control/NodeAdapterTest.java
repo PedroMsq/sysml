@@ -55,12 +55,12 @@ public class NodeAdapterTest {
 
         System.out.println("=== TESTANDO NODE ADAPTER PARA: " + dn.getDeclaredName() + " ===");
 
-        NodeAdapter adapter = new NodeAdapter(dn, (Namespace) dn.getOwner());
+        NodeAdapter adapter = new NodeAdapter(dn);
 
         System.out.println("\n--- INCOMING SUCCESSIONS ---");
         for (ISuccession inc : adapter.getIncomings()) {
             String srcName = inc.getSource() != null ? inc.getSource().getName() : "<null>";
-            System.out.println("De: " + srcName + "  | Guarda: " + inc.getGuard());
+            System.out.println("De: " + srcName);
         }
 
         System.out.println("\n--- OUTGOING SUCCESSIONS ---");

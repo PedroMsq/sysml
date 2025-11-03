@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IExpression {
     // retorna o tipo concreto da Expression (ex: FeatureChainExpression ou LiteralInteger)
-    String getKind();
+	public String getKind();
     
     // para uma LiteralExpression, retorna o valor textual (ex: "42" no LiteralInteger, 'texto' no LiteralString...) 
     default String asLiteral() { return null; }

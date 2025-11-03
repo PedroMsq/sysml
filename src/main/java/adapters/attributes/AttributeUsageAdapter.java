@@ -55,7 +55,7 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 	}
 
 	@Override
-	public IParameter getDirection() {
+	public ParameterDirection getDirection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -85,7 +85,7 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 	}
 
 	@Override
-	public String getDefinition() {
+	public String getDeclaredName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

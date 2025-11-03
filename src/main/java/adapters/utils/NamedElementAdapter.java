@@ -18,7 +18,7 @@ public class NamedElementAdapter implements INamedElement {
 	}
 
 	@Override
-	public String getDefinition() {
+	public String getDeclaredName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
