@@ -12,47 +12,43 @@ import interfaces.states.IGuard;
 public class SuccessionAdapter implements ISuccession {
 
     private final SuccessionAsUsage succession;
-    private INode source;
-    private INode target;
+    private final Namespace containerNamespace;
 
-    public SuccessionAdapter(SuccessionAsUsage succession, Namespace nodeNamespace) {
+    public SuccessionAdapter(SuccessionAsUsage succession, Namespace containerNamespace) {
         this.succession = succession;
-        if(!succession.getSource().isEmpty()) {
-        	Element src = succession.getSource().get(0); //futuramente adicionar adaptador do elemento
-        	source = new NodeAdapter((Namespace) src);
-        }
-        if(!succession.getTarget().isEmpty()) {
-        	Element trg = succession.getTarget().get(0); //futuramente adicionar adaptador do elemento
-        	source = new NodeAdapter((Namespace) trg);
-        }
+        this.containerNamespace = containerNamespace;
     }
 
     @Override
     public INode getSource() {
-        return source;
+        for (Element src : succession.getSource()) {
+            // Nem todo source Ã© Namespace, mas qualquer Element pode ser adaptado
+            return new NodeAdapter(src, containerNamespace);
+        }
+        return null;
     }
 
     @Override
     public INode getTarget() {
-        return target;
-        
+        for (Element tgt : succession.getTarget()) {
+            return new NodeAdapter(tgt, containerNamespace);
+        }
+        return null;
     }
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IGuard getGuard() {
+        
+        return null;
+    }
 
-	@Override
-	public IGuard getGuard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getDeclaredName() {
+        return succession.getDeclaredName();
+    }
 
-	@Override
-	public String getDeclaredName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName() {
+        return succession.getDeclaredName();
+    }
 }

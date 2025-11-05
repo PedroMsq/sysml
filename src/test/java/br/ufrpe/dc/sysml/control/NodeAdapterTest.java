@@ -25,7 +25,6 @@ public class NodeAdapterTest {
         assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
     }
 
-
     private void collectAllDecisionNodes(Element elt, List<DecisionNode> out) {
         if (elt == null) return;
 
@@ -40,7 +39,6 @@ public class NodeAdapterTest {
         }
     }
 
-    //Testa se o adaptador de Node encontra corretamente as incoming/outgoing successions
     @Test
     void testDecisionNodeConnections() {
         List<DecisionNode> decisionNodes = new ArrayList<>();
@@ -55,18 +53,23 @@ public class NodeAdapterTest {
 
         System.out.println("=== TESTANDO NODE ADAPTER PARA: " + dn.getDeclaredName() + " ===");
 
-        NodeAdapter adapter = new NodeAdapter(dn);
+        // Usa o namespace pai do nó (ou o rootNamespace) como contexto
+        Namespace container = (Namespace) dn.getOwner();
+        if (container == null) container = rootNamespace;
+
+        NodeAdapter adapter = new NodeAdapter(dn, container);
 
         System.out.println("\n--- INCOMING SUCCESSIONS ---");
         for (ISuccession inc : adapter.getIncomings()) {
-            String srcName = inc.getSource() != null ? inc.getSource().getName() : "<null>";
+            String srcName = inc.getSource() != null ? inc.getSource().getDeclaredName() : "<null>";
             System.out.println("De: " + srcName);
         }
 
         System.out.println("\n--- OUTGOING SUCCESSIONS ---");
         for (ISuccession out : adapter.getOutgoings()) {
-            String tgtName = out.getTarget() != null ? out.getTarget().getName() : "<null>";
-            System.out.println("Para: " + tgtName + "  | Guarda: " + out.getGuard());
+            String tgtName = out.getTarget() != null ? out.getTarget().getDeclaredName() : "<null>";
+            String guardText = out.getGuard() != null ? out.getGuard().getExpression().toString() : "<sem guarda>";
+            System.out.println("Para: " + tgtName + "  | Guarda: " + guardText);
         }
     }
 }

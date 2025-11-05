@@ -14,83 +14,78 @@ import interfaces.nodes.INode;
 
 public class NodeAdapter implements INode {
 
-	private final Namespace nodeNamespace; // Representa o elemento SysML do nó
-	private ISuccession[] incomings;
-	private ISuccession[] outgoings;
+    private final Element nodeElement; // o nó em si
+    private final ISuccession[] incomings;
+    private final ISuccession[] outgoings;
 
-	public NodeAdapter(Namespace nodeNamespace) {
-		this.nodeNamespace = nodeNamespace;
-		EList<Element> ownerNamespace = nodeNamespace.getOwnedMember();
-		ArrayList<ISuccession> incomingSuccessions = new ArrayList<ISuccession>();
-		ArrayList<ISuccession> outgoingSuccessions = new ArrayList<ISuccession>();
+    public NodeAdapter(Element nodeElement, Namespace containerNamespace) {
+        this.nodeElement = nodeElement;
 
-		if (ownerNamespace != null) {
-			for (Element elem : nodeNamespace.getOwnedMember()) {
-				if (elem instanceof SuccessionAsUsage su) {
-					for (Element tgt : su.getTarget()) {
-						if (getName().equals(tgt.getDeclaredName())) {
-							incomingSuccessions.add(new SuccessionAdapter(su, nodeNamespace));
-						}
-					}
-				}
-				if (elem instanceof TransitionUsage tu) {
-					for (Element sub : tu.getOwnedMember()) {
-						if (!(sub instanceof SuccessionAsUsage su))
-							continue;
-						for (Element tgt : su.getTarget()) {
-							if (getName().equals(tgt.getDeclaredName())) {
-								incomingSuccessions.add(new SuccessionAdapter(su, nodeNamespace));
-							}
-						}
-					}
-				}
-			}
-		}
+        ArrayList<ISuccession> incomingList = new ArrayList<>();
+        ArrayList<ISuccession> outgoingList = new ArrayList<>();
 
-		for (Element elem : nodeNamespace.getOwnedMember()) {
-			if (elem instanceof SuccessionAsUsage su) {
-				for (Element src : su.getSource()) {
-					if (getName().equals(src.getDeclaredName())) {
-						outgoingSuccessions.add(new SuccessionAdapter(su, nodeNamespace));
-					}
-				}
-			}
-			if (elem instanceof TransitionUsage tu) {
-				for (Element sub : tu.getOwnedMember()) {
-					if (!(sub instanceof SuccessionAsUsage su))
-						continue;
-					for (Element src : su.getSource()) {
-						if (getName().equals(src.getDeclaredName())) {
-							outgoingSuccessions.add(new SuccessionAdapter(su, nodeNamespace));
-						}
-					}
-				}
-			}
-		}
+        // varre todos os elementos do namespace (fluxos)
+        for (Element elem : containerNamespace.getOwnedMember()) {
 
-		this.incomings = incomingSuccessions.toArray(new ISuccession[0]);
-		this.outgoings = outgoingSuccessions.toArray(new ISuccession[0]);
-	}
+            if (elem instanceof SuccessionAsUsage su) {
+                // se o nó atual é destino (target)
+                for (Element tgt : su.getTarget()) {
+                    if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                        incomingList.add(new SuccessionAdapter(su, containerNamespace));
+                    }
+                }
+                // se o nó atual é origem (source)
+                for (Element src : su.getSource()) {
+                    if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                        outgoingList.add(new SuccessionAdapter(su, containerNamespace));
+                    }
+                }
+            }
+
+            // suporte a Transitions que contenham Successions
+            if (elem instanceof TransitionUsage tu) {
+                for (Element sub : tu.getOwnedMember()) {
+                    if (!(sub instanceof SuccessionAsUsage su)) continue;
+                    for (Element tgt : su.getTarget()) {
+                        if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                            incomingList.add(new SuccessionAdapter(su, containerNamespace));
+                        }
+                    }
+                    for (Element src : su.getSource()) {
+                        if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                            outgoingList.add(new SuccessionAdapter(su, containerNamespace));
+                        }
+                    }
+                }
+            }
+        }
+
+        this.incomings = incomingList.toArray(new ISuccession[0]);
+        this.outgoings = outgoingList.toArray(new ISuccession[0]);
+    }
+
+    @Override
+    public String getDeclaredName() {
+        return nodeElement.getDeclaredName();
+    }
+
+    @Override
+    public ISuccession[] getIncomings() {
+        return incomings;
+    }
+
+    @Override
+    public ISuccession[] getOutgoings() {
+        return outgoings;
+    }
 
 	@Override
 	public String getName() {
-		return nodeNamespace.getDeclaredName();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@Override
-	public String getDeclaredName() {
-		return nodeNamespace.getDeclaredName();
-	}
 
-	@Override
-	public ISuccession[] getIncomings() {
-		return this.incomings;
-	}
-
-	@Override
-	public ISuccession[] getOutgoings() {
-		return this.outgoings;
-	}
 
 	/*
 	 * @Override public ISuccession getIncomings() { List<ISuccession> incomings =
