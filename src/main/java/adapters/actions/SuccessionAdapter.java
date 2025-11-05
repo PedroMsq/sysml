@@ -12,27 +12,30 @@ import interfaces.states.IGuard;
 public class SuccessionAdapter implements ISuccession {
 
     private final SuccessionAsUsage succession;
+    private INode source;
+    private INode target;
 
-    public SuccessionAdapter(SuccessionAsUsage succession, Namespace actionNamespace) {
+    public SuccessionAdapter(SuccessionAsUsage succession, Namespace nodeNamespace) {
         this.succession = succession;
+        if(!succession.getSource().isEmpty()) {
+        	Element src = succession.getSource().get(0); //futuramente adicionar adaptador do elemento
+        	source = new NodeAdapter((Namespace) src);
+        }
+        if(!succession.getTarget().isEmpty()) {
+        	Element trg = succession.getTarget().get(0); //futuramente adicionar adaptador do elemento
+        	source = new NodeAdapter((Namespace) trg);
+        } 
     }
 
     @Override
     public INode getSource() {
-        for (Element src : succession.getSource()) {
-            if (src instanceof Namespace ns)
-                return new NodeAdapter(ns);
-        }
-        return null;
+        return source;
     }
 
     @Override
     public INode getTarget() {
-        for (Element tgt : succession.getTarget()) {
-            if (tgt instanceof Namespace ns)
-                return new NodeAdapter(ns);
-        }
-        return null;
+        return target;
+        
     }
 
 	@Override
