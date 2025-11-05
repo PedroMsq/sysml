@@ -24,7 +24,7 @@ public class SuccessionAdapter implements ISuccession {
         if(!succession.getTarget().isEmpty()) {
         	Element trg = succession.getTarget().get(0); //futuramente adicionar adaptador do elemento
         	source = new NodeAdapter((Namespace) trg);
-        } 
+        }
     }
 
     @Override
