@@ -51,4 +51,15 @@ public class SuccessionAdapter implements ISuccession {
     public String getName() {
         return succession.getDeclaredName();
     }
+    
+    @Override
+    public String toString() {
+        String srcName = (getSource() != null && getSource().getDeclaredName() != null)
+                ? getSource().getDeclaredName() : "<null>";
+        String tgtName = (getTarget() != null && getTarget().getDeclaredName() != null)
+                ? getTarget().getDeclaredName() : "<null>";
+        String guard = (getGuard() != null) ? getGuard().toString() : "<sem guarda>";
+
+        return "De: " + srcName + " | Para: " + tgtName + " | Guarda: " + guard;
+    }
 }

@@ -3,7 +3,9 @@ package br.ufrpe.dc.sysml.control;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -14,6 +16,7 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.actions.ActionDefinitionAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
+import interfaces.actions.ISuccession;
 
 
 class ActionDefinitionAdapterTest {
@@ -36,6 +39,29 @@ class ActionDefinitionAdapterTest {
         }
         return Optional.empty();
     }
+    
+    @Test
+    void testChargeBrakeSuccessions() {
+        // Busca a ActionDefinition ChargeBattery
+    	ActionDefinition def = findElementByNameRecursive(rootNamespace, "Brake", ActionDefinition.class)
+    	        .orElseThrow(() -> new AssertionError("ActionDefinition 'Brake' não encontrada"));
+        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def, def);
+
+        List<ISuccession> successions = adapter.getSuccessions();
+        assertFalse(successions.isEmpty(), "Nenhuma succession encontrada dentro de 'ChargeBattery'");
+
+        System.out.println("\n=== SUCCESSIONS DENTRO DE 'Brake' ===");
+        for (ISuccession s : successions) {
+            String src = s.getSource() != null && s.getSource().getDeclaredName() != null
+                    ? s.getSource().getDeclaredName()
+                    : "<unnamed>";
+            String tgt = s.getTarget() != null && s.getTarget().getDeclaredName() != null
+                    ? s.getTarget().getDeclaredName()
+                    : "<unnamed>";
+            System.out.printf("De: %s -> Para: %s%n", src, tgt);
+        }
+    }
+
 
     @BeforeAll
     static void init() {
@@ -49,7 +75,7 @@ class ActionDefinitionAdapterTest {
     void testMonitorBrakePedalParameters() {
         ActionDefinition def = findElementByNameRecursive(rootNamespace, "MonitorBrakePedal", ActionDefinition.class)
                 .orElseThrow(() -> new AssertionError("ActionDefinition 'MonitorBrakePedal' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def, def);
 
         assertEquals("MonitorBrakePedal", adapter.getName());
         assertTrue(adapter.getParameters().contains("out: pressure"), "MonitorBrakePedal deve ter parâmetro de saída 'pressure'");
@@ -61,7 +87,7 @@ class ActionDefinitionAdapterTest {
     void testMonitorTractionParameters() {
         ActionDefinition def = findElementByNameRecursive(rootNamespace, "MonitorTraction", ActionDefinition.class)
                 .orElseThrow(() -> new AssertionError("ActionDefinition 'MonitorTraction' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def, def);
 
         assertEquals("MonitorTraction", adapter.getName());
         assertTrue(adapter.getParameters().contains("out: modFreq"), "MonitorTraction deve ter parâmetro de saída 'modFreq'");
@@ -73,7 +99,7 @@ class ActionDefinitionAdapterTest {
     void testBrakingParameters() {
         ActionDefinition def = findElementByNameRecursive(rootNamespace, "Braking", ActionDefinition.class)
                 .orElseThrow(() -> new AssertionError("ActionDefinition 'Braking' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def, def);
 
         assertEquals("Braking", adapter.getName());
         assertTrue(adapter.getParameters().contains("in: brakePressure"), "Braking deve ter parâmetro de entrada 'brakePressure'");

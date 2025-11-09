@@ -7,7 +7,6 @@ import interfaces.parts.IPartUsage;
 
 public interface IActionDefinition {
 
-	public void setActionDefinition(IActionDefinition actionDefinition);
 
 	public INode[] getNodes();
 
@@ -25,7 +24,7 @@ public interface IActionDefinition {
     // Retorna os nomes das Flows internas da ação
 	public List<String> getFlows(); //Owned
 
-    // Retorna os nomes das Successions internas da ação
-	public List<String> getSuccessions();
+    // Retorna todas as Successions internas da ação - atualizar com o adaptador
+	List<ISuccession> getSuccessions();
 
 }

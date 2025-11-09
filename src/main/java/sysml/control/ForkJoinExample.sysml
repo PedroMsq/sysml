@@ -11,7 +11,7 @@ package ForkJoinExample {
 	action def Brake {
 		action TurnOn;
 		
-		then fork;
+		then fork forkBrake;
 			then monitorBrakePedal;
 			then monitorTraction;
 			then braking;
