@@ -12,22 +12,24 @@ import org.omg.sysml.lang.sysml.Type;
 import org.omg.sysml.lang.sysml.Redefinition;
 import org.omg.sysml.lang.sysml.Usage;
 
+import adapters.utils.NamedElementAdapter;
 import interfaces.nodes.IFlow;
 
 /**
  * Implementação inicial do adaptador de Flow. Recebe uma FlowUsage e resolve
  * source/target/payload de forma defensiva.
  */
-public class FlowAdapter implements IFlow {
+public class FlowAdapter extends NamedElementAdapter implements IFlow {
 	private final FlowUsage flow;
 
 	public FlowAdapter(FlowUsage flow) {
+		super(flow);
 		this.flow = flow;
 	}
 
 	@Override
 	public String getName() {
-		return flow == null ? null : (flow.getDeclaredName() != null ? flow.getDeclaredName() : null);
+		return getDeclaredName();
 	}
 
 	@Override

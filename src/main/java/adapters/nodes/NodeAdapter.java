@@ -9,17 +9,19 @@ import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.actions.SuccessionAdapter;
+import adapters.utils.NamedElementAdapter;
 import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 
-public class NodeAdapter implements INode {
+public class NodeAdapter extends NamedElementAdapter implements INode {
 
     private final Element nodeElement; // o nó em si
     private final ISuccession[] incomings;
     private final ISuccession[] outgoings;
 
     public NodeAdapter(Element nodeElement, Namespace containerNamespace) {
-        this.nodeElement = nodeElement;
+        super(nodeElement);
+    	this.nodeElement = nodeElement;
 
         ArrayList<ISuccession> incomingList = new ArrayList<>();
         ArrayList<ISuccession> outgoingList = new ArrayList<>();
@@ -66,7 +68,7 @@ public class NodeAdapter implements INode {
 
     @Override
     public String getDeclaredName() {
-        return nodeElement.getDeclaredName();
+        return getDeclaredName();
     }
 
     @Override

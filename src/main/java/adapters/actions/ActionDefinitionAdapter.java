@@ -14,18 +14,20 @@ import org.omg.sysml.lang.sysml.ReferenceUsage;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
+import adapters.utils.NamedElementAdapter;
 import interfaces.actions.IActionDefinition;
 import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 import interfaces.parts.IPartUsage;
 
-public class ActionDefinitionAdapter implements IActionDefinition{
+public class ActionDefinitionAdapter extends NamedElementAdapter implements IActionDefinition{
 
     private final ActionDefinition actionDef;
     private final Namespace actionNamespace;
 
     public ActionDefinitionAdapter(ActionDefinition actionDef, Namespace containerNamespace) {
-        this.actionDef = actionDef;
+        super(actionDef);
+    	this.actionDef = actionDef;
         this.actionNamespace = containerNamespace;
     }
 

@@ -9,13 +9,15 @@ import org.omg.sysml.lang.sysml.LiteralInteger;
 import org.omg.sysml.lang.sysml.FeatureReferenceExpression;
 
 import adapters.expressions.ExpressionAdapter;
+import adapters.utils.NamedElementAdapter;
 import interfaces.attributes.IAttributeUsage;
 import interfaces.utils.IParameter;
 
-public class AttributeUsageAdapter implements IAttributeUsage {
+public class AttributeUsageAdapter extends NamedElementAdapter implements IAttributeUsage {
     private final AttributeUsage usage;
 
     public AttributeUsageAdapter(AttributeUsage usage) {
+    	super(usage);
         this.usage = usage;
     }
 

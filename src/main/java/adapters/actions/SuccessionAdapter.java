@@ -5,17 +5,19 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.nodes.NodeAdapter;
+import adapters.utils.BaseAdapter;
 import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 import interfaces.states.IGuard;
 
-public class SuccessionAdapter implements ISuccession {
+public class SuccessionAdapter extends BaseAdapter implements ISuccession {
 
     private final SuccessionAsUsage succession;
     private final Namespace containerNamespace;
 
     public SuccessionAdapter(SuccessionAsUsage succession, Namespace containerNamespace) {
-        this.succession = succession;
+        super(succession);
+    	this.succession = succession;
         this.containerNamespace = containerNamespace;
     }
 

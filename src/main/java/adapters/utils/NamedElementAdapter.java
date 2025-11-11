@@ -1,26 +1,26 @@
 package adapters.utils;
 
 import org.omg.sysml.lang.sysml.Element;
-
 import interfaces.utils.INamedElement;
 
-public class NamedElementAdapter implements INamedElement {
+public class NamedElementAdapter extends BaseAdapter implements INamedElement {
 	
-	Element namedElement;
+    protected final Element namedElement;
 	
-	public NamedElementAdapter(Element namedElement) {
-		this.namedElement = namedElement;
-	}
+    public NamedElementAdapter(Element namedElement) {
+        super(namedElement);
+        this.namedElement = namedElement;
+    }
 
-	@Override
-	public String getName() {
-		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-name>";
-	}
+    @Override
+    public String getDeclaredName() {
+        return namedElement != null && namedElement.getDeclaredName() != null
+                ? namedElement.getDeclaredName()
+                : "<no-declared-name>";
+    }
 
-	@Override
-	public String getDeclaredName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    @Override
+    public String getName() {
+        return getDeclaredName();
+    }
 }

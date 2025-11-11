@@ -11,20 +11,22 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.PartDefinition;
 import org.omg.sysml.lang.sysml.PartUsage;
 
+import adapters.utils.NamedElementAdapter;
 import interfaces.structure.IPartDefinition;
 
 
-public class PartDefinitionAdapter implements IPartDefinition {
+public class PartDefinitionAdapter extends NamedElementAdapter implements IPartDefinition {
     private final PartDefinition def;
 
     public PartDefinitionAdapter(PartDefinition def) {
+    	super(def);
         this.def = Objects.requireNonNull(def, "PartDefinition cannot be null");
     }
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return getDeclaredName();
 	}
 
 	@Override
