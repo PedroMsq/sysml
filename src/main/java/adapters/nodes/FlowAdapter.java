@@ -31,7 +31,7 @@ public class FlowAdapter implements IFlow {
     private final Element flowElement;   // referência direta ao FlowUsage
     private IItemUsage source;     // origem
     private IItemUsage target;     // destino
-    private INamedElement payload; // payload (se definido)
+    private INamedElement payload; // payload (se definido) 
 
     public FlowAdapter(Element flowElement, Namespace containerNamespace) {
         this.flowElement = flowElement;
