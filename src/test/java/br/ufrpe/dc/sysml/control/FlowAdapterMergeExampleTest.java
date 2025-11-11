@@ -19,6 +19,7 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.nodes.FlowAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
+import interfaces.structure.IItemUsage;
 
 public class FlowAdapterMergeExampleTest {
 
@@ -43,7 +44,7 @@ public class FlowAdapterMergeExampleTest {
         System.out.println("=== MergeExample: Found " + flows.size() + " FlowUsage(s) ===");
 
         for (FlowUsage fu : flows) {
-            FlowAdapter adapter = new FlowAdapter(fu);
+            FlowAdapter adapter = new FlowAdapter(fu, root);
 
             String declared = fu.getDeclaredName() != null ? fu.getDeclaredName() : "<no-name>";
             System.out.println("FlowUsage raw declaredName: " + declared);
@@ -59,8 +60,8 @@ public class FlowAdapterMergeExampleTest {
             assertNull(adapter.getName(), "MergeExample flow não deve ter declaredName");
 
             // source and target must be present
-            String s = adapter.getSource();
-            String t = adapter.getTarget();
+            IItemUsage s = adapter.getSource();
+            IItemUsage t = adapter.getTarget();
             assertNotNull(s, "Fonte do flow não deve ser nula");
             assertNotNull(t, "Alvo do flow não deve ser nulo");
 
