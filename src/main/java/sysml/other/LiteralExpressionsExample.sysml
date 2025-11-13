@@ -15,8 +15,7 @@ package LiteralExpressionsExample {
 	attribute def serialNumber;
 	attribute def vehicleColor;
 	
-	
-	part vehicle {
+	part def Vehicle {
 		attribute speed: Real = 120.0;
 		attribute maxLoad: MassUnit = 500 [kg];
 		attribute modelName: String = "X-Series";

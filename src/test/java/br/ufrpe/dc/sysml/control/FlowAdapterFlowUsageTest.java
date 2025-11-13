@@ -64,7 +64,7 @@ public class FlowAdapterFlowUsageTest {
 
             System.out.println("getDeclaredName: " + (flow.getDeclaredName() != null ? flow.getDeclaredName() : "<sem-nome>"));
             System.out.println("getName: " + adapter.getName());
-            System.out.println("Payload: " + (adapter.getPayload() != null ? adapter.getPayload() : "<no-payload>"));
+            System.out.println("Payload: " + (adapter.getPayload().getName() != null ? adapter.getPayload().getName() : "<no-payload>"));
             System.out.println("Source: " + (adapter.getSource() != null ? adapter.getSource() : "<no-source>"));
             System.out.println("Target: " + (adapter.getTarget() != null ? adapter.getTarget() : "<no-target>"));
 

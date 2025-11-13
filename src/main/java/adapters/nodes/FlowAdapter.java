@@ -41,33 +41,40 @@ public class FlowAdapter extends NamedElementAdapter implements IFlow {
 
 		for (Element elem : containerNamespace.getOwnedMember()) {
 			if (elem instanceof FlowUsage fu) {
-
-				for (Feature fa : fu.getRelatedFeature()) {
-					System.out.println("fu_name: " + fu.getName()); // flow1 ou flow2
-				}
+				System.out.print("flow " + (fu.getName() != null ? fu.getName() : "<unnamed>"));
 
 				for (Feature fb : fu.getOwnedFeature()) {
-					if (fb instanceof PayloadFeature pf) {
-						System.out.println("payload_feature: " + fb.getType().get(0).getName()); // Fuel
+					if (fb instanceof PayloadFeature pf) { // se não especificado, não detecta uma instância
+						Element payloadf = (fb.getType().get(0)); // of (Fuel)
+						NamedElementAdapter namedelementpayload = new NamedElementAdapter(payloadf);
+						this.payload = namedelementpayload;
+						System.out.print("of " + payload.getName());
 					}
 
 					if (fb instanceof FlowEnd fe) {
 						ReferenceSubsetting refsub = fe.getOwnedReferenceSubsetting();
-						for (Feature fif : refsub.getReferencedFeature().getChainingFeature()) {
-							System.out.println(fif.getName());
+						if (refsub.getReferencingFeature().getName().equals("source")) { // (from | to)
+							System.out.print("\nfrom ");
+						} else {
+							System.out.print("to ");
+						};
+						// duas possibilidades: ReferencedFeature ou ChainingFeature
+						// detecta uma ActionUsage com declaredName (mas sem getName)
+						if (refsub.getReferencedFeature().getDeclaredName() != null) { 
+							System.out.print(refsub.getReferencedFeature().getDeclaredName() + ".");
 						}
-						System.out.println(refsub.getReferencingFeature().getName()); // source ou target
-						System.out.println(refsub.getOwningFeature().getName()); // source ou target
+						// detecta uma ChainingFeature
+						for (Feature fif : refsub.getReferencedFeature().getChainingFeature()) { // não detecta uma instância
+							System.out.print(fif.getName() + "."); // (tankAssy.fuelTankPort. | eng.engineFuelPort.)
+						}
 						for (Feature features : fe.getOwnedFeature()) {
 							if (features instanceof Usage u) {
-								System.out.println("usage_owner: " + u.getOwner().getName()); // source ou target
-								System.out.println("usage: " + u.getName()); // fuelSupply ou fuelReturn
+								System.out.println(u.getName()); // (fuelSupply | fuelReturn)
 							}
-							// System.out.println("fe_feature: " + features.getName()); fuelSupply ou fuelReturn
 						}
 					}
-
 				}
+				System.out.println(); // separar flows
 			}
 		}
 	}

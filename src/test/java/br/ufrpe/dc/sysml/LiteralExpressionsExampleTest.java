@@ -21,7 +21,7 @@ class LiteralExpressionsExampleTest{
     @BeforeAll
     static void setUp() {
         sysmlSpec = new SysMLV2Spec();
-        sysmlSpec.parseFile("LiteralExpressionsExample.sysml");
+        sysmlSpec.parseFile("other/LiteralExpressionsExample.sysml");
         rootNamespace = sysmlSpec.getRootNamespace();
         assertNotNull(rootNamespace, "O namespace raiz não deve ser nulo.");
 
@@ -68,10 +68,16 @@ class LiteralExpressionsExampleTest{
             .findFirst();
     }
 
-    private static PartDefinition findPartDefinitionByName(Namespace ns, String name) {
-        for (Element e : ns.getOwnedMember()) {
-            if (e instanceof PartDefinition && name.equals(e.getDeclaredName())) {
-                return (PartDefinition) e;
+    private static PartDefinition findPartDefinitionByName(Element root, String name) {
+    	if (root == null) return null;
+        if (root instanceof PartDefinition pd) {
+            String n = pd.getDeclaredName() != null ? pd.getDeclaredName() : pd.getName();
+            if (name.equals(n)) return pd;
+        }
+        if (root instanceof Namespace ns) {
+            for (Element child : ns.getOwnedMember()) {
+                PartDefinition res = findPartDefinitionByName(child, name);
+                if (res != null) return res;
             }
         }
         return null;

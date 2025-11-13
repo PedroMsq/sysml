@@ -1,12 +1,13 @@
 package adapters.utils;
 
 import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.Namespace;
 
 import interfaces.utils.INamedElement;
 
 public class NamedElementAdapter implements INamedElement {
 	
-	Element namedElement;
+	private final Element namedElement;
 	
 	public NamedElementAdapter(Element namedElement) {
 		this.namedElement = namedElement;
