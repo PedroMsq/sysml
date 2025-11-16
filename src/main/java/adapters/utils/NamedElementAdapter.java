@@ -15,13 +15,12 @@ public class NamedElementAdapter implements INamedElement {
 
 	@Override
 	public String getName() {
-		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-name>";
+		return namedElement.getName() != null ? namedElement.getName() : "<no-name>"; // TODO: talver simplficar
 	}
 
 	@Override
 	public String getDeclaredName() {
-		// TODO Auto-generated method stub
-		return null;
+		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-name>";
 	}
 
 }

@@ -1,17 +1,14 @@
 package interfaces.nodes;
 
-import interfaces.structure.IItemUsage;
 import interfaces.utils.INamedElement;
 
 public interface IFlow extends INamedElement {
 
-    //FlowEnd source
-    public IItemUsage getSource(); // IFlowEnd 
+    public IFlowEnd getSource();
 
-    //FlowEnd target
-    public IItemUsage getTarget(); // IFlowEnd 
+    public IFlowEnd getTarget();
 
-    //Payload if it exists 
-    public INamedElement getPayload(); // IExpression
+    // Payload (se existir)
+    public INamedElement getPayload();
    
 }
