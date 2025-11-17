@@ -3,11 +3,8 @@ package adapters.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.FlowEnd;
-import org.omg.sysml.lang.sysml.Namespace;
-import org.omg.sysml.lang.sysml.ReferenceSubsetting;
 import org.omg.sysml.lang.sysml.ReferenceUsage;
 
 import adapters.utils.NamedElementAdapter;
