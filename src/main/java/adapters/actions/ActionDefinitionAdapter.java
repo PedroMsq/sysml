@@ -12,23 +12,17 @@ import org.omg.sysml.lang.sysml.FlowUsage;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.ReferenceUsage;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
-import org.omg.sysml.lang.sysml.TransitionUsage;
 
-import adapters.utils.NamedElementAdapter;
 import interfaces.actions.IActionDefinition;
-import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 import interfaces.parts.IPartUsage;
 
-public class ActionDefinitionAdapter extends NamedElementAdapter implements IActionDefinition{
+public class ActionDefinitionAdapter implements IActionDefinition{
 
     private final ActionDefinition actionDef;
-    private final Namespace actionNamespace;
 
-    public ActionDefinitionAdapter(ActionDefinition actionDef, Namespace containerNamespace) {
-        super(actionDef);
-    	this.actionDef = actionDef;
-        this.actionNamespace = containerNamespace;
+    public ActionDefinitionAdapter(ActionDefinition actionDef) {
+        this.actionDef = actionDef;
     }
 
     @Override
@@ -84,28 +78,10 @@ public class ActionDefinitionAdapter extends NamedElementAdapter implements IAct
     }
 
     @Override
-    public List<ISuccession> getSuccessions() {
-        List<ISuccession> successions = new ArrayList<>();
-
-        for (Element member : actionDef.getOwnedMember()) {
-            if (member instanceof SuccessionAsUsage su) {
-                successions.add(new SuccessionAdapter(su, actionNamespace));
-            }
-
-            // 🔹 Caso a ação tenha transições com sucessões dentro delas (como no DecisionExample)
-            if (member instanceof TransitionUsage tu) {
-                for (Element sub : tu.getOwnedMember()) {
-                    if (sub instanceof SuccessionAsUsage su) {
-                        successions.add(new SuccessionAdapter(su, actionNamespace));
-                    }
-                }
-            }
-        }
-
-        return successions;
+    public List<String> getSuccessions() {
+        // TODO: chamar o SuccessionAdapter
+        return new ArrayList<>();
     }
-
-
 
     // Métodos auxiliares internos
     
@@ -169,6 +145,11 @@ public class ActionDefinitionAdapter extends NamedElementAdapter implements IAct
 //        return String.join(",", sources) + " -> " + String.join(",", targets);
 //    }
 
+    //Nome de um elemento
+    private String nameOf(Element e) {
+        return e.getDeclaredName() != null ? e.getDeclaredName() : "<no-name>";
+    }
+
 //	@Override
 //	public List<String> getIncomingFlows() {
 //		// TODO Auto-generated method stub
@@ -193,6 +174,11 @@ public class ActionDefinitionAdapter extends NamedElementAdapter implements IAct
 //		return null;
 //	}
 
+	@Override
+	public void setActionDefinition(IActionDefinition actionDefinition) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public INode[] getNodes() {

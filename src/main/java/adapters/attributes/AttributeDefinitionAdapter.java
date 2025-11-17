@@ -12,19 +12,17 @@ import interfaces.utils.IFeature;
 import interfaces.structure.IAttributeDefintion;
 import adapters.attributes.AttributeUsageAdapter;
 import adapters.utils.GenericFeatureAdapter;
-import adapters.utils.NamedElementAdapter;
 
-public class AttributeDefinitionAdapter extends NamedElementAdapter implements IAttributeDefintion {
+public class AttributeDefinitionAdapter implements IAttributeDefintion {
 	  private final AttributeDefinition def;
 	  
 	  public AttributeDefinitionAdapter(AttributeDefinition def) {
-	    super(def);
 	    this.def = def;
 	  }
 
 	    @Override
 	    public String getName() {
-	        return super.getDeclaredName();
+	        return def.getDeclaredName();
 	    }
 
 	    @Override

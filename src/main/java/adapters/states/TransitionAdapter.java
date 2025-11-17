@@ -7,17 +7,15 @@ import org.omg.sysml.lang.sysml.Expression;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 import org.omg.sysml.lang.sysml.TriggerInvocationExpression;
 
-import adapters.utils.BaseAdapter;
 import interfaces.states.IGuard;
 import interfaces.states.ITrigger;
 import interfaces.states.ITransition;
 import interfaces.states.IEffect;
 
-public class TransitionAdapter extends BaseAdapter implements ITransition {
+public class TransitionAdapter implements ITransition {
     private final TransitionUsage transition;
 
     public TransitionAdapter(TransitionUsage transition) {
-    	super(transition);
         this.transition = transition;
     }
 

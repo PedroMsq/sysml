@@ -4,7 +4,6 @@ package adapters.states;
 import org.omg.sysml.lang.sysml.StateDefinition;
 import org.omg.sysml.lang.sysml.StateUsage;
 
-import adapters.utils.NamedElementAdapter;
 import interfaces.states.IStateUsage;
 import interfaces.states.ITransition;
 import interfaces.structure.IStateDefinition;
@@ -12,18 +11,17 @@ import interfaces.structure.IStateDefinition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateDefAdapter extends NamedElementAdapter implements IStateDefinition {
+public class StateDefAdapter implements IStateDefinition {
     private StateDefinition stateDefinition;
 
     public StateDefAdapter(StateDefinition stateDefinition) {
-    	super(stateDefinition);
         this.stateDefinition = stateDefinition;
     }
 
     @Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return getDeclaredName();
+		return null;
 	}
 
 

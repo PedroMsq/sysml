@@ -5,19 +5,17 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.nodes.NodeAdapter;
-import adapters.utils.BaseAdapter;
 import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
 import interfaces.states.IGuard;
 
-public class SuccessionAdapter extends BaseAdapter implements ISuccession {
+public class SuccessionAdapter implements ISuccession {
 
     private final SuccessionAsUsage succession;
     private final Namespace containerNamespace;
 
     public SuccessionAdapter(SuccessionAsUsage succession, Namespace containerNamespace) {
-        super(succession);
-    	this.succession = succession;
+        this.succession = succession;
         this.containerNamespace = containerNamespace;
     }
 
@@ -52,16 +50,5 @@ public class SuccessionAdapter extends BaseAdapter implements ISuccession {
     @Override
     public String getName() {
         return succession.getDeclaredName();
-    }
-    
-    @Override
-    public String toString() {
-        String srcName = (getSource() != null && getSource().getDeclaredName() != null)
-                ? getSource().getDeclaredName() : "<null>";
-        String tgtName = (getTarget() != null && getTarget().getDeclaredName() != null)
-                ? getTarget().getDeclaredName() : "<null>";
-        String guard = (getGuard() != null) ? getGuard().toString() : "<sem guarda>";
-
-        return "De: " + srcName + " | Para: " + tgtName + " | Guarda: " + guard;
     }
 }

@@ -3,15 +3,12 @@ package adapters.states;
 import org.omg.sysml.lang.sysml.Expression;
 import org.omg.sysml.lang.sysml.FeatureReferenceExpression;
 import org.omg.sysml.lang.sysml.TriggerInvocationExpression;
-
-import adapters.utils.BaseAdapter;
 import interfaces.states.ITrigger;
 
-public class TriggerAdapter extends BaseAdapter implements ITrigger {
+public class TriggerAdapter implements ITrigger {
     private final TriggerInvocationExpression trigger;
 
     public TriggerAdapter(TriggerInvocationExpression trigger) {
-    	super(trigger);
         this.trigger = trigger;
     }
 

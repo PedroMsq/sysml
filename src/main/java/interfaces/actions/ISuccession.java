@@ -13,7 +13,5 @@ public interface ISuccession extends INamedElement{
 
 	public IGuard getGuard();
 	
-	public String toString();
-	
 	// Precisaria de um NamedElement genérico?
 }

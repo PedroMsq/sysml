@@ -9,21 +9,19 @@ import org.omg.sysml.lang.sysml.StateUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.actions.AcceptActionAdapter;
-import adapters.utils.NamedElementAdapter;
 import interfaces.states.IStateUsage;
 import interfaces.states.ITransition;
 
-public class StateUsageAdapter extends NamedElementAdapter implements IStateUsage {
+public class StateUsageAdapter implements IStateUsage {
     private StateUsage stateUsage;
 
     public StateUsageAdapter(StateUsage stateUsage) {
-    	super(stateUsage);
         this.stateUsage = stateUsage;
     }
 
     @Override
     public String getName() {
-        return getDeclaredName();
+        return stateUsage.getDeclaredName();
     }
 
     @Override

@@ -14,10 +14,10 @@ public interface IActionUsage extends INode {
 	
 	public IActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
 	
-	public boolean isCallBehaviorAction();
+	// public boolean isCallBehaviorAction();
 
-	public boolean isSendSignalAction();
+	// public boolean isSendSignalAction();
 
-	public boolean isAcceptEventAction();
+	// public boolean isAcceptEventAction();
 	
 }

@@ -11,14 +11,12 @@ import org.omg.sysml.lang.sysml.LiteralString;
 import org.omg.sysml.lang.sysml.PerformActionUsage;
 import org.omg.sysml.lang.sysml.SendActionUsage;
 
-import adapters.utils.BaseAdapter;
 import interfaces.states.IEffect;
 
-public class EffectAdapter extends BaseAdapter implements IEffect {
+public class EffectAdapter implements IEffect {
     private final ActionUsage action;
 
     public EffectAdapter(ActionUsage action) {
-    	super(action);
         this.action = action;
     }
 

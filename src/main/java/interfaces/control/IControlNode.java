@@ -4,11 +4,11 @@ import interfaces.nodes.INode;
 
 public interface IControlNode extends INode {
 	// analisar os sinais booleanos de acordo com cada tipo de Control Node
-	public boolean isInitialNode();
+	// public boolean isInitialNode();
 
-	public boolean isFlowFinalNode();
+	// public boolean isFlowFinalNode();
 
-	public boolean isFinalNode();
+	// public boolean isFinalNode();
 
 	public boolean isForkNode();
 

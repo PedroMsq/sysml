@@ -12,9 +12,6 @@ import org.omg.sysml.lang.sysml.LiteralInteger;
 import org.omg.sysml.lang.sysml.LiteralString;
 import org.omg.sysml.lang.sysml.LiteralRational;
 import org.omg.sysml.lang.sysml.OperatorExpression;
-
-import adapters.utils.BaseAdapter;
-
 import org.omg.sysml.lang.sysml.FeatureChainExpression;
 import org.omg.sysml.lang.sysml.LiteralInfinity;
 
@@ -22,10 +19,9 @@ import interfaces.expressions.IExpression;
 
 
 // adapter genérico
-public abstract class ExpressionAdapter extends BaseAdapter implements IExpression {
+public abstract class ExpressionAdapter implements IExpression {
  protected final Expression expr;
  protected ExpressionAdapter(Expression expr) {
-	 super(expr);
      this.expr = expr;
  }
  

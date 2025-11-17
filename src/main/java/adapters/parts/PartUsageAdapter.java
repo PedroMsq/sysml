@@ -3,24 +3,24 @@ package adapters.parts;
 import org.omg.sysml.lang.sysml.PartUsage;
 import org.omg.sysml.lang.sysml.Type;
 
-import adapters.utils.NamedElementAdapter;
-
 import java.util.List;
 import java.util.Objects;
 import interfaces.parts.IPartUsage;
 import interfaces.utils.IParameter;
 
-public class PartUsageAdapter extends NamedElementAdapter implements IPartUsage {
+public class PartUsageAdapter implements IPartUsage {
     private final PartUsage usage;
 
     public PartUsageAdapter(PartUsage usage) {
-    	super(usage);
         this.usage = Objects.requireNonNull(usage, "PartUsage não pode ser nulo");
     }
 
     @Override
     public String getName() {
-    	return getDeclaredName();
+        String n = usage.getDeclaredName();
+        if (n != null && !n.isBlank()) return n;
+        n = usage.getName();
+        return n != null && !n.isBlank() ? n : "<unnamed-partusage>";
     }
 
     @Override
