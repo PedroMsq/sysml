@@ -25,20 +25,6 @@ public class NodeAdapterTest {
         rootNamespace = (Namespace) spec.getRootNamespace();
         assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
     }
-
-    private void collectAllDecisionNodes(Element elt, List<DecisionNode> out) {
-        if (elt == null) return;
-
-        if (elt instanceof DecisionNode dn) {
-            out.add(dn);
-        }
-
-        if (elt instanceof Namespace ns) {
-            for (Element member : ns.getOwnedMember()) {
-                collectAllDecisionNodes(member, out);
-            }
-        }
-    }
     
     private void collectAllActions(Element elt, List<ActionUsage> out) {
         if (elt == null) return;

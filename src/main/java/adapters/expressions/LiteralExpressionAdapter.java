@@ -7,13 +7,14 @@ import org.omg.sysml.lang.sysml.LiteralInteger;
 import org.omg.sysml.lang.sysml.LiteralRational;
 import org.omg.sysml.lang.sysml.LiteralString;
 
+import interfaces.expressions.ILiteralExpression;
+
 //Adapter para LiteralExpressions (booleano, inteiro, real, string, infinito)
-public class LiteralExpressionAdapter extends ExpressionAdapter {
+public class LiteralExpressionAdapter extends ExpressionAdapter implements ILiteralExpression {
 	 LiteralExpressionAdapter(Expression literal) {
 	     super(literal);
 	 }
 
-	 @Override
 	 public String asLiteral() {
 	     // descobre qual sub‑tipo e extrai seu valor
 	     if (expr instanceof LiteralInteger) {
@@ -29,4 +30,15 @@ public class LiteralExpressionAdapter extends ExpressionAdapter {
 	     }
 	     return null;
 	 }
+
+	@Override
+	public String getValue() {
+		return null;
+		
+	}
+
+	@Override
+	public String getLiteralType() {
+		return null;
+	}
 }

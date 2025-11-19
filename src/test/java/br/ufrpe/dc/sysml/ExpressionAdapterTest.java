@@ -31,7 +31,7 @@ class ExpressionAdapterTest {
         Expression expr = (Expression) fv.getOwnedMemberElement();
 
         ExpressionAdapter adapter = ExpressionAdapter.of(expr);
-        assertEquals("OperatorExpression", adapter.getKind());
+        assertEquals("OperatorExpression", adapter.getType());
 
         // O primeiro argumento é o valor
         Expression valueExpr = ((OperatorExpression) expr).getArgument().get(0);

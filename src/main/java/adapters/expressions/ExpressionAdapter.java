@@ -12,6 +12,9 @@ import org.omg.sysml.lang.sysml.LiteralInteger;
 import org.omg.sysml.lang.sysml.LiteralString;
 import org.omg.sysml.lang.sysml.LiteralRational;
 import org.omg.sysml.lang.sysml.OperatorExpression;
+
+import adapters.utils.NamedElementAdapter;
+
 import org.omg.sysml.lang.sysml.FeatureChainExpression;
 import org.omg.sysml.lang.sysml.LiteralInfinity;
 
@@ -19,14 +22,17 @@ import interfaces.expressions.IExpression;
 
 
 // adapter genérico
-public abstract class ExpressionAdapter implements IExpression {
+public abstract class ExpressionAdapter extends NamedElementAdapter implements IExpression {
  protected final Expression expr;
  protected ExpressionAdapter(Expression expr) {
+	 super(expr);
      this.expr = expr;
+     
+     
  }
  
  @Override
- public String getKind() {
+ public String getType() {
      // exibe só o nome do tipo de expressão
      return expr.getClass().getSimpleName();
  }
@@ -48,24 +54,6 @@ public abstract class ExpressionAdapter implements IExpression {
 
 }
 
-// adapter para FeatureChainExpression
-class FeatureChainExpressionAdapter extends ExpressionAdapter {
- private final FeatureChainExpression chain;
- FeatureChainExpressionAdapter(FeatureChainExpression chain) {
-     super(chain);
-     this.chain = chain;
- }
- 
- @Override
- public List<String> getFeatureChain() {
-     // extrai a lista de nomes das features que compõem o chain
-     return chain.getFeature().stream()
-                 .map(f -> f.getName())
-                 .collect(Collectors.toList());
- }
-
-}
-
 
 /** Fallback para expressões não suportadas ainda */
 class UnsupportedExpressionAdapter extends ExpressionAdapter {
@@ -75,8 +63,14 @@ class UnsupportedExpressionAdapter extends ExpressionAdapter {
  
  @Override
  public String toString() {
-     return "UnsupportedExpression(" + getKind() + ")";
+     return "UnsupportedExpression(" + getType() + ")";
  }
+
+@Override
+public String getType() {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 // public String getValue() {

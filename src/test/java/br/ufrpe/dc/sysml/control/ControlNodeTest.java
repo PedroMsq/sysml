@@ -13,12 +13,12 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.nodes.ControlNodeAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
+import interfaces.actions.ISuccession;
 
 public class ControlNodeTest {
 	
 	private static SysMLV2Spec spec;
 	private static Namespace rootNamespace;
-	private ControlNode ctrlNode;
 	
 	@BeforeAll
 	static void init() {
@@ -28,54 +28,70 @@ public class ControlNodeTest {
 		assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
 	}
 	
-	private void collectAllControlNodes(Element elt, List<ControlNode> out) {
-		if (elt == null) return;
-		
-		if (elt instanceof ControlNode cn) {
-			out.add(cn);
-		}
-		
-		if (elt instanceof Namespace ns) {
-			for (Element member : ns.getOwnedMember()) {
-				collectAllControlNodes(member, out);
-			}
-		}
+	private void collectControlNodes(Element elt, List<ControlNode> out) {
+        if (elt == null) return;
+
+        if (elt instanceof ControlNode cn) {
+            out.add(cn);
+        }
+
+        if (elt instanceof Namespace ns) {
+            for (Element member : ns.getOwnedMember()) {
+                collectControlNodes(member, out);
+            }
+        }
+    }
+	
+	private String resolveNodeType(ControlNodeAdapter adapter) {
+	    if (adapter.isDecisionNode()) return "DecisionNode";
+	    if (adapter.isForkNode()) return "ForkNode";
+	    if (adapter.isJoinNode()) return "JoinNode";
+	    if (adapter.isMergeNode()) return "MergeNode";
+	    return "Unknown";
 	}
+	
+//	private void printSuccessions(ControlNodeAdapter adapter) {
+//
+//	    if (adapter.isJoinNode() || adapter.isMergeNode()) {
+//
+//	        System.out.println("Incoming successions:");
+//	        for (ISuccession s : adapter.getIncomings()) {
+//	            System.out.println(s.getName());
+//	        }
+//
+//	    } else if (adapter.isForkNode() || adapter.isDecisionNode()) {
+//
+//	        System.out.println("Outgoing successions:");
+//	        for (ISuccession s : adapter.getOutgoings()) {
+//	            System.out.println(s.getName());
+//	        }
+//
+//	    } else {
+//	        System.out.println("No successions.");
+//	    }
+//	}
 	
 	@Test
 	void testControlNodeAdapters() {
-		List<ControlNode> controlNodes = new ArrayList<>();
-        collectAllControlNodes(rootNamespace, controlNodes);
+        List<ControlNode> nodes = new ArrayList<>();
+        collectControlNodes(rootNamespace, nodes);
 
-        assertFalse(controlNodes.isEmpty(), "Nenhum ControlNode encontrado no modelo");
+        assertFalse(nodes.isEmpty(), "Nenhum Control Node encontrado no modelo.");
 
-        for (ControlNode controlNode : controlNodes) {
-            System.out.println("\n=== CONTROL NODE: " + controlNode.getDeclaredName() + " ===");
+        System.out.println("\n================ INICIANDO TESTE ==================\n");
 
-            Namespace container = (Namespace) controlNode.getOwner();
+        for (ControlNode node : nodes) {
+
+            Namespace container = (Namespace) node.getOwner();
             if (container == null) container = rootNamespace;
 
-            //ControlNodeAdapter adapter = new ControlNodeAdapter(controlNode, container);
+            ControlNodeAdapter adapter = new ControlNodeAdapter(node, container);
 
-            // System.out.println("isInitialNode     = " + adapter.isInitialNode());
-            // System.out.println("isFlowFinalNode   = " + adapter.isFlowFinalNode());
-            // System.out.println("isFinalNode       = " + adapter.isFinalNode());
-            //System.out.println("isForkNode        = " + adapter.isForkNode());
-            //System.out.println("isJoinNode        = " + adapter.isJoinNode());
-            //System.out.println("isDecisionNode    = " + adapter.isDecisionNode());
-            //System.out.println("isMergeNode       = " + adapter.isMergeNode());
-
-            // Assert minimal sanity check
-//            assertTrue(
-//                //adapter.isInitialNode() ||
-//                adapter.isFlowFinalNode() ||
-//                adapter.isFinalNode() ||
-//                adapter.isForkNode() ||
-//                adapter.isJoinNode() ||
-//                adapter.isDecisionNode() ||
-//                adapter.isMergeNode(),
-//                "Nenhum tipo reconhecido para ControlNode " + controlNode.getDeclaredName()
-//            );
+            System.out.println("=== Node: " + node.getName() + " ===");
+            System.out.println("Node Type: " + resolveNodeType(adapter) + ";\n");
+            // printSuccessions(adapter);
         }
-	}
+
+        System.out.println("\n================== FIM DO TESTE ==================\n");
+    }
 }

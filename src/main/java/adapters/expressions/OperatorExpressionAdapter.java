@@ -7,7 +7,7 @@ import org.omg.sysml.lang.sysml.OperatorExpression;
 
 import interfaces.expressions.IExpression;
 
-class OperatorExpressionAdapter extends ExpressionAdapter {
+public class OperatorExpressionAdapter extends ExpressionAdapter {
     private final OperatorExpression op;
 
     OperatorExpressionAdapter(OperatorExpression op) {
@@ -35,4 +35,10 @@ class OperatorExpressionAdapter extends ExpressionAdapter {
         else
             return getOperator() + args.stream().map(Object::toString).collect(Collectors.joining(", "));
     }
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
