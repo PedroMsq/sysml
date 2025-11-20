@@ -11,34 +11,29 @@ import interfaces.expressions.ILiteralExpression;
 
 //Adapter para LiteralExpressions (booleano, inteiro, real, string, infinito)
 public class LiteralExpressionAdapter extends ExpressionAdapter implements ILiteralExpression {
-	 LiteralExpressionAdapter(Expression literal) {
-	     super(literal);
-	 }
 
-	 public String asLiteral() {
-	     // descobre qual sub‑tipo e extrai seu valor
-	     if (expr instanceof LiteralInteger) {
-	         return Integer.toString(((LiteralInteger) expr).getValue());
-	     } else if (expr instanceof LiteralRational) {
-	         return Double.toString(((LiteralRational) expr).getValue());
-	     } else if (expr instanceof LiteralString) {
-	         return ((LiteralString) expr).getValue();
-	     } else if (expr instanceof LiteralBoolean) {
-	         return Boolean.toString(((LiteralBoolean) expr).isValue());
-	     } else if (expr instanceof LiteralInfinity) {
-	         return "*";
-	     }
-	     return null;
-	 }
+    public LiteralExpressionAdapter(Expression expr) {
+        super(expr);
+    }
 
-	@Override
-	public String getValue() {
-		return null;
-		
-	}
+    @Override
+    public String getLiteralType() {
+        return expr.getClass().getSimpleName();
+    }
 
-	@Override
-	public String getLiteralType() {
-		return null;
-	}
+    @Override
+    public Object getValue() {
+        if (expr instanceof LiteralString ls) return ls.getValue();
+        if (expr instanceof LiteralInteger li) return li.getValue();
+        if (expr instanceof LiteralBoolean lb) return lb.isValue();
+        if (expr instanceof LiteralRational lr) return lr.getValue();
+        if (expr instanceof LiteralInfinity inf) return "Infinity";
+        return null;
+    }
+
+    @Override
+    public String asText() {
+        Object v = getValue();
+        return v != null ? v.toString() : "<unknown-literal>";
+    }
 }

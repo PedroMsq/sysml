@@ -1,83 +1,159 @@
 package br.ufrpe.dc.sysml;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.Class;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.*;
 
+import adapters.attributes.AttributeUsageAdapter;
 import adapters.expressions.*;
+import interfaces.expressions.IExpression;
+import interfaces.expressions.ILiteralExpression;
 
 class ExpressionAdapterTest {
 
-    static private SysMLV2Spec sysmlSpec;
-    static private Namespace rootNamespace;
+    private static SysMLV2Spec sysmlSpec;
+    private static Namespace rootNamespace;
 
     @BeforeAll
-    static void setup() {
+    static void setUp() {
         sysmlSpec = new SysMLV2Spec();
-        sysmlSpec.parseFile("UnitsExample.sysml");
-        rootNamespace = (Namespace) sysmlSpec.getRootNamespace();
-        assertNotNull(rootNamespace);
+        sysmlSpec.parseFile("other/LiteralExpressionsExample.sysml");
+        rootNamespace = sysmlSpec.getRootNamespace();
+        assertNotNull(rootNamespace, "O namespace raiz não deve ser nulo.");
     }
 
-    @Test
-    @DisplayName("Test Literal Integer Expression")
-    void testLiteralIntegerExpression() {
-        AttributeUsage mass = findAttributeUsage("mass");
-        FeatureValue fv = getFeatureValue(mass);
-        Expression expr = (Expression) fv.getOwnedMemberElement();
+    // -------------------------------------------------------------
+    // MÉTODOS AUXILIARES
+    // -------------------------------------------------------------
 
-        ExpressionAdapter adapter = ExpressionAdapter.of(expr);
-        assertEquals("OperatorExpression", adapter.getType());
+//	private FeatureValue getFeatureValue(AttributeUsage au) {
+//        return au.getOwnedFeature().stream()
+//                .filter(f -> f instanceof FeatureValue)
+//                .map(f -> (FeatureValue) f)
+//                .findFirst()
+//                .orElseThrow(() -> new AssertionError("FeatureValue não encontrado para " + au.getDeclaredName()));
+//    }
 
-        // O primeiro argumento é o valor
-        Expression valueExpr = ((OperatorExpression) expr).getArgument().get(0);
-        ExpressionAdapter valueAdapter = ExpressionAdapter.of(valueExpr);
-        assertTrue(valueAdapter instanceof LiteralExpressionAdapter);
-        assertEquals("1350", ((LiteralExpressionAdapter) valueAdapter).asLiteral());
+    private AttributeUsage findAttribute(String name) {
+        return findAttributeRecursive(rootNamespace, name)
+            .orElseThrow(() -> new AssertionError("Attribute '" + name + "' não encontrado."));
     }
 
-    @Test
-    @DisplayName("Test Unit Extraction from Operator Expression")
-    void testUnitExtractionFromOperatorExpression() {
-        AttributeUsage mass = findAttributeUsage("mass");
-        FeatureValue fv = getFeatureValue(mass);
-        Expression expr = (Expression) fv.getOwnedMemberElement();
+    private Optional<AttributeUsage> findAttributeRecursive(Element element, String name) {
 
-        assertTrue(expr instanceof OperatorExpression);
-        OperatorExpression op = (OperatorExpression) expr;
+        // 1. Se o elemento atual for um AttributeUsage, verifica o nome
+        if (element instanceof AttributeUsage au &&
+            name.equals(au.getDeclaredName())) {
+            return Optional.of(au);
+        }
 
-        // O segundo argumento é a unidade
-        Expression unitExpr = op.getArgument().get(1);
-        assertTrue(unitExpr instanceof FeatureReferenceExpression);
+        // 2. Se for Namespace, desce na hierarquia
+        if (element instanceof Namespace ns) {
+            for (Element member : ns.getOwnedMember()) {
+                Optional<AttributeUsage> found = findAttributeRecursive(member, name);
+                if (found.isPresent()) return found;
+            }
+        }
 
-        FeatureReferenceExpression ref = (FeatureReferenceExpression) unitExpr;
-        assertEquals("kg", ref.getReferent().getShortName());
+        return Optional.empty();
     }
 
-    // --- Métodos auxiliares ---
 
-    private AttributeUsage findAttributeUsage(String name) {
-        for (Element e : rootNamespace.getOwnedMember()) {
-            if (e instanceof PartUsage && e.getDeclaredName().equals("vehicle1")) {
-                for (Element f : ((PartUsage) e).getOwnedMember()) {
-                    if (f instanceof AttributeUsage && name.equals(f.getDeclaredName())) {
-                        return (AttributeUsage) f;
-                    }
+    private Expression getLiteralFrom(AttributeUsage au) {
+
+        // 1 — Procura FeatureValue diretamente (caso mais comum)
+        for (Feature f : au.getOwnedFeature()) {
+            if (f instanceof FeatureValue fv) {
+                if (fv.getOwnedMemberElement() instanceof Expression expr) {
+                    return expr;
                 }
             }
         }
-        throw new IllegalArgumentException("Attribute " + name + " not found");
+
+        // 2 — Procura valores em OwnedMember (caminho comum em PartDefinition)
+        for (Element member : au.getOwnedMember()) {
+            if (member instanceof FeatureValue fv) {
+                if (fv.getOwnedMemberElement() instanceof Expression expr) {
+                    return expr;
+                }
+            }
+        }
+
+        // 3 — Procura valores via OwnedRelationship (SysML às vezes guarda aqui)
+        for (Element rel : au.getOwnedRelationship()) {
+            if (rel instanceof FeatureValue fv) {
+                if (fv.getOwnedMemberElement() instanceof Expression expr) {
+                    return expr;
+                }
+            }
+        }
+
+        throw new AssertionError("FeatureValue não encontrado para: " + au.getDeclaredName());
     }
 
-    private FeatureValue getFeatureValue(AttributeUsage attr) {
-        return attr.getOwnedMembership().stream()
-                   .filter(f -> f instanceof FeatureValue)
-                   .map(f -> (FeatureValue) f)
-                   .findFirst()
-                   .orElseThrow(() -> new IllegalStateException("No FeatureValue found"));
-    }
+
+    // TESTES
+
+
+	@Test
+	@DisplayName("LiteralExpression – speed = 120.0")
+	void testLiteralRational() {
+	    AttributeUsage speed = findAttribute("speed");
+	    Expression literal = getLiteralFrom(speed);
+
+	    ILiteralExpression adapter = (ILiteralExpression) ExpressionAdapter.of(literal);
+
+	    assertEquals("LiteralRationalImpl", adapter.getLiteralType());
+	    assertEquals(120.0, adapter.getValue());
+	    System.out.println("speed = " + adapter.asText());
+	}
+
+	@Test
+	@DisplayName("LiteralExpression – serialNumber = 123456")
+	void testLiteralInteger() {
+	    AttributeUsage serial = findAttribute("serialNumber");
+	    Expression literal = getLiteralFrom(serial);
+
+	    ILiteralExpression adapter = (ILiteralExpression) ExpressionAdapter.of(literal);
+
+	    assertEquals("LiteralIntegerImpl", adapter.getLiteralType());
+	    assertEquals(123456, adapter.getValue());
+	    System.out.println("serialNumber = " + adapter.asText());
+	}
+
+	@Test
+	@DisplayName("LiteralExpression – isElectric = true")
+	void testLiteralBoolean() {
+	    AttributeUsage electric = findAttribute("isElectric");
+	    Expression literal = getLiteralFrom(electric);
+
+	    ILiteralExpression adapter = (ILiteralExpression) ExpressionAdapter.of(literal);
+
+	    assertEquals("LiteralBooleanImpl", adapter.getLiteralType());
+	    assertEquals(true, adapter.getValue());
+	    System.out.println("isElectric = " + adapter.asText());
+	}
+
+
+	@Test
+	void testSerialNumberViaAdapter() {
+	    AttributeUsage attr = findAttribute("serialNumber");
+	    AttributeUsageAdapter adapter = new AttributeUsageAdapter(attr);
+
+	    IExpression expr = adapter.getDefaultValue()
+	                              .orElseThrow();
+
+	    assertTrue(expr instanceof ILiteralExpression);
+	    ILiteralExpression lit = (ILiteralExpression) expr;
+
+	    assertEquals("LiteralIntegerImpl", lit.getLiteralType());
+	    assertEquals(123456, lit.getValue());
+	}
 }

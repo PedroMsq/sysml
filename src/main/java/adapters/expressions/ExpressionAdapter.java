@@ -34,26 +34,35 @@ public abstract class ExpressionAdapter extends NamedElementAdapter implements I
  @Override
  public String getType() {
      // exibe só o nome do tipo de expressão
-     return expr.getClass().getSimpleName();
+	 return expr.getClass().getSimpleName();
  }
  
  // fábrica estática para criar o adaptador para o caso certo 
- public static ExpressionAdapter of(Expression expr) {
-     if (expr instanceof FeatureChainExpression) {
-         return new FeatureChainExpressionAdapter((FeatureChainExpression) expr);
-     } else if (expr instanceof LiteralBoolean
-             || expr instanceof LiteralInteger
-             || expr instanceof LiteralRational
-             || expr instanceof LiteralString
-             || expr instanceof LiteralInfinity) {
-         return new LiteralExpressionAdapter(expr);
+ public static IExpression of(Expression e) {
+
+     if (e instanceof LiteralBoolean ||
+         e instanceof LiteralInteger ||
+         e instanceof LiteralRational ||
+         e instanceof LiteralString ||
+         e instanceof LiteralInfinity) {
+         return new LiteralExpressionAdapter(e);
      }
-     // implementar outros cases
-     return new UnsupportedExpressionAdapter(expr);
+
+     if (e instanceof FeatureChainExpression fce) {
+         return new FeatureChainExpressionAdapter(fce);
+     }
+
+     if (e instanceof OperatorExpression oe) {
+         return new OperatorExpressionAdapter(oe);
+     }
+
+     if (e instanceof FeatureReferenceExpression fre) {
+         return new FeatureReferenceExpressionAdapter(fre);
+     }
+
+     return new UnsupportedExpressionAdapter(e);
  }
-
 }
-
 
 /** Fallback para expressões não suportadas ainda */
 class UnsupportedExpressionAdapter extends ExpressionAdapter {
@@ -72,7 +81,7 @@ public String getType() {
 	return null;
 }
 
-
+}
 // public String getValue() {
 //     if (expr instanceof LiteralInteger intVal) {
 //         return String.valueOf(intVal.getValue());
@@ -131,4 +140,4 @@ public String getType() {
 //        }
 //        return Collections.emptyList();             // retorna lista vazia se não for OperatorExpression
 //    }
-}
+

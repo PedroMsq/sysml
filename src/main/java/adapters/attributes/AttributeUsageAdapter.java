@@ -1,28 +1,106 @@
 package adapters.attributes;
 
+import java.util.Optional;
+
 import org.omg.sysml.lang.sysml.AttributeUsage;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Feature;
+import org.omg.sysml.lang.sysml.Expression;
 import org.omg.sysml.lang.sysml.FeatureValue;
 import org.omg.sysml.lang.sysml.OperatorExpression;
-import org.omg.sysml.lang.sysml.LiteralInteger;
 import org.omg.sysml.lang.sysml.FeatureReferenceExpression;
 
 import adapters.expressions.ExpressionAdapter;
+import adapters.utils.NamedElementAdapter;
 import interfaces.attributes.IAttributeUsage;
+import interfaces.expressions.IExpression;
 import interfaces.utils.IParameter;
 
-public class AttributeUsageAdapter implements IAttributeUsage {
-    private final AttributeUsage usage;
+public class AttributeUsageAdapter extends NamedElementAdapter implements IAttributeUsage {
 
-    public AttributeUsageAdapter(AttributeUsage usage) {
-        this.usage = usage;
-    }
+	private final AttributeUsage usage;
 
-    @Override
-    public String getName() {
-        return usage.getDeclaredName();
+	public AttributeUsageAdapter(AttributeUsage usage) {
+		super(usage);
+		this.usage = usage;
+	}
+
+	//Retorna a Expression que representa o valor do atributo (caso exista) já adaptada para IExpression.
+	@Override
+	public Optional<IExpression> getDefaultValue() {
+		Expression expr = extractExpression(usage);
+
+		if (expr == null)
+			return Optional.empty();
+
+// remove wrappers como Operator[], FeatureRef, etc.
+		Expression unwrapped = unwrap(expr);
+
+// adapta para IExpression
+		return Optional.of(ExpressionAdapter.of(unwrapped));
+	}
+
+// ---------------------------------------------------------
+// EXTRAÇÃO DE EXPRESSÕES — núcleo do adaptador
+// ---------------------------------------------------------
+
+	private Expression extractExpression(AttributeUsage au) {
+
+		// 1) Caso comum: FeatureValue está em OwnedFeature
+		for (Feature f : au.getOwnedFeature()) {
+			if (f instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
+				return expr;
+			}
+		}
+
+		// 2) Caso de PartDefinitions: FeatureValue em OwnedMember
+		for (Element e : au.getOwnedMember()) {
+			if (e instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
+				return expr;
+			}
+		}
+
+		// 3) Menos comum: FeatureValue em OwnedRelationship
+		for (Element rel : au.getOwnedRelationship()) {
+			if (rel instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
+				return expr;
+			}
+		}
+
+		return null;
+	}
+
+	
+    private Expression unwrap(Expression expr) {
+
+        // Caso seja OperatorExpression com argumento único (ex: 500 [kg])
+        if (expr instanceof OperatorExpression op) {
+
+            // operador [] → expr[unit]
+            if ("[]".equals(op.getOperator()) && !op.getArgument().isEmpty()) {
+                return unwrap(op.getArgument().get(0)); // retorna o literal 500
+            }
+
+            // operador "=" (assignment)
+            if ("=".equals(op.getOperator()) && !op.getArgument().isEmpty()) {
+                return unwrap(op.getArgument().get(0));
+            }
+        }
+
+        // Caso seja Reference ao tipo (ex: kg → ignore e retorne literal anterior)
+        if (expr instanceof FeatureReferenceExpression ref) {
+            return expr; // deixa ExpressionAdapter se virar com isso mais tarde
+        }
+
+        // Caso comum: já é literal
+        return expr;
     }
+	
+	
+	@Override
+	public String getName() {
+		return usage.getDeclaredName();
+	}
 
 	@Override
 	public String getType() {
@@ -105,7 +183,7 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 //    public String getUnit() {
 //        ExpressionAdapter exprAdapter = getFeatureValueExpression();
 //        return exprAdapter != null ? exprAdapter.getUnit() : "None";
-//    }
+//    }q
 //
 //    private ExpressionAdapter getFeatureValueExpression() {
 //        for (Feature feature : usage.getOwnedFeature()) {
