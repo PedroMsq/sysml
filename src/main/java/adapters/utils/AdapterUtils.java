@@ -29,7 +29,7 @@ public class AdapterUtils {
 		}
 		return null;
 	}
-	
+	// a
 	public static ISuccession setSuccession(SuccessionAsUsage succession, String direction, NodeAdapter nodeAdapter) {
 		if (!successions.containsKey(succession.getElementId())) {
 
