@@ -8,7 +8,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.ControlNode;
+import org.omg.sysml.lang.sysml.DecisionNode;
 import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.ForkNode;
+import org.omg.sysml.lang.sysml.JoinNode;
+import org.omg.sysml.lang.sysml.MergeNode;
 import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.nodes.ControlNodeAdapter;
@@ -19,6 +23,10 @@ public class ControlNodeTest {
 	
 	private static SysMLV2Spec spec;
 	private static Namespace rootNamespace;
+	private ControlNodeAdapter merge;
+	private ControlNodeAdapter join;
+	private ControlNodeAdapter fork;
+	private ControlNodeAdapter decision;
 	
 	@BeforeAll
 	static void init() {
@@ -26,6 +34,7 @@ public class ControlNodeTest {
 		spec.parseFile("control/ControlNodeTest.sysml");
 		rootNamespace = (Namespace) spec.getRootNamespace();
 		assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
+		
 	}
 	
 	private void collectControlNodes(Element elt, List<ControlNode> out) {
@@ -33,6 +42,18 @@ public class ControlNodeTest {
 
         if (elt instanceof ControlNode cn) {
             out.add(cn);
+            if (cn instanceof DecisionNode dn) {
+            	decision = new ControlNodeAdapter(dn);
+            }
+            else if (cn instanceof MergeNode mn) {
+            	
+            }
+            else if (cn instanceof ForkNode fn) {
+            	
+            }
+            else if (cn instanceof JoinNode jn) {
+            	
+            }
         }
 
         if (elt instanceof Namespace ns) {
@@ -85,10 +106,8 @@ public class ControlNodeTest {
             Namespace container = (Namespace) node.getOwner();
             if (container == null) container = rootNamespace;
 
-            ControlNodeAdapter adapter = new ControlNodeAdapter(node, container);
-
             System.out.println("=== Node: " + node.getName() + " ===");
-            System.out.println("Node Type: " + resolveNodeType(adapter) + ";\n");
+            System.out.println("Node Type: " + ";\n");
             // printSuccessions(adapter);
         }
 

@@ -8,7 +8,7 @@ public interface IFlow extends INamedElement {
 
     public IFlowEnd getTarget();
 
-    // Payload (se existir)
+    // PayloadFeature
     public INamedElement getPayload();
    
 }

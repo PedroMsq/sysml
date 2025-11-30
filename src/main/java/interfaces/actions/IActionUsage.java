@@ -2,7 +2,6 @@ package interfaces.actions;
 
 import interfaces.nodes.INode;
 import java.util.List;
-import interfaces.utils.IFeature;
 import interfaces.utils.IParameter;
 import interfaces.structure.IActionDefinition;
 

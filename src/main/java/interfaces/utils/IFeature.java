@@ -1,8 +1,7 @@
 package interfaces.utils;
 
-// um elemento (dentro das definições do SysML ex: attribute, port, ...)
-public interface IFeature extends INamedElement { // IGNORAR
-	// IType getType();
+public interface IFeature extends INamedElement {
+// IType getType();
 	
     // IElement getOwningType();
     

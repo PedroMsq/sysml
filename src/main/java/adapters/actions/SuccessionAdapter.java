@@ -1,7 +1,6 @@
 package adapters.actions;
 
 import org.omg.sysml.lang.sysml.Element;
-import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.nodes.NodeAdapter;
@@ -11,19 +10,22 @@ import interfaces.states.IGuard;
 
 public class SuccessionAdapter implements ISuccession {
 
-    private final SuccessionAsUsage succession;
-    private final Namespace containerNamespace;
+    private SuccessionAsUsage succession;
+    private INode source;
+    private INode target;
 
-    public SuccessionAdapter(SuccessionAsUsage succession, Namespace containerNamespace) {
+    public SuccessionAdapter(SuccessionAsUsage succession) {
         this.succession = succession;
-        this.containerNamespace = containerNamespace;
+		this.source = null;
+		this.target = null;
+        
     }
 
     @Override
     public INode getSource() {
         for (Element src : succession.getSource()) {
             // Nem todo source Ã© Namespace, mas qualquer Element pode ser adaptado
-            return new NodeAdapter(src, containerNamespace);
+            return new NodeAdapter(src);
         }
         return null;
     }
@@ -31,14 +33,13 @@ public class SuccessionAdapter implements ISuccession {
     @Override
     public INode getTarget() {
         for (Element tgt : succession.getTarget()) {
-            return new NodeAdapter(tgt, containerNamespace);
+            return new NodeAdapter(tgt);
         }
         return null;
     }
 
     @Override
     public IGuard getGuard() {
-        
         return null;
     }
 
@@ -51,4 +52,20 @@ public class SuccessionAdapter implements ISuccession {
     public String getName() {
         return succession.getDeclaredName();
     }
+
+	@Override
+	public String getID() {
+		return succession.getElementId();
+	}
+
+	@Override
+	public void setSource(INode source) {
+		this.source = source;
+		
+	}
+
+	@Override
+	public void setTarget(INode target) {
+		this.target = target;
+	}
 }

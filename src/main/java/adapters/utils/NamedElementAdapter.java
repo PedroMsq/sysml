@@ -23,4 +23,10 @@ public class NamedElementAdapter implements INamedElement {
 		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-name>";
 	}
 
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

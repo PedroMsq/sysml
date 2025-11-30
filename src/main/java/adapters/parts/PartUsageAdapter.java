@@ -65,31 +65,13 @@ public class PartUsageAdapter implements IPartUsage {
 	}
 
 	@Override
-	public boolean isReadOnly() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isOrdered() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isUnique() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isComposite() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public String getDeclaredName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getID() {
 		// TODO Auto-generated method stub
 		return null;
 	}

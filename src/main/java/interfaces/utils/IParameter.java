@@ -1,7 +1,7 @@
 package interfaces.utils;
 
 // incorpora PartUsage, AttributeUsage e ItemUsage
-public interface IParameter extends IFeature { // TROCAR PARA NAMED ELEMENT
+public interface IParameter extends INamedElement { // TROCAR PARA NAMED ELEMENT
 	
 	public boolean isInput();
 	

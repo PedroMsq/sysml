@@ -16,8 +16,8 @@ public class ControlNodeAdapter extends NodeAdapter implements IControlNode {
 	private final boolean isDecisionNode;
 	private final boolean isMergeNode;
 	
-	public ControlNodeAdapter(Element controlNodeElement, Namespace containerNamespace) {
-		super(controlNodeElement, containerNamespace);
+	public ControlNodeAdapter(Element controlNodeElement) {
+		super(controlNodeElement);
 		
 		this.isDecisionNode = controlNodeElement instanceof DecisionNode;
         this.isForkNode = controlNodeElement instanceof ForkNode;
@@ -27,7 +27,7 @@ public class ControlNodeAdapter extends NodeAdapter implements IControlNode {
 
 	@Override
 	public boolean isDecisionNode() {
-		return isDecisionNode;
+		return super.nodeElement instanceof DecisionNode;
 	}
 	
 	

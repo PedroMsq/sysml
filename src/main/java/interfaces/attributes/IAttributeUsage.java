@@ -1,6 +1,5 @@
 package interfaces.attributes;
 
-import interfaces.utils.IFeature;
 import interfaces.utils.IParameter;
 
 public interface IAttributeUsage extends IParameter {

@@ -37,7 +37,7 @@ public class AttributeDefinitionAdapter implements IAttributeDefintion {
 	    private IFeature wrapFeature(Feature f) {
 	    	
 	        if (f instanceof AttributeUsage) {
-	            return new AttributeUsageAdapter((AttributeUsage) f);
+	            return (IFeature) new AttributeUsageAdapter((AttributeUsage) f);
 	        }
 	        if (f instanceof AttributeDefinition) {
 	            return new AttributeDefinitionAdapter((AttributeDefinition) f);
@@ -72,6 +72,12 @@ public class AttributeDefinitionAdapter implements IAttributeDefintion {
 
 		@Override
 		public String getDeclaredName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getID() {
 			// TODO Auto-generated method stub
 			return null;
 		}
