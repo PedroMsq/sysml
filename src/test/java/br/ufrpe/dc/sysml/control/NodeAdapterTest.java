@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.*;
 
 import adapters.nodes.NodeAdapter;
+import adapters.utils.AdapterUtils;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
 import interfaces.actions.ISuccession;
+import interfaces.nodes.INode;
 //import interfaces.nodes.INode;
 
 
@@ -30,9 +32,12 @@ public class NodeAdapterTest {
         if (elt == null) return;
 
         if (elt instanceof ActionUsage au) {
+        	// if (elt instanceof TransitionUsage tu)
             out.add(au);
         }
-
+        if (elt.getDeclaredName() != null && elt.getDeclaredName().equals("start")) {
+        	System.out.println("abacate");
+        }
         if (elt instanceof Namespace ns) {
             for (Element member : ns.getOwnedMember()) {
                 collectAllActions(member, out);
@@ -49,8 +54,8 @@ public class NodeAdapterTest {
 
         // percorre cada ação
         for (ActionUsage action : actions) {
-        	if (ctrlNode instanceof ControlNode) {
-        		
+        	if (action instanceof TransitionUsage) {
+        		continue;
         	}
             System.out.println("\n=== TESTANDO NODE ADAPTER PARA: " + action.getDeclaredName() + " ===");
 
@@ -58,7 +63,8 @@ public class NodeAdapterTest {
             Namespace container = (Namespace) action.getOwner();
             if (container == null) container = rootNamespace;
 
-            NodeAdapter adapter = new NodeAdapter(action, container);
+          
+            NodeAdapter adapter = new NodeAdapter(action);
 
             // INCOMINGS
             System.out.println("\n--- INCOMING SUCCESSIONS ---");
@@ -76,5 +82,6 @@ public class NodeAdapterTest {
                 System.out.println("De: " + srcName + " | Para: " + tgtName + "  | Guarda: <sem guarda>");
             }
         }
+        System.out.println(AdapterUtils.successions.keySet());
     }
 }

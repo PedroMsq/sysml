@@ -42,6 +42,12 @@ public class StateDefAdapter implements IStateDefinition {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     /*
     @Override

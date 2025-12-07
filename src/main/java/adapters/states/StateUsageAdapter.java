@@ -3,12 +3,10 @@ package adapters.states;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.omg.sysml.lang.sysml.AcceptActionUsage;
 import org.omg.sysml.lang.sysml.ActionUsage;
 import org.omg.sysml.lang.sysml.StateUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
-import adapters.actions.AcceptActionAdapter;
 import interfaces.states.IStateUsage;
 import interfaces.states.ITransition;
 
@@ -55,17 +53,6 @@ public class StateUsageAdapter implements IStateUsage {
         return list.toArray(new ITransition[0]);
     }
 
-    /* Definir o tipo de Action com base nos metodos booleanos
-    @Override
-    public IActionUsage[] getAcceptActions() {
-        List<IAcceptAction> list = stateUsage.getOwnedMember().stream()
-            .filter(AcceptActionUsage.class::isInstance)
-            .map(AcceptActionUsage.class::cast)
-            .map(AcceptActionAdapter::new)
-            .collect(Collectors.toList());
-        return list.toArray(new IAcceptAction[0]);
-    }
-    */
 
     @Override
     public String toString() {

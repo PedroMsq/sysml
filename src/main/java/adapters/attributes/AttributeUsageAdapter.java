@@ -14,7 +14,6 @@ import adapters.expressions.ExpressionAdapter;
 import adapters.utils.NamedElementAdapter;
 import interfaces.attributes.IAttributeUsage;
 import interfaces.expressions.IExpression;
-import interfaces.utils.IParameter;
 
 public class AttributeUsageAdapter extends NamedElementAdapter implements IAttributeUsage {
 
@@ -33,34 +32,32 @@ public class AttributeUsageAdapter extends NamedElementAdapter implements IAttri
 		if (expr == null)
 			return Optional.empty();
 
-// remove wrappers como Operator[], FeatureRef, etc.
+		// remove wrappers como Operator[], FeatureRef para obter o value
 		Expression unwrapped = unwrap(expr);
 
-// adapta para IExpression
+		// adapta para IExpression
 		return Optional.of(ExpressionAdapter.of(unwrapped));
 	}
 
-// ---------------------------------------------------------
-// EXTRAÇÃO DE EXPRESSÕES — núcleo do adaptador
-// ---------------------------------------------------------
-
+	
+	// EXTRAÇÃO DE EXPRESSÕES 
 	private Expression extractExpression(AttributeUsage au) {
 
-		// 1) Caso comum: FeatureValue está em OwnedFeature
+		// Caso 1: FeatureValue está em OwnedFeature
 		for (Feature f : au.getOwnedFeature()) {
 			if (f instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
 				return expr;
 			}
 		}
 
-		// 2) Caso de PartDefinitions: FeatureValue em OwnedMember
+		// Caso 2: (PartDefinitions) FeatureValue em OwnedMember
 		for (Element e : au.getOwnedMember()) {
 			if (e instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
 				return expr;
 			}
 		}
 
-		// 3) Menos comum: FeatureValue em OwnedRelationship
+		// Caso 3: FeatureValue em OwnedRelationship
 		for (Element rel : au.getOwnedRelationship()) {
 			if (rel instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof Expression expr) {
 				return expr;
@@ -167,30 +164,4 @@ public class AttributeUsageAdapter extends NamedElementAdapter implements IAttri
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-//    @Override
-//    public String getType() {
-//        return usage.getType() != null ? ((Element) usage.getType()).getName() : "Unknown";
-//    }
-//
-//    @Override
-//    public String getValue() {
-//        ExpressionAdapter exprAdapter = getFeatureValueExpression();
-//        return exprAdapter != null ? exprAdapter.getValue() : "None";
-//    }
-//
-//    @Override
-//    public String getUnit() {
-//        ExpressionAdapter exprAdapter = getFeatureValueExpression();
-//        return exprAdapter != null ? exprAdapter.getUnit() : "None";
-//    }q
-//
-//    private ExpressionAdapter getFeatureValueExpression() {
-//        for (Feature feature : usage.getOwnedFeature()) {
-//            if (feature instanceof FeatureValue fv && fv.getOwnedMemberElement() instanceof OperatorExpression op) {
-//                return new ExpressionAdapter(op);
-//            }
-//        }
-//        return null;
-//    }
 }

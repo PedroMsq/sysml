@@ -12,5 +12,5 @@ public interface IAttributeUsage extends IParameter {
 	public String getUnit();        // Ex: SI::kg
 	public String getValue();       // Ex: "1350"
 	
-	Optional<IExpression> getDefaultValue();
+	Optional<IExpression> getDefaultValue(); // adaptar para sempre retornar o adaptador da Expression
 }

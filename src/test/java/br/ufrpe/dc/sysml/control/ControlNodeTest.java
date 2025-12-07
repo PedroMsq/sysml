@@ -8,7 +8,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.ControlNode;
+import org.omg.sysml.lang.sysml.DecisionNode;
 import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.ForkNode;
+import org.omg.sysml.lang.sysml.JoinNode;
+import org.omg.sysml.lang.sysml.MergeNode;
 import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.nodes.ControlNodeAdapter;
@@ -25,7 +29,8 @@ public class ControlNodeTest {
 		spec = new SysMLV2Spec();
 		spec.parseFile("control/ControlNodeTest.sysml");
 		rootNamespace = (Namespace) spec.getRootNamespace();
-		assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
+		assertNotNull(rootNamespace, "Namespace raiz nÃ£o deve ser nulo");
+		
 	}
 	
 	private void collectControlNodes(Element elt, List<ControlNode> out) {
@@ -50,27 +55,6 @@ public class ControlNodeTest {
 	    return "Unknown";
 	}
 	
-//	private void printSuccessions(ControlNodeAdapter adapter) {
-//
-//	    if (adapter.isJoinNode() || adapter.isMergeNode()) {
-//
-//	        System.out.println("Incoming successions:");
-//	        for (ISuccession s : adapter.getIncomings()) {
-//	            System.out.println(s.getName());
-//	        }
-//
-//	    } else if (adapter.isForkNode() || adapter.isDecisionNode()) {
-//
-//	        System.out.println("Outgoing successions:");
-//	        for (ISuccession s : adapter.getOutgoings()) {
-//	            System.out.println(s.getName());
-//	        }
-//
-//	    } else {
-//	        System.out.println("No successions.");
-//	    }
-//	}
-	
 	@Test
 	void testControlNodeAdapters() {
         List<ControlNode> nodes = new ArrayList<>();
@@ -84,12 +68,11 @@ public class ControlNodeTest {
 
             Namespace container = (Namespace) node.getOwner();
             if (container == null) container = rootNamespace;
-
-            ControlNodeAdapter adapter = new ControlNodeAdapter(node, container);
+            
+            ControlNodeAdapter adapter = new ControlNodeAdapter(node);
 
             System.out.println("=== Node: " + node.getName() + " ===");
             System.out.println("Node Type: " + resolveNodeType(adapter) + ";\n");
-            // printSuccessions(adapter);
         }
 
         System.out.println("\n================== FIM DO TESTE ==================\n");
