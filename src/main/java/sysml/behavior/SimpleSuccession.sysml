@@ -1,6 +1,6 @@
 package SimpleSuccession {
 
-	action def activity {
+	action def testAction {
 		first start then action1;
   		action action1;
   		first action1 then action2;
@@ -9,5 +9,6 @@ package SimpleSuccession {
   		action action3;
   		first action3 then action4;
   		action action4;
+  		first action4 then done;
 	}
 }

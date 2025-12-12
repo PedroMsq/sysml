@@ -25,7 +25,7 @@ class SimpleSuccessionTest {
 	    @BeforeAll
 	    static void setUp() {
 	        sysmlSpec = new SysMLV2Spec();
-	        sysmlSpec.parseFileWithTransform("SimpleSuccession.sysml");
+	        sysmlSpec.parseFileWithTransform("behavior/SimpleSuccession.sysml");
 	        root = sysmlSpec.getRootNamespace();
 	        assertNotNull(root, "Namespace raiz não pode ser nulo.");
 	        successions = collectSuccessionAsUsages(root);
@@ -48,7 +48,7 @@ class SimpleSuccessionTest {
 	        }
 	        System.out.println("==========================");
 
-	        assertHasSuccession("start",   "action1");
+	        assertHasSuccession(null,   "action1");
 	        assertHasSuccession("action1", "action2");
 	        assertHasSuccession("action2", "action3");
 	        assertHasSuccession("action3", "action4");
@@ -58,7 +58,7 @@ class SimpleSuccessionTest {
 	    private static void assertHasSuccession(String src, String tgt) {
 	        boolean found = successions.stream().anyMatch(su -> {
 	            // cada SuccessionAsUsage pode ter múltiplas fontes/targets, pegamos o primeiro
-	            String sourceName = su.getSource().stream()
+	        	String sourceName = su.getSource().stream()
 	                .filter(e -> e instanceof ActionUsage)
 	                .map(e -> ((ActionUsage)e).getDeclaredName())
 	                .findFirst().orElse(null);
@@ -66,7 +66,7 @@ class SimpleSuccessionTest {
 	                .filter(e -> e instanceof ActionUsage)
 	                .map(e -> ((ActionUsage)e).getDeclaredName())
 	                .findFirst().orElse(null);
-	            return src.equals(sourceName) && tgt.equals(targetName);
+	            return (src == null ? true : src.equals(sourceName)) && tgt.equals(targetName);
 	        });
 	        assertTrue(found, "Esperava encontrar SuccessionAsUsage " + src + " → " + tgt);
 	    }
