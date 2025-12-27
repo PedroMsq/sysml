@@ -23,10 +23,6 @@ public class ControlNodeTest {
 	
 	private static SysMLV2Spec spec;
 	private static Namespace rootNamespace;
-	private ControlNodeAdapter merge;
-	private ControlNodeAdapter join;
-	private ControlNodeAdapter fork;
-	private ControlNodeAdapter decision;
 	
 	@BeforeAll
 	static void init() {
@@ -42,18 +38,6 @@ public class ControlNodeTest {
 
         if (elt instanceof ControlNode cn) {
             out.add(cn);
-            if (cn instanceof DecisionNode dn) {
-            	decision = new ControlNodeAdapter(dn);
-            }
-            else if (cn instanceof MergeNode mn) {
-            	
-            }
-            else if (cn instanceof ForkNode fn) {
-            	
-            }
-            else if (cn instanceof JoinNode jn) {
-            	
-            }
         }
 
         if (elt instanceof Namespace ns) {
@@ -71,27 +55,6 @@ public class ControlNodeTest {
 	    return "Unknown";
 	}
 	
-//	private void printSuccessions(ControlNodeAdapter adapter) {
-//
-//	    if (adapter.isJoinNode() || adapter.isMergeNode()) {
-//
-//	        System.out.println("Incoming successions:");
-//	        for (ISuccession s : adapter.getIncomings()) {
-//	            System.out.println(s.getName());
-//	        }
-//
-//	    } else if (adapter.isForkNode() || adapter.isDecisionNode()) {
-//
-//	        System.out.println("Outgoing successions:");
-//	        for (ISuccession s : adapter.getOutgoings()) {
-//	            System.out.println(s.getName());
-//	        }
-//
-//	    } else {
-//	        System.out.println("No successions.");
-//	    }
-//	}
-	
 	@Test
 	void testControlNodeAdapters() {
         List<ControlNode> nodes = new ArrayList<>();
@@ -105,10 +68,11 @@ public class ControlNodeTest {
 
             Namespace container = (Namespace) node.getOwner();
             if (container == null) container = rootNamespace;
+            
+            ControlNodeAdapter adapter = new ControlNodeAdapter(node);
 
             System.out.println("=== Node: " + node.getName() + " ===");
-            System.out.println("Node Type: " + ";\n");
-            // printSuccessions(adapter);
+            System.out.println("Node Type: " + resolveNodeType(adapter) + ";\n");
         }
 
         System.out.println("\n================== FIM DO TESTE ==================\n");

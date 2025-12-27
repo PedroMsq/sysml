@@ -27,9 +27,8 @@ public class ControlNodeAdapter extends NodeAdapter implements IControlNode {
 
 	@Override
 	public boolean isDecisionNode() {
-		return super.nodeElement instanceof DecisionNode;
+		return isDecisionNode;
 	}
-	
 	
 	@Override
 	public boolean isForkNode() {

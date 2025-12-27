@@ -1,6 +1,7 @@
 package adapters.nodes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
@@ -26,33 +27,37 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
 
         ArrayList<ISuccession> incomingList = new ArrayList<>();
         ArrayList<ISuccession> outgoingList = new ArrayList<>();
-
+        // node.getName equals start, containerNamespace equals Action -> extrair start
         for (Element elem : containerNamespace.getOwnedMember()) {
 
             // Caso 1: SuccessionAsUsage direto
             if (elem instanceof SuccessionAsUsage su) {
 
                 for (Element tgt : su.getTarget()) {
-                    if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
-                        incomingList.add(
-                            AdapterUtils.setSuccession(
-                                su,
-                                "target",
-                                this
-                            )
-                        );
-                    }
+                	if (nodeElement.getDeclaredName() != null) {
+                		if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                            incomingList.add(
+                                AdapterUtils.setSuccession(
+                                    su,
+                                    "target",
+                                    this
+                                )
+                            );
+                        }
+                	}
                 }
                 for (Element src : su.getSource()) {
-                    if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
-                        outgoingList.add(
-                            AdapterUtils.setSuccession(
-                                su,
-                                "source",
-                                this
-                            )
-                        );
-                    }
+                	if (nodeElement.getDeclaredName() != null) {
+                		if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                            outgoingList.add(
+                                AdapterUtils.setSuccession(
+                                    su,
+                                    "source",
+                                    this
+                                )
+                            );
+                        }
+                	}
                 }
             }
 
@@ -63,26 +68,30 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
                     if (!(sub instanceof SuccessionAsUsage su)) continue;
 
                     for (Element tgt : su.getTarget()) {
-                        if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
-                            incomingList.add(
-                                AdapterUtils.setSuccession(
-                                    su,
-                                    "target",
-                                    this
-                                )
-                            );
-                        }
+                    	if (nodeElement.getDeclaredName() != null) {
+                    		if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                                incomingList.add(
+                                    AdapterUtils.setSuccession(
+                                        su,
+                                        "target",
+                                        this
+                                    )
+                                );
+                            }
+                    	}
                     }
                     for (Element src : su.getSource()) {
-                        if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
-                            outgoingList.add(
-                                AdapterUtils.setSuccession(
-                                    su,
-                                    "source",
-                                    this
-                                )
-                            );
-                        }
+                    	if (nodeElement.getDeclaredName() != null) {
+                    		if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                                outgoingList.add(
+                                    AdapterUtils.setSuccession(
+                                        su,
+                                        "source",
+                                        this
+                                    )
+                                );
+                            }
+                    	}
                     }
                 }
             }
@@ -101,5 +110,13 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
     public ISuccession[] getOutgoings() {
         return outgoings;
     }
+    
+    @Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NodeAdapter that = (NodeAdapter) o;
+        return this.getID().equals(that.getID());
+	}
 
 }

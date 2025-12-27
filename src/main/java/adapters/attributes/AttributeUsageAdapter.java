@@ -1,8 +1,10 @@
 package adapters.attributes;
 
+import org.omg.sysml.lang.sysml.ActionUsage;
 import org.omg.sysml.lang.sysml.AttributeUsage;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Feature;
+import org.omg.sysml.lang.sysml.FeatureDirectionKind;
 import org.omg.sysml.lang.sysml.FeatureValue;
 import org.omg.sysml.lang.sysml.OperatorExpression;
 import org.omg.sysml.lang.sysml.LiteralInteger;
@@ -55,7 +57,7 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 	}
 
 	@Override
-	public ParameterDirection getDirection() {
+	public FeatureDirectionKind getDirection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -70,6 +72,12 @@ public class AttributeUsageAdapter implements IAttributeUsage {
 	public String getID() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setActionDefinition(ActionUsage actionUsage) {
+		// TODO Auto-generated method stub
+		
 	}
 
 //    @Override

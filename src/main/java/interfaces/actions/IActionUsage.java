@@ -1,7 +1,11 @@
 package interfaces.actions;
 
+import interfaces.nodes.IFlow;
 import interfaces.nodes.INode;
 import java.util.List;
+
+import org.omg.sysml.lang.sysml.ActionDefinition;
+
 import interfaces.utils.IParameter;
 import interfaces.structure.IActionDefinition;
 
@@ -9,9 +13,11 @@ public interface IActionUsage extends INode {
 
 	public INode[] getNodes();
 	
-	public IParameter[] getParameters(); // ao invés de IParameter getDirection(); ser implementado aqui?
+	public IParameter[] getParameters();
 	
-	public IActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
+	public IFlow[] getFlows();
+	
+	public ActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
 	
 	// public boolean isCallBehaviorAction();
 

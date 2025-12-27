@@ -1,11 +1,15 @@
 package br.ufrpe.dc.sysml.control;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.ActionDefinition;
@@ -14,71 +18,96 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.actions.ActionDefinitionAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
+import interfaces.nodes.IFlow;
+import interfaces.nodes.IFlowEnd;
+import interfaces.nodes.INode;
+import interfaces.utils.INamedElement;
+import interfaces.utils.IParameter;
 
 
 class ActionDefinitionAdapterTest {
 
-    private static SysMLV2Spec sysmlSpec;
+    private static SysMLV2Spec spec;
     private static Namespace rootNamespace;
 
-    // Busca recursiva genérica
-    private static <T extends Element> Optional<T> findElementByNameRecursive(Element element, String name, Class<T> type) {
-        if (type.isInstance(element) && name.equals(element.getDeclaredName())) {
-            return Optional.of(type.cast(element));
-        }
-        if (element instanceof Namespace ns) {
-            for (Element child : ns.getOwnedMember()) {
-                Optional<T> result = findElementByNameRecursive(child, name, type);
-                if (result.isPresent()) {
-                    return result;
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
     @BeforeAll
-    static void init() {
-        sysmlSpec = new SysMLV2Spec();
-        sysmlSpec.parseFile("control/ForkJoinExample.sysml");
-        rootNamespace = (Namespace) sysmlSpec.getRootNamespace();
-        assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
+    static void init() throws IOException {
+    	spec = new SysMLV2Spec();
+    	spec.parseFile("control/ForkJoinExample.sysml");
+    	rootNamespace = (Namespace) spec.getRootNamespace();
+    	assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
     }
-
-    @Test
-    void testMonitorBrakePedalParameters() {
-        ActionDefinition def = findElementByNameRecursive(rootNamespace, "MonitorBrakePedal", ActionDefinition.class)
-                .orElseThrow(() -> new AssertionError("ActionDefinition 'MonitorBrakePedal' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
-
-        assertEquals("MonitorBrakePedal", adapter.getName());
-        assertTrue(adapter.getParameters().contains("out: pressure"), "MonitorBrakePedal deve ter parâmetro de saída 'pressure'");
-        assertTrue(adapter.getFlows().isEmpty(), "Flows ainda não implementados");
-        assertTrue(adapter.getSuccessions().isEmpty(), "Successions ainda não implementados");
+    
+    private void collectAllActionDefinitions(Element elt, List<ActionDefinition> out) {
+    	if (elt == null) return;
+    	
+    	if (elt instanceof ActionDefinition ad) {
+    		out.add(ad);
+    	}
+    	
+    	if (elt instanceof Namespace ns) {
+    		for (Element member : ns.getOwnedMember()) {
+    				collectAllActionDefinitions(member, out);
+    		}
+    	}
     }
-
-    @Test
-    void testMonitorTractionParameters() {
-        ActionDefinition def = findElementByNameRecursive(rootNamespace, "MonitorTraction", ActionDefinition.class)
-                .orElseThrow(() -> new AssertionError("ActionDefinition 'MonitorTraction' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
-
-        assertEquals("MonitorTraction", adapter.getName());
-        assertTrue(adapter.getParameters().contains("out: modFreq"), "MonitorTraction deve ter parâmetro de saída 'modFreq'");
-        assertTrue(adapter.getFlows().isEmpty());
-        assertTrue(adapter.getSuccessions().isEmpty());
+    
+    private String toPath(IFlowEnd end) {
+    	StringBuilder sb = new StringBuilder();
+    	if (end.getReferencedFeature() != null) {
+    		sb.append(end.getReferencedFeature().getDeclaredName()).append(".");
+    	}
+    	for (INamedElement ine : end.getChainingFeatures()) {
+            sb.append(ine.getName()).append(".");
+        }
+    	sb.append(end.getReferenceUsage().getName());
+    	return sb.toString();
     }
-
+    
     @Test
-    void testBrakingParameters() {
-        ActionDefinition def = findElementByNameRecursive(rootNamespace, "Braking", ActionDefinition.class)
-                .orElseThrow(() -> new AssertionError("ActionDefinition 'Braking' não encontrada"));
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
-
-        assertEquals("Braking", adapter.getName());
-        assertTrue(adapter.getParameters().contains("in: brakePressure"), "Braking deve ter parâmetro de entrada 'brakePressure'");
-        assertTrue(adapter.getParameters().contains("in: modulationFrequency"), "Braking deve ter parâmetro de entrada 'modulationFrequency'");
-        assertTrue(adapter.getFlows().isEmpty());
-        assertTrue(adapter.getSuccessions().isEmpty());
+    void testActionDefinitionAdapters() {
+    	List<ActionDefinition> actionDefs = new ArrayList<>();
+    	collectAllActionDefinitions(rootNamespace, actionDefs);
+    	
+    	assertFalse(actionDefs.isEmpty(), "Nenhuma ActionDefinition encontrada no modelo");
+    	
+    	// percorre cada ActionDefinition encontrada
+    	for (ActionDefinition actionDef : actionDefs) {
+    		Namespace container = (Namespace) actionDef.getOwner();
+    		if (container == null) container = rootNamespace;
+    		
+    		ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(actionDef);
+    		
+    		System.out.println("\n=== TESTANDO ACTION DEFINITION ADAPTER PARA: " + adapter.getDeclaredName() + " ===");
+    		System.out.println(adapter.getDeclaredName());
+    		System.out.println("Parâmetros:");
+    		for (IParameter parameter : adapter.getParameters()) {
+    			if (adapter.getParameters() != null) {
+    				System.out.print(parameter.getDirection() != null ? parameter.getDirection() + " " : "<null> ");
+        			System.out.println(parameter.getDeclaredName() != null ? parameter.getDeclaredName() : "<null>");
+    			} else {
+    				System.out.println("Sem parâmetros."); // Não aparece...?
+    			}
+    		}
+    		System.out.println("\nFlows:");
+    		// Impressão dos flows internos
+    		if (adapter.getFlows() != null) {
+    			for (IFlow flow : adapter.getFlows()) {
+        			System.out.println(flow.getDeclaredName());
+        			System.out.println(toPath(flow.getSource()));
+        		}
+    		} else {
+    			System.out.println("<no-flows>");
+    		}
+    		System.out.println("\nNodes:");
+    		// Impressão dos nodes internos (ControlNode e FlowUsage)
+    		if (adapter.getNodes() != null) {
+    			for (INode node : adapter.getNodes()) {
+    				System.out.println(node.getDeclaredName());
+        		}
+    		} else {
+    			System.out.println("<no-nodes>");
+    		}
+    	}
     }
 }

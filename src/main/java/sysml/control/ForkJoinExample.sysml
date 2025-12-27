@@ -9,9 +9,10 @@ package ForkJoinExample {
 	action def Braking { in brakePressure : BrakePressure; in modulationFrequency : Real; }
 	
 	action def Brake {
-		action TurnOn;
+		first start;
+		then action TurnOn;
 		
-		then fork;
+		then fork Fork1;
 			then monitorBrakePedal;
 			then monitorTraction;
 			then braking;
@@ -26,8 +27,8 @@ package ForkJoinExample {
 		}
 		then joinNode;
 		
-		flow from monitorBrakePedal.brakePressure to braking.brakePressure;
-		flow from monitorTraction.modulationFrequency to braking.modulationFrequency; 
+		flow Flow1 from monitorBrakePedal.brakePressure to braking.brakePressure;
+		flow Flow2 from monitorTraction.modulationFrequency to braking.modulationFrequency; 
 		
 		action braking : Braking {
 			in brakePressure; 

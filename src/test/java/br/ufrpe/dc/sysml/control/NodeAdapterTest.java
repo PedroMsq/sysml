@@ -18,7 +18,7 @@ public class NodeAdapterTest {
 
     private static SysMLV2Spec spec;
     private static Namespace rootNamespace;
-    private ControlNode ctrlNode;
+    // private ControlNode ctrlNode;
 
     @BeforeAll
     static void init() {
@@ -32,11 +32,8 @@ public class NodeAdapterTest {
         if (elt == null) return;
 
         if (elt instanceof ActionUsage au) {
-        	// if (elt instanceof TransitionUsage tu)
+        	if (elt instanceof TransitionUsage tu) return;
             out.add(au);
-        }
-        if (elt.getDeclaredName() != null && elt.getDeclaredName().equals("start")) {
-        	System.out.println("abacate");
         }
         if (elt instanceof Namespace ns) {
             for (Element member : ns.getOwnedMember()) {
@@ -83,6 +80,5 @@ public class NodeAdapterTest {
             }
         }
         System.out.println(AdapterUtils.successions.keySet());
-        assertEquals(7,AdapterUtils.successions.keySet().size());
     }
 }

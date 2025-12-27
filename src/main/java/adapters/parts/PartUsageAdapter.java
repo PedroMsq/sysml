@@ -1,5 +1,7 @@
 package adapters.parts;
 
+import org.omg.sysml.lang.sysml.ActionUsage;
+import org.omg.sysml.lang.sysml.FeatureDirectionKind;
 import org.omg.sysml.lang.sysml.PartUsage;
 import org.omg.sysml.lang.sysml.Type;
 
@@ -59,7 +61,7 @@ public class PartUsageAdapter implements IPartUsage {
 	}
 
 	@Override
-	public ParameterDirection getDirection() {
+	public FeatureDirectionKind getDirection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -74,5 +76,11 @@ public class PartUsageAdapter implements IPartUsage {
 	public String getID() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setActionDefinition(ActionUsage actionUsage) {
+		// TODO Auto-generated method stub
+		
 	}
 }

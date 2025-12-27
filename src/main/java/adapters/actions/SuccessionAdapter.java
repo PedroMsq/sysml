@@ -11,13 +11,8 @@ import interfaces.states.IGuard;
 public class SuccessionAdapter implements ISuccession {
 
     private SuccessionAsUsage succession;
-    private INode source;
-    private INode target;
-
     public SuccessionAdapter(SuccessionAsUsage succession) {
         this.succession = succession;
-		this.source = null;
-		this.target = null;
         
     }
 
@@ -60,12 +55,10 @@ public class SuccessionAdapter implements ISuccession {
 
 	@Override
 	public void setSource(INode source) {
-		this.source = source;
 		
 	}
 
 	@Override
 	public void setTarget(INode target) {
-		this.target = target;
 	}
 }
