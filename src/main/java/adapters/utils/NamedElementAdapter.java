@@ -25,8 +25,7 @@ public class NamedElementAdapter implements INamedElement {
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return namedElement.getElementId() != null ? namedElement.getElementId() : "<no-id>";
 	}
 
 }

@@ -18,7 +18,10 @@ public interface IActionUsage extends INode {
 	public IFlow[] getFlows();
 	
 	public ActionDefinition getActionDefinition(); // receber quem definiu a Action Usage
+
+	public IParameter[] getInputs();
 	
+	public IParameter[] getOutputs();
 	// public boolean isCallBehaviorAction();
 
 	// public boolean isSendSignalAction();

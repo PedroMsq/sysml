@@ -3,15 +3,16 @@ package adapters.utils;
 import interfaces.utils.IParameter;
 
 import org.omg.sysml.lang.sysml.ActionUsage;
+import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.FeatureDirectionKind;
-import org.omg.sysml.lang.sysml.ReferenceUsage;
+//import org.omg.sysml.lang.sysml.ReferenceUsage;
 
 public class ParameterAdapter implements IParameter {
 	
-	private ReferenceUsage parameter;
+	private Feature parameter;
 	private ActionUsage action;
 	
-	public ParameterAdapter(ReferenceUsage parameter) {
+	public ParameterAdapter(Feature parameter) {
 		this.parameter = parameter;
 	}
 

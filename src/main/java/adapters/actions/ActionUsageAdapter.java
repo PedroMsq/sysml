@@ -1,22 +1,27 @@
 package adapters.actions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.omg.sysml.lang.sysml.ActionDefinition;
 import org.omg.sysml.lang.sysml.ActionUsage;
 import org.omg.sysml.lang.sysml.ControlNode;
 import org.omg.sysml.lang.sysml.Element;
+import org.omg.sysml.lang.sysml.Feature;
+import org.omg.sysml.lang.sysml.FeatureDirectionKind;
 import org.omg.sysml.lang.sysml.FlowUsage;
-import org.omg.sysml.lang.sysml.ReferenceUsage;
+import org.omg.sysml.lang.sysml.SuccessionAsUsage;
+import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.nodes.ControlNodeAdapter;
 import adapters.nodes.FlowUsageAdapter;
 import adapters.nodes.NodeAdapter;
+import adapters.utils.FinalNode;
+import adapters.utils.InitialNode;
 import adapters.utils.ParameterAdapter;
 import interfaces.actions.IActionUsage;
 import interfaces.nodes.IFlow;
 import interfaces.nodes.INode;
-import interfaces.structure.IActionDefinition;
 import interfaces.utils.IParameter;
 
 public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
@@ -34,31 +39,68 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
 		ArrayList<IFlow> flowList = new ArrayList<>();
 		
 		for (Element element : actionUsage.getOwnedMember()) {
-        	if (element instanceof ActionUsage au) { // Subactions internas, continuar ActionUsageAdapter
-        		//ActionUsageAdapter action = new ActionUsageAdapter(au);
-        		// nodeList.add(action);
-        		System.out.println("SUBACTION: " + au.getName());
-        		
-        	} else if (element instanceof ReferenceUsage ru) { // Parâmetros
-        		//nodeList.add(new NodeAdapter(ru));
-        		parameterList.add(new ParameterAdapter(ru));
-        		
-        	} else if (element instanceof ControlNode cn) {
+			
+			// Initial / Final via Succession
+			if (element instanceof SuccessionAsUsage su) {
+				if ("start".equals(su.getSource().getFirst().getDeclaredName())) {
+                    InitialNode init = new InitialNode();
+                    init.setDeclaredName("start");
+                    init.setOwner(actionDefinition);
+                    nodeList.add(new ControlNodeAdapter(init));
+                }
+
+                if ("done".equals(su.getTarget().getFirst().getDeclaredName())) {
+                    FinalNode fin = new FinalNode();
+                    fin.setDeclaredName("done");
+                    fin.setOwner(actionDefinition);
+                    nodeList.add(new ControlNodeAdapter(fin));
+                }
+			}
+			
+			// ActionUsage (exceto TransitionUsage)
+            else if (element instanceof ActionUsage au && !(element instanceof TransitionUsage)) {
+                nodeList.add(new ActionUsageAdapter(au));
+                
+            } 
+			
+			// Parameters da ActionUsage
+            else if (element instanceof Feature f && f.getDirection() != null) {
+                parameterList.add(new ParameterAdapter(f));
+            }
+			
+        	// ControlNode
+        	else if (element instanceof ControlNode cn) {
         		nodeList.add(new ControlNodeAdapter(cn));
-        	} else if (element instanceof FlowUsage fu) {
+        	} 
+			
+        	// FlowUsage
+        	else if (element instanceof FlowUsage fu) {
         		nodeList.add(new NodeAdapter(fu));
         		flowList.add(new FlowUsageAdapter(fu));
         	}
         }
 		
-		this.actionDefinition = (ActionDefinition) actionUsage.getOwner();
-
-		
+		this.actionDefinition = (ActionDefinition) actionUsage.getActionDefinition().getFirst();
 		this.parameters = parameterList.toArray(new IParameter[0]);
 		this.nodes = nodeList.toArray(new INode[0]);
 		this.flows = flowList.toArray(new IFlow[0]);
 	}
+	
+	// Método auxiliar para separar inputs de outputs da lista de parâmetros
+	private IParameter[] extractByDirection(FeatureDirectionKind... dirs) {
+	    List<IParameter> result = new ArrayList<>();
 
+	    for (IParameter p : parameters) {
+	        for (FeatureDirectionKind d : dirs) {
+	            if (p.getDirection() == d) {
+	                result.add(p);
+	                break;
+	            }
+	        }
+	    }
+	    return result.toArray(new IParameter[0]);
+	}
+	
 	@Override
 	public INode[] getNodes() {
 		return this.nodes;
@@ -78,5 +120,16 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
 	public IFlow[] getFlows() {
 		return this.flows;
 	}
+
+	@Override
+	public IParameter[] getInputs() {
+	    return extractByDirection(FeatureDirectionKind.IN, FeatureDirectionKind.INOUT);
+	}
+
+	@Override
+	public IParameter[] getOutputs() {
+	    return extractByDirection(FeatureDirectionKind.OUT, FeatureDirectionKind.INOUT);
+	}
+
 
 }

@@ -34,8 +34,8 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
             if (elem instanceof SuccessionAsUsage su) {
 
                 for (Element tgt : su.getTarget()) {
-                	if (nodeElement.getDeclaredName() != null) {
-                		if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                	if (nodeElement.getElementId() != null) {
+                		if (nodeElement.getElementId().equals(tgt.getElementId())) {
                             incomingList.add(
                                 AdapterUtils.setSuccession(
                                     su,
@@ -47,8 +47,8 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
                 	}
                 }
                 for (Element src : su.getSource()) {
-                	if (nodeElement.getDeclaredName() != null) {
-                		if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                	if (nodeElement.getElementId() != null) {
+                		if (nodeElement.getElementId().equals(src.getElementId())) {
                             outgoingList.add(
                                 AdapterUtils.setSuccession(
                                     su,
@@ -68,8 +68,8 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
                     if (!(sub instanceof SuccessionAsUsage su)) continue;
 
                     for (Element tgt : su.getTarget()) {
-                    	if (nodeElement.getDeclaredName() != null) {
-                    		if (nodeElement.getDeclaredName().equals(tgt.getDeclaredName())) {
+                    	if (nodeElement.getElementId() != null) {
+                    		if (nodeElement.getElementId().equals(tgt.getElementId())) {
                                 incomingList.add(
                                     AdapterUtils.setSuccession(
                                         su,
@@ -81,8 +81,8 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
                     	}
                     }
                     for (Element src : su.getSource()) {
-                    	if (nodeElement.getDeclaredName() != null) {
-                    		if (nodeElement.getDeclaredName().equals(src.getDeclaredName())) {
+                    	if (nodeElement.getElementId() != null) {
+                    		if (nodeElement.getElementId().equals(src.getElementId())) {
                                 outgoingList.add(
                                     AdapterUtils.setSuccession(
                                         su,
