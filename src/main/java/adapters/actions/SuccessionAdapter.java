@@ -4,8 +4,8 @@ import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
 import adapters.nodes.NodeAdapter;
-import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
+import interfaces.nodes.ISuccession;
 import interfaces.states.IGuard;
 
 public class SuccessionAdapter implements ISuccession {

@@ -20,12 +20,16 @@ public class NamedElementAdapter implements INamedElement {
 
 	@Override
 	public String getDeclaredName() {
-		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-name>";
+		return namedElement.getDeclaredName() != null ? namedElement.getDeclaredName() : "<no-declared-name>";
 	}
 
 	@Override
 	public String getID() {
 		return namedElement.getElementId() != null ? namedElement.getElementId() : "<no-id>";
 	}
+	
+//	public String getQualifiedName() {
+//		return namedElement.getQualifiedName() != null ? namedElement.getQualifiedName() : "<no-qualified-name>";
+//	}
 
 }

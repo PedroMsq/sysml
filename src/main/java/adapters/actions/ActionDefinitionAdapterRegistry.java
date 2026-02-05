@@ -1,6 +1,5 @@
 package adapters.actions;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -12,34 +11,42 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 public class ActionDefinitionAdapterRegistry {
 
-    private Map<String, ActionDefinitionAdapter> actionsById = new HashMap<>();
+    private final Map<String, ActionDefinitionAdapter> map = new HashMap<>();
 
     public ActionDefinitionAdapterRegistry(Namespace root) {
-        List<ActionDefinition> defs = new ArrayList<>();
-        collectAllActionDefinitions(root, defs);
-
-        for (ActionDefinition def : defs) {
-            ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
-            actionsById.put(def.getElementId(), adapter);
-        }
+        collect(root);
     }
 
+    // Retorna de acordo com o elementId extraído de um adaptador via getElementId()
     public ActionDefinitionAdapter getById(String id) {
-        return actionsById.get(id);
+        return map.get(id);
     }
 
+    // Retorna uma lista com todos os adaptadores com o mesmo nome declarado
+    public List<ActionDefinitionAdapter> getByDeclaredName(String name) {
+        return map.values().stream()
+                .filter(a -> name.equals(a.getDeclaredName()))
+                .toList();
+    }
+
+    // Retorna todas os adaptadores
     public Collection<ActionDefinitionAdapter> getAll() {
-        return actionsById.values();
+        return map.values();
     }
 
-    public void collectAllActionDefinitions(Element elt,
-                                             List<ActionDefinition> out) {
-        if (elt instanceof ActionDefinition ad) {
-            out.add(ad);
+    // Coleta as ActionDefinition presente no modelo sysml
+    private void collect(Element element) {
+
+        if (element instanceof ActionDefinition ad) {
+        	map.put(
+                ad.getElementId(),
+                new ActionDefinitionAdapter(ad)
+            );
         }
-        if (elt instanceof Namespace ns) {
+
+        if (element instanceof Namespace ns) {
             for (Element member : ns.getOwnedMember()) {
-                collectAllActionDefinitions(member, out);
+                collect(member);
             }
         }
     }

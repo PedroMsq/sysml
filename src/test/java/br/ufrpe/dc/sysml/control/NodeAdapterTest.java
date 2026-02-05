@@ -16,7 +16,7 @@ import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.nodes.NodeAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
-import interfaces.actions.ISuccession;
+import interfaces.nodes.ISuccession;
 
 class NodeAdapterTest {
 

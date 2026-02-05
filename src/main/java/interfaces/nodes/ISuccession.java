@@ -1,7 +1,6 @@
-package interfaces.actions;
+package interfaces.nodes;
 
 
-import interfaces.nodes.INode;
 import interfaces.states.IGuard;
 import interfaces.utils.INamedElement;
 

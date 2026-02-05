@@ -80,7 +80,10 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
         	}
         }
 		
-		this.actionDefinition = (ActionDefinition) actionUsage.getActionDefinition().getFirst();
+		if (actionUsage.getActionDefinition().getFirst() != null) {
+			this.actionDefinition = (ActionDefinition) actionUsage.getActionDefinition().getFirst();
+		}
+		
 		this.parameters = parameterList.toArray(new IParameter[0]);
 		this.nodes = nodeList.toArray(new INode[0]);
 		this.flows = flowList.toArray(new IFlow[0]);
@@ -131,5 +134,7 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
 	    return extractByDirection(FeatureDirectionKind.OUT, FeatureDirectionKind.INOUT);
 	}
 
-
+	public boolean isCallAction() {
+	    return actionDefinition != null;
+	}
 }

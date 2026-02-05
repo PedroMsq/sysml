@@ -14,6 +14,8 @@ import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.impl.ActionUsageImpl;
 
+import adapters.actions.ActionDefinitionAdapter;
+import adapters.actions.ActionDefinitionAdapterRegistry;
 import adapters.actions.ActionUsageAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
 import interfaces.nodes.IFlow;
@@ -26,6 +28,7 @@ class ActionUsageAdapterTest {
 
     private static SysMLV2Spec spec;
     private static Namespace rootNamespace;
+    private static ActionDefinitionAdapterRegistry registry;
 
     @BeforeAll
     static void init() throws IOException {
@@ -33,11 +36,13 @@ class ActionUsageAdapterTest {
         spec.parseFile("control/ForkJoinExample.sysml");
         rootNamespace = (Namespace) spec.getRootNamespace();
         assertNotNull(rootNamespace, "Namespace raiz não deve ser nulo");
+        
+        registry = new ActionDefinitionAdapterRegistry(rootNamespace);
+        assertNotNull(registry, "Registry não deve ser nulo");
     }
 
     // Utils (consegui filtrar para apenas instâncias exatas de ActionUsage)
     private void collectAllActionUsages(Element elt, List<ActionUsage> out) {
-        if (elt == null) return;
 
         if (elt.getClass().equals(ActionUsageImpl.class)) {
             out.add((ActionUsage) elt);
@@ -113,6 +118,12 @@ class ActionUsageAdapterTest {
 
         ActionUsageAdapter adapter =
                 new ActionUsageAdapter(action);
+        
+        System.out.println("Exemplo");
+        ActionDefinitionAdapter def = registry.getById(action.getActionDefinition().getFirst().getElementId());
+        for (IParameter parameter : def.getParameters()) {
+        	System.out.println(parameter.getDirection() + " " + parameter.getDeclaredName());
+        }
 
         assertEquals("monitorBrakePedal",
                 adapter.getDeclaredName());
@@ -234,13 +245,16 @@ class ActionUsageAdapterTest {
 
         assertFalse(actionUsages.isEmpty(),
                 "Nenhuma ActionUsage encontrada no modelo");
+        
+        //for (ActionUsage au : actionUsages) {
+        //	System.out.println(au.getDeclaredName());
+        //}
 
         for (ActionUsage actionUsage : actionUsages) {
 
             ActionUsageAdapter adapter =
                     new ActionUsageAdapter(actionUsage);
-
-            // Tests
+       
             
             // Print
             System.out.println("\n=== Testing ActionUsage for: " + adapter.getDeclaredName() + " ===");
@@ -266,7 +280,7 @@ class ActionUsageAdapterTest {
             if (adapter.getOutputs().length != 0) {
             	System.out.println("Outputs:");
                 for (IParameter p : adapter.getOutputs()) {
-                    System.out.println(
+                   System.out.println(
                         (p.getDirection() != null ? p.getDirection() : "<null>") + " " +
                         (p.getDeclaredName() != null ? p.getDeclaredName() : "<null>")
                     );

@@ -8,11 +8,10 @@ import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
-import adapters.actions.SuccessionAdapter;
 import adapters.utils.AdapterUtils;
 import adapters.utils.NamedElementAdapter;
-import interfaces.actions.ISuccession;
 import interfaces.nodes.INode;
+import interfaces.nodes.ISuccession;
 
 public class NodeAdapter extends NamedElementAdapter implements INode {
 
@@ -28,6 +27,14 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
         ArrayList<ISuccession> incomingList = new ArrayList<>();
         ArrayList<ISuccession> outgoingList = new ArrayList<>();
         // node.getName equals start, containerNamespace equals Action -> extrair start
+        // Tratar nós "sintéticos"
+        if (!(nodeElement.getOwner() instanceof Namespace)) {
+            this.incomings = new ISuccession[0];
+            this.outgoings = new ISuccession[0];
+            return;
+        }
+
+        
         for (Element elem : containerNamespace.getOwnedMember()) {
 
             // Caso 1: SuccessionAsUsage direto

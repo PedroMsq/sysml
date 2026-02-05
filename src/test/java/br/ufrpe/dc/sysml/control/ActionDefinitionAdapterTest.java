@@ -27,7 +27,7 @@ class ActionDefinitionAdapterTest {
 
     private static SysMLV2Spec spec;
     private static Namespace rootNamespace;
-    //private static ActionDefinitionAdapterRegistry registry;
+    private static ActionDefinitionAdapterRegistry registry;
 
     @BeforeAll
     static void init() throws IOException {
@@ -36,24 +36,24 @@ class ActionDefinitionAdapterTest {
         rootNamespace = (Namespace) spec.getRootNamespace();
         assertNotNull(rootNamespace, "Namespace não deve ser nulo");
         
-        ActionDefinitionAdapterRegistry registry = new ActionDefinitionAdapterRegistry(rootNamespace);
+        registry = new ActionDefinitionAdapterRegistry(rootNamespace);
         assertNotNull(registry, "Registry não deve ser nulo");
     }
 
     // Utils
-    private void collectAllActionDefinitions(Element elt, List<ActionDefinition> out) {
-        if (elt == null) return;
-
-        if (elt instanceof ActionDefinition ad) {
-            out.add(ad);
-        }
-
-        if (elt instanceof Namespace ns) {
-            for (Element member : ns.getOwnedMember()) {
-                collectAllActionDefinitions(member, out);
-            }
-        }
-    }
+//    private void collectAllActionDefinitions(Element elt, List<ActionDefinition> out) {
+//        if (elt == null) return;
+//
+//        if (elt instanceof ActionDefinition ad) {
+//            out.add(ad);
+//        }
+//
+//        if (elt instanceof Namespace ns) {
+//            for (Element member : ns.getOwnedMember()) {
+//                collectAllActionDefinitions(member, out);
+//            }
+//        }
+//    }
     
     // Busca recursiva genérica por nome e tipo
     private static <T extends Element> Optional<T> findElementByNameRecursive(
@@ -103,51 +103,49 @@ class ActionDefinitionAdapterTest {
         return sb.toString();
     }
     
-    private static ActionUsage findFirstActionUsage(Element element) {
-
-        if (element instanceof ActionUsage au) {
-            return au;
-        }
-
-        if (element instanceof Namespace ns) {
-            for (Element member : ns.getOwnedMember()) {
-                ActionUsage found = findFirstActionUsage(member);
-                if (found != null) {
-                    return found;
-                }
-            }
-        }
-
-        return null;
-    }
+//    private static ActionUsage findFirstActionUsage(Element element) {
+//
+//        if (element instanceof ActionUsage au) {
+//            return au;
+//        }
+//
+//        if (element instanceof Namespace ns) {
+//            for (Element member : ns.getOwnedMember()) {
+//                ActionUsage found = findFirstActionUsage(member);
+//                if (found != null) {
+//                    return found;
+//                }
+//            }
+//        }
+//
+//        return null;
+//    }
 
     
-    // Tests
+    // Tests-------------------------------------------------------------
     @Test
-    void shouldResolveActionDefinitionFromActionUsage() {
+    void testRegistry() {
 
-        // 1. Encontra uma ActionUsage qualquer no modelo
-        ActionUsage usage = findFirstActionUsage(rootNamespace);
-        assertNotNull(usage, "ActionUsage não deveria ser nula");
-        System.out.println(usage.getElementId());
-
-        // 2. Obtém a ActionDefinition associada à usage
-        ActionDefinition definition = (ActionDefinition) usage.getActionDefinition().getFirst();
-        assertNotNull(definition, "ActionUsage deve referenciar uma ActionDefinition");
-        System.out.println(definition.getDeclaredName());
-
-        String definitionId = definition.getElementId();
-        assertNotNull(definitionId, "ActionDefinition deve ter elementId");
-        System.out.println(definitionId);
+//        // 1. Encontra uma ActionUsage qualquer no modelo
+//        ActionUsage usage = findFirstActionUsage(rootNamespace);
+//        assertNotNull(usage, "ActionUsage não deveria ser nula");
+//        System.out.println(usage.getElementId());
+//
+//        // 2. Obtém a ActionDefinition associada à usage
+//        ActionDefinition definition = (ActionDefinition) usage.getActionDefinition().getFirst();
+//        assertNotNull(definition, "ActionUsage deve referenciar uma ActionDefinition");
+//        System.out.println(definition.getDeclaredName());
+//
+//        String definitionId = definition.getElementId();
+//        assertNotNull(definitionId, "ActionDefinition deve ter elementId");
+//        System.out.println(definitionId);
         
-        List<ActionDefinition> actionDefs = new ArrayList<>();
-        collectAllActionDefinitions(rootNamespace, actionDefs);
-
-        assertFalse(actionDefs.isEmpty(),
-                "Nenhuma ActionDefinition encontrada no modelo");
-
-        ActionDefinitionAdapterRegistry registry = new ActionDefinitionAdapterRegistry(rootNamespace);
-        registry.collectAllActionDefinitions(definition, actionDefs);
+        System.out.println(registry.getByDeclaredName("MonitorTraction").get(0).getID());
+        for (INode node : registry.getByDeclaredName("Brake").get(0).getNodes()) {
+        	System.out.println(node.getDeclaredName());
+        }
+        System.out.println();
+        
         for (ActionDefinitionAdapter ad : registry.getAll()) {
         	System.out.println(ad.getDeclaredName());
         	System.out.println(ad.getID());
@@ -165,8 +163,7 @@ class ActionDefinitionAdapterTest {
                 new AssertionError(
                     "ActionDefinition 'MonitorBrakePedal' não encontrada"));
 
-        //ActionDefinitionAdapter adapter = registry.getById(def.getElementId());
-        ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = registry.getById(def.getElementId());
 
         assertEquals("MonitorBrakePedal",
                 adapter.getDeclaredName());
@@ -206,8 +203,8 @@ class ActionDefinitionAdapterTest {
                 new AssertionError(
                     "ActionDefinition 'MonitorTraction' não encontrada"));
 
-        ActionDefinitionAdapter adapter =
-                new ActionDefinitionAdapter(def);
+        //ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = registry.getById(def.getElementId());
 
         assertEquals("MonitorTraction",
                 adapter.getDeclaredName());
@@ -246,8 +243,8 @@ class ActionDefinitionAdapterTest {
                 new AssertionError(
                     "ActionDefinition 'Braking' não encontrada"));
 
-        ActionDefinitionAdapter adapter =
-                new ActionDefinitionAdapter(def);
+        //ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = registry.getById(def.getElementId());
 
         assertEquals("Braking",
                 adapter.getDeclaredName());
@@ -289,8 +286,8 @@ class ActionDefinitionAdapterTest {
                 new AssertionError(
                     "ActionDefinition 'Brake' não encontrada"));
 
-        ActionDefinitionAdapter adapter =
-                new ActionDefinitionAdapter(def);
+        //ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(def);
+        ActionDefinitionAdapter adapter = registry.getById(def.getElementId());
 
         assertEquals("Brake",
                 adapter.getDeclaredName());
@@ -316,16 +313,15 @@ class ActionDefinitionAdapterTest {
     
     @Test
     void testActionDefinitionAdaptersStructureAndConsistency() {
-        List<ActionDefinition> actionDefs = new ArrayList<>();
-        collectAllActionDefinitions(rootNamespace, actionDefs);
+        //List<ActionDefinition> actionDefs = new ArrayList<>();
+        //collectAllActionDefinitions(rootNamespace, actionDefs);
 
-        assertFalse(actionDefs.isEmpty(),
-                "Nenhuma ActionDefinition encontrada no modelo");
+        assertFalse(registry.getAll().isEmpty(), "Nenhuma ActionDefinition encontrada no modelo");
 
-        for (ActionDefinition actionDef : actionDefs) {
+        for (ActionDefinitionAdapter adapter : registry.getAll()) {
 
-            ActionDefinitionAdapter adapter =
-                    new ActionDefinitionAdapter(actionDef);
+            //ActionDefinitionAdapter adapter = new ActionDefinitionAdapter(actionDef);
+        	//ActionDefinitionAdapter adapter = registry.getById(actionDef.getElementId());
             
             // Nome
             assertNotNull(adapter.getDeclaredName(),
@@ -431,7 +427,7 @@ class ActionDefinitionAdapterTest {
             
             
             // Print
-            /*
+            
             System.out.println("\n=== Testing ActionDefinitionAdapter for: " + adapter.getDeclaredName() + " ===");
     		System.out.println("Parameters:");
     		if (adapter.getParameters().length != 0) {
@@ -462,7 +458,7 @@ class ActionDefinitionAdapterTest {
     		} else {
     			System.out.println("<no-nodes>");
     		} 
-    		*/
+    		
         }
     }    
 }

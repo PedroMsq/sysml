@@ -19,7 +19,7 @@ import adapters.utils.ParameterAdapter;
 import adapters.nodes.ControlNodeAdapter;
 import adapters.nodes.FlowUsageAdapter;
 
-import interfaces.actions.IActionDefinition;
+import interfaces.structure.IActionDefinition;
 import interfaces.nodes.IFlow;
 import interfaces.nodes.INode;
 import interfaces.utils.IParameter;
@@ -93,7 +93,7 @@ public class ActionDefinitionAdapter extends NamedElementAdapter implements IAct
         }
         
         for (INode node : nodeList) {
-        	if (node instanceof IParameter && owners.containsKey(node.getID())) { // nÃ£o aciona
+        	if (node instanceof IParameter && owners.containsKey(node.getID())) {
         		for (INode possibleOwner : nodeList) {
         			if (possibleOwner.getID().equals(owners.get(node.getID())) &&
         				possibleOwner instanceof ActionUsageAdapter) {
