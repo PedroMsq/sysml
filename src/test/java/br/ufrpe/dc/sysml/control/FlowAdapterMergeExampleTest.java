@@ -17,10 +17,10 @@ import org.omg.sysml.lang.sysml.Feature;
 import org.omg.sysml.lang.sysml.FlowUsage;
 import org.omg.sysml.lang.sysml.Namespace;
 
-import adapters.nodes.FlowUsageAdapter;
+import adapters.behavior.actions.nodes.FlowUsageAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
-import interfaces.nodes.IFlowEnd;
-import interfaces.structure.IItemUsage;
+import interfaces.behavior.IItemUsage;
+import interfaces.behavior.actions.nodes.IFlowEnd;
 
 public class FlowAdapterMergeExampleTest {
 

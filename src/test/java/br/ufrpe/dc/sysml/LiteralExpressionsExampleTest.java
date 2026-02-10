@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.*;
 
-import adapters.expressions.ExpressionAdapter;
-import adapters.attributes.AttributeUsageAdapter;
+import adapters.structures.attributes.AttributeUsageAdapter;
+import adapters.structures.expressions.ExpressionAdapter;
 
 class LiteralExpressionsExampleTest{
 

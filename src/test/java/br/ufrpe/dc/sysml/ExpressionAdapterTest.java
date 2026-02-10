@@ -1,14 +1,13 @@
 package br.ufrpe.dc.sysml;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.*;
 
-import adapters.expressions.*;
+import adapters.structures.expressions.ExpressionAdapter;
+import adapters.structures.expressions.LiteralExpressionAdapter;
 
 class ExpressionAdapterTest {
 

@@ -14,12 +14,12 @@ import org.omg.sysml.lang.sysml.ActionUsage;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
 
-import adapters.actions.ActionDefinitionAdapter;
-import adapters.actions.ActionDefinitionAdapterRegistry;
+import adapters.behavior.actions.ActionDefinitionAdapter;
+import adapters.behavior.actions.ActionDefinitionAdapterRegistry;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
-import interfaces.nodes.IFlow;
-import interfaces.nodes.IFlowEnd;
-import interfaces.nodes.INode;
+import interfaces.behavior.actions.nodes.IFlow;
+import interfaces.behavior.actions.nodes.IFlowEnd;
+import interfaces.behavior.actions.nodes.INode;
 import interfaces.utils.INamedElement;
 import interfaces.utils.IParameter;
 

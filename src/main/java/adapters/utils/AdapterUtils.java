@@ -7,10 +7,10 @@ import org.omg.sysml.lang.sysml.ControlNode;
 import org.omg.sysml.lang.sysml.FlowUsage;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
-import adapters.actions.SuccessionAdapter;
-import adapters.nodes.NodeAdapter;
-import interfaces.nodes.INode;
-import interfaces.nodes.ISuccession;
+import adapters.behavior.actions.SuccessionAdapter;
+import adapters.behavior.actions.nodes.NodeAdapter;
+import interfaces.behavior.actions.ISuccession;
+import interfaces.behavior.actions.nodes.INode;
 
 public class AdapterUtils {
 	public static enum FlowType { Succession_As_Usage, Flow_Usage }

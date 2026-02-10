@@ -9,7 +9,7 @@ import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.StateUsage;
 
-import adapters.states.StateUsageAdapter;
+import adapters.behavior.states.StateUsageAdapter;
 
 class BatteryStateAdapterTest {
 

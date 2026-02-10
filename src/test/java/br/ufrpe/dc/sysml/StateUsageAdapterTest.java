@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.Namespace;
 import org.omg.sysml.lang.sysml.StateUsage;
 
-import adapters.states.StateUsageAdapter;
+import adapters.behavior.states.StateUsageAdapter;
 
 //import java.util.List;
 

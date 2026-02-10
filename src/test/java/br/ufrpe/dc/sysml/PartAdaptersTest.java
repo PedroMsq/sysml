@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.*;
 
-import adapters.parts.PartDefinitionAdapter;
-import adapters.parts.PartUsageAdapter;
+import adapters.structures.parts.PartDefinitionAdapter;
+import adapters.structures.parts.PartUsageAdapter;
 
 
 class PartAdaptersTest {

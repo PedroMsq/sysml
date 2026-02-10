@@ -15,7 +15,7 @@ import org.omg.sysml.lang.sysml.JoinNode;
 import org.omg.sysml.lang.sysml.MergeNode;
 import org.omg.sysml.lang.sysml.Namespace;
 
-import adapters.nodes.ControlNodeAdapter;
+import adapters.behavior.actions.nodes.ControlNodeAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
 
 public class ControlNodeAdapterTest {
