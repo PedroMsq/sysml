@@ -6,13 +6,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+		<relativePath/> </parent>
 	<groupId>br.ufrpe.dc</groupId>
 	<artifactId>sysml</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sysml-parser</name>
-	<description>sysml parser with Spring Boot </description>
+	<description>sysml parser with Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -26,19 +25,24 @@
 		<tag/>
 		<url/>
 	</scm>
+
 	<properties>
-		<lib-systemPath>C:\dev\sysml-lib3.jar</lib-systemPath>
-		<java.version>21</java.version>
+		<java.version>23</java.version>
 		<spring-cloud.version>2024.0.0</spring-cloud.version>
+		<sysml.version>0.56.0-SNAPSHOT</sysml.version> 
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>github-sysml</id>
+			<url>https://maven.pkg.github.com/Systems-Modeling/SysML-v2-Pilot-Implementation</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
-		<dependency>
-			<groupId>sysml.lib</groupId>
-			<artifactId>lib</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${lib-systemPath}</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -68,7 +72,11 @@
 		    <artifactId>spring-boot-configuration-processor</artifactId>
 		    <optional>true</optional>
 		</dependency>
-		<!-- Dependências do SysML -->
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite</artifactId>
+		    <scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
@@ -85,10 +93,62 @@
 			<artifactId>org.eclipse.uml2.common</artifactId>
 			<version>1.5.0.v201005031530</version>
 		</dependency>
+
 		<dependency>
-		    <groupId>org.junit.platform</groupId>
-		    <artifactId>junit-platform-suite</artifactId>
-		    <scope>test</scope>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.sysml</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.expressions.xtext</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.expressions.xtext.ide</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.expressions.xtext.ui</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.xtext</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.xtext.ide</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.kerml.xtext.ui</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.sysml.xtext</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.sysml.xtext.ide</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.omg.sysml</groupId>
+			<artifactId>org.omg.sysml.xtext.ui</artifactId>
+			<version>${sysml.version}</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>org.omg.sysml</groupId>
+  			<artifactId>org.omg.sysml.interactive</artifactId>
+  			<version>${sysml.version}</version>
 		</dependency>
 	</dependencies>
 	
@@ -130,21 +190,19 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-shade-plugin</artifactId>
-       <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          <configuration>
-            </configuration>
-        </execution>
-      </executions>
-    </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration></configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

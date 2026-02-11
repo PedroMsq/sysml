@@ -21,42 +21,51 @@ public class SysMLV2ActionSemantics implements SemanticRelation<Element,SysMLV2C
 		act = def;
 	}
 	
+	// Obter InitialNode
 	@Override
     public List<SysMLV2Configuration> initial() {
 		
 		List<SuccessionAsUsage> initSucc = new ArrayList<SuccessionAsUsage>();
+		// Navega pelos elements pertencentes a ActionDefinition
 		for (Element elem : act.getOwnedElement()) {
 			if (elem instanceof SuccessionAsUsage) {
+				// Dado que se trata de uma SuccessionAsUsage, realiza um cast e busca o source de cada element
 				SuccessionAsUsage s = (SuccessionAsUsage) elem;
 				EList<Element> source = s.getSource();
 				for (Element node : source) {
+					// Procura pelo start para que seja adicionado na lista
 					if (node.getDeclaredName().equals("start")) {
 						initSucc.add(s);
 					}
 				}
 			}
 		}
-		
+		// Retorna uma lista com uma nova configuração baseada no InitialNode encontrado
 		return List.of(new SysMLV2Configuration(initSucc));
     }
 
+	// Dado uma configuration, retorna um lista de elementos coletados a partir das successions.
     @Override
     public List<Element> actions(SysMLV2Configuration configuration) {
     	List<SuccessionAsUsage> successions = configuration.successions;
     	
+    	// Verifica se existe apenas um target
     	List<Element> elems = new ArrayList<Element>();
     	for (SuccessionAsUsage successionAsUsage : successions) {
 			assert (successionAsUsage.getTarget().size() ==  1);
 			
+			// Após verificar, recebe o target e sumona checkIncomingSuccession
 			Element first = successionAsUsage.getTarget().getFirst();
 			if (checkIncomingSuccessions(first, successions)) {
 				elems.add(successionAsUsage.getTarget().getFirst());
 			}    
   
 		}
+    	// Retorna os elementos obtidos
         return elems;
     }
 
+    // Recebe o target de uma succession e lista de successions e confirma se existem incoming successions
     private boolean checkIncomingSuccessions(Element first, List<SuccessionAsUsage> successions) {
 		//TODO Add code to check if the succession guards are true to consider them traversable
     	NodeAdapter nodeAd = new NodeAdapter(first);
@@ -80,10 +89,7 @@ public class SysMLV2ActionSemantics implements SemanticRelation<Element,SysMLV2C
 		configuration = configuration.clone();
 		System.out.println("Node name: " + node.getDeclaredName());
 		
-		
-		
 		NodeAdapter nodeAd = new NodeAdapter(node);
-		
 		
 		ISuccession[] incomings = nodeAd.getIncomings();
 		List<SuccessionAsUsage> newList = new ArrayList<SuccessionAsUsage>();
@@ -92,7 +98,6 @@ public class SysMLV2ActionSemantics implements SemanticRelation<Element,SysMLV2C
 				if (!iSuccession.getID().equals(type.getElementId())) {
 					newList.add(type);
 				}
-				
 			}
 		}
 		

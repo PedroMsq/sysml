@@ -19,7 +19,6 @@ import org.omg.sysml.lang.sysml.Namespace;
 
 import adapters.behavior.actions.nodes.FlowUsageAdapter;
 import br.ufrpe.dc.sysml.SysMLV2Spec;
-import interfaces.behavior.IItemUsage;
 import interfaces.behavior.actions.nodes.IFlowEnd;
 
 public class FlowAdapterMergeExampleTest {

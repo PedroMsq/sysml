@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
+// Configuration de um determinado element, armazena as successions
 public class SysMLV2Configuration {
 	public List<SuccessionAsUsage> successions;
 	

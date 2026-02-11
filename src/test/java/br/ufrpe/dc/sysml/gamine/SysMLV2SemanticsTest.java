@@ -1,5 +1,7 @@
 package br.ufrpe.dc.sysml.gamine;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.omg.sysml.lang.sysml.ActionDefinition;
@@ -17,9 +19,14 @@ class SysMLV2SemanticsTest {
 	private static SysMLV2Spec spec;
 	private static Namespace rootNamespace;
 
+	// Um arquivo por teste ou todos usam o mesmo arquivo?
 	@BeforeAll
 	static void init() {
-
+//		spec = new SysMLV2Spec();
+//	    spec.parseFile("behavior/SimpleSuccession.sysml");
+//	    rootNamespace = (Namespace) spec.getRootNamespace();
+//	    System.out.println("SimpleSuccession.sysml");
+//	    assertNotNull(rootNamespace, "Namespace não deve ser nulo");
 	}
 
 	@Test
