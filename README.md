@@ -18,7 +18,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento corretamente
 
 ## 2. Configuração de Propriedades
 
-- Edite o arquivo src/main/resources/application.properties com os caminhos da sua máquina:
+- Edite o arquivo `src/main/resources/application.properties` com os caminhos da sua máquina:
 ```properties 
 # Caminho absoluto até a pasta de modelos do projeto
 app.baseFilePath=C:/.../sysml/src/main/java/sysml
