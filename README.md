@@ -29,7 +29,7 @@ app.systemLibPath=C:/.../SySML-v2-Pilot-Implementation/sysml.library
 
 ## 3. Autenticação GitHub Packages (settings.xml)
 
-Para baixar as dependências do SysML v2, você precisa configurar o Maven para acessar o GitHub Packages:
+Para baixar as dependências do SysML v2 e do OBP3, você precisa configurar o Maven para acessar o GitHub Packages:
 - Gere um Personal Access Token (classic) no GitHub com a permissão read:packages.
 - Localize ou crie o arquivo settings.xml em `C:\Users\SEU_USER\.m2\`
 - Adicione a configuração de servidor com suas credenciais:
@@ -55,8 +55,8 @@ Para baixar as dependências do SysML v2, você precisa configurar o Maven para 
 ```
 
 ## 4. Atualização do Projeto
-Após configurar o settings.xml e o pom.xml:
+Após configurar o settings.xml e o application.properties:
 - Remova o arquivo sysml-lib3.jar da pasta /lib (caso exista).
-- No Eclipse (ou sua IDE), clique com o botão direito no projeto.
-Vá em Maven > Update Project...
-Marque a opção Force Update of Snapshots/Releases e clique em OK.
+- No Eclipse, clique com o botão direito no projeto.
+- Vá em Maven > Update Project...
+- Marque a opção Force Update of Snapshots/Releases e clique em OK.
