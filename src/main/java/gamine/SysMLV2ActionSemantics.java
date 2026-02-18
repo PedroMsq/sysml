@@ -27,7 +27,7 @@ public class SysMLV2ActionSemantics implements SemanticRelation<Element, SysMLV2
         act = def;
         // 
     }
-    
+    //
     // recebe o actionUsageAdapter
     // acessar o ActionDefinitionAdapter desse ActionUsage com base no getActionDefinition() para em seguida executar o que existir
     @Override
