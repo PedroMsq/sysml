@@ -1,7 +1,6 @@
 package adapters.behavior.actions.nodes;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.Namespace;
@@ -9,6 +8,8 @@ import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 import org.omg.sysml.lang.sysml.TransitionUsage;
 
 import adapters.utils.AdapterUtils;
+import adapters.utils.InitialNode;
+import adapters.utils.FinalNode;
 import adapters.utils.NamedElementAdapter;
 import interfaces.behavior.actions.ISuccession;
 import interfaces.behavior.actions.nodes.INode;
@@ -21,91 +22,53 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
 
     public NodeAdapter(Element nodeElement) {
         super(nodeElement);
-        Namespace containerNamespace = (Namespace) nodeElement.getOwner();
         this.nodeElement = nodeElement;
 
+        Namespace containerNamespace = (Namespace) nodeElement.getOwner();
         ArrayList<ISuccession> incomingList = new ArrayList<>();
         ArrayList<ISuccession> outgoingList = new ArrayList<>();
-        // node.getName equals start, containerNamespace equals Action -> extrair start
-        // Tratar nós "sintéticos"
-        if (nodeElement.getOwner() == null) {
-            this.incomings = new ISuccession[0];
-            this.outgoings = new ISuccession[0];
-            return;
-        }
         
         for (Element elem : containerNamespace.getOwnedMember()) {
 
             // Caso 1: SuccessionAsUsage direto
             if (elem instanceof SuccessionAsUsage su) {
-
-                for (Element tgt : su.getTarget()) {
-                	if (nodeElement.getElementId() != null) {
-                		if (nodeElement.getElementId().equals(tgt.getElementId())) {
-                            incomingList.add(
-                                AdapterUtils.setSuccession(
-                                    su,
-                                    "target",
-                                    this
-                                )
-                            );
+            	if (nodeElement.getElementId() != null) {
+            		for (Element tgt : su.getTarget()) {
+                        if (nodeElement.getElementId().equals(tgt.getElementId())) {
+                            incomingList.add(AdapterUtils.setSuccession(su, "target", this));
                         }
-                	}
-                }
-                for (Element src : su.getSource()) {
-                	if (nodeElement.getElementId() != null) {
-                		if (nodeElement.getElementId().equals(src.getElementId())) {
-                            outgoingList.add(
-                                AdapterUtils.setSuccession(
-                                    su,
-                                    "source",
-                                    this
-                                )
-                            );
+                    }
+                    for (Element src : su.getSource()) {
+                        if (nodeElement.getElementId().equals(src.getElementId())) {
+                            outgoingList.add(AdapterUtils.setSuccession(su, "source", this));
                         }
-                	}
-                }
+                    }
+            	}
             }
 
             // Caso 2: SuccessionAsUsage dentro de TransitionUsage
             if (elem instanceof TransitionUsage tu) {
-            	
-                for (Element sub : tu.getOwnedMember()) {
-                    if (!(sub instanceof SuccessionAsUsage su)) continue;
+            	if (nodeElement.getElementId() != null) {
+            		for (Element sub : tu.getOwnedMember()) {
+                        if (!(sub instanceof SuccessionAsUsage su)) continue;
 
-                    for (Element tgt : su.getTarget()) {
-                    	if (nodeElement.getElementId() != null) {
-                    		if (nodeElement.getElementId().equals(tgt.getElementId())) {
-                                incomingList.add(
-                                    AdapterUtils.setSuccession(
-                                        su,
-                                        "target",
-                                        this
-                                    )
-                                );
+                        for (Element tgt : su.getTarget()) {
+                            if (nodeElement.getElementId().equals(tgt.getElementId())) {
+                                incomingList.add(AdapterUtils.setSuccession(su, "target", this));
                             }
-                    	}
-                    }
-                    for (Element src : su.getSource()) {
-                    	if (nodeElement.getElementId() != null) {
-                    		if (nodeElement.getElementId().equals(src.getElementId())) {
-                                outgoingList.add(
-                                    AdapterUtils.setSuccession(
-                                        su,
-                                        "source",
-                                        this
-                                    )
-                                );
+                        }
+                        for (Element src : su.getSource()) {
+                            if (nodeElement.getElementId().equals(src.getElementId())) {
+                                outgoingList.add(AdapterUtils.setSuccession(su, "source", this));
                             }
-                    	}
+                        }
                     }
-                }
+            	}
             }
         }
 
         this.incomings = incomingList.toArray(new ISuccession[0]);
         this.outgoings = outgoingList.toArray(new ISuccession[0]);
-        
     }
 
     @Override
@@ -119,11 +82,10 @@ public class NodeAdapter extends NamedElementAdapter implements INode {
     }
     
     @Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeAdapter that = (NodeAdapter) o;
         return this.getID().equals(that.getID());
-	}
-
+    }
 }

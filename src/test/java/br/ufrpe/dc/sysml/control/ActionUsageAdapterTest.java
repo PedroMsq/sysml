@@ -237,7 +237,6 @@ class ActionUsageAdapterTest {
         		"braking não deve possuir nodes");
     }
     
-    
     @Test
     void testActionUsageAdaptersStructureAndConsistency() {
         List<ActionUsage> actionUsages = new ArrayList<>();
@@ -245,16 +244,10 @@ class ActionUsageAdapterTest {
 
         assertFalse(actionUsages.isEmpty(),
                 "Nenhuma ActionUsage encontrada no modelo");
-        
-        //for (ActionUsage au : actionUsages) {
-        //	System.out.println(au.getDeclaredName());
-        //}
 
         for (ActionUsage actionUsage : actionUsages) {
 
-            ActionUsageAdapter adapter =
-                    new ActionUsageAdapter(actionUsage);
-       
+            ActionUsageAdapter adapter = new ActionUsageAdapter(actionUsage);
             
             // Print
             System.out.println("\n=== Testing ActionUsage for: " + adapter.getDeclaredName() + " ===");

@@ -2,116 +2,191 @@ package gamine;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.omg.sysml.lang.sysml.ActionDefinition;
+import org.omg.sysml.lang.sysml.ActionUsage;
+import org.omg.sysml.lang.sysml.ControlNode;
 import org.omg.sysml.lang.sysml.Element;
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
-
+import org.omg.sysml.lang.sysml.impl.ActionUsageImpl;
+import org.omg.sysml.lang.sysml.ForkNode;
+import org.omg.sysml.lang.sysml.JoinNode;
+import org.omg.sysml.lang.sysml.DecisionNode;
+import org.omg.sysml.lang.sysml.MergeNode;
 import adapters.behavior.actions.nodes.NodeAdapter;
 import gamine.domain.SysMLV2Configuration;
 import interfaces.behavior.actions.ISuccession;
 import obp3.runtime.sli.SemanticRelation;
 
-public class SysMLV2ActionSemantics implements SemanticRelation<Element,SysMLV2Configuration> {
+public class SysMLV2ActionSemantics implements SemanticRelation<Element, SysMLV2Configuration> {
     
-	ActionDefinition act;
-	
-	public SysMLV2ActionSemantics(ActionDefinition def) {
-		act = def;
-	}
-	
-	// Obter InitialNode
-	@Override
+    ActionDefinition act;
+    // ActionUsageAdapter actionUsageAdapter
+    
+    public SysMLV2ActionSemantics(ActionDefinition def) {
+        act = def;
+        // 
+    }
+    
+    // recebe o actionUsageAdapter
+    // acessar o ActionDefinitionAdapter desse ActionUsage com base no getActionDefinition() para em seguida executar o que existir
+    @Override
     public List<SysMLV2Configuration> initial() {
-		
-		List<SuccessionAsUsage> initSucc = new ArrayList<SuccessionAsUsage>();
-		// Navega pelos elements pertencentes a ActionDefinition
-		for (Element elem : act.getOwnedElement()) {
-			if (elem instanceof SuccessionAsUsage) {
-				// Dado que se trata de uma SuccessionAsUsage, realiza um cast e busca o source de cada element
-				SuccessionAsUsage s = (SuccessionAsUsage) elem;
-				EList<Element> source = s.getSource();
-				for (Element node : source) {
-					// Procura pelo start para que seja adicionado na lista
-					if (node.getDeclaredName().equals("start")) {
-						initSucc.add(s);
-					}
-				}
-			}
-		}
-		// Retorna uma lista com uma nova configuração baseada no InitialNode encontrado
-		return List.of(new SysMLV2Configuration(initSucc));
+        List<SuccessionAsUsage> initSucc = new ArrayList<>();
+        for (Element elem : act.getOwnedElement()) {
+            if (elem instanceof SuccessionAsUsage s) {
+                EList<Element> source = s.getSource();
+                for (Element node : source) {
+                    if (node.getDeclaredName() != null && 
+                        node.getDeclaredName().equals("start")) {
+                        initSucc.add(s);
+                    }
+                }
+            }
+        }
+        return List.of(new SysMLV2Configuration(initSucc));
+    }
+    
+    // Conta quantas incoming successions estão na configuração atual
+    private int countAvailableIncomings(ISuccession[] incomings, List<SuccessionAsUsage> successions) {
+        int count = 0;
+        for (ISuccession incoming : incomings) {
+            for (SuccessionAsUsage succession : successions) {
+                if (incoming.getID().equals(succession.getElementId())) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
-	// Dado uma configuration, retorna um lista de elementos coletados a partir das successions.
+    // Verifica se um nó está habilitado para execução baseado em sua semântica
+    private boolean isEnabled(Element node, List<SuccessionAsUsage> currentSuccessions) {
+        NodeAdapter nodeAdapter = new NodeAdapter(node);
+        ISuccession[] incomings = nodeAdapter.getIncomings();
+        
+        // Conta quantas incoming successions estão na configuração atual
+        int availableIncomings = countAvailableIncomings(incomings, currentSuccessions);
+        
+        // Semântica baseada no tipo do nó
+        if (node instanceof JoinNode) {
+            // JoinNode: TODAS as incoming successions devem estar presentes
+            return availableIncomings == incomings.length;
+        } 
+        else if (node instanceof MergeNode || 
+                 node instanceof DecisionNode || 
+                 (node.getClass().equals(ActionUsageImpl.class))) {
+            // MergeNode, DecisionNode, ActionUsage 
+            return availableIncomings >= 1;
+        }
+        else if (node instanceof ForkNode) {
+            // ForkNode
+            return availableIncomings >= 1;
+        }
+        
+        // Default
+        return availableIncomings == incomings.length;
+    }
+    
     @Override
     public List<Element> actions(SysMLV2Configuration configuration) {
-    	List<SuccessionAsUsage> successions = configuration.successions;
-    	
-    	// Verifica se existe apenas um target
-    	List<Element> elems = new ArrayList<Element>();
-    	for (SuccessionAsUsage successionAsUsage : successions) {
-			assert (successionAsUsage.getTarget().size() ==  1);
-			
-			// Após verificar, recebe o target e sumona checkIncomingSuccession
-			Element first = successionAsUsage.getTarget().getFirst();
-			if (checkIncomingSuccessions(first, successions)) {
-				elems.add(successionAsUsage.getTarget().getFirst());
-			}    
-  
-		}
-    	// Retorna os elementos obtidos
-        return elems;
+        List<SuccessionAsUsage> successions = configuration.successions;
+        List<Element> enabledActions = new ArrayList<>();
+        
+        for (SuccessionAsUsage succession : successions) {
+            assert (succession.getTarget().size() == 1);
+            Element target = succession.getTarget().getFirst();
+            
+            if (isEnabled(target, successions)) {
+                if (!enabledActions.contains(target)) {
+                    enabledActions.add(target);
+                }
+            }
+        }
+        return enabledActions;
     }
 
-    // Recebe o target de uma succession e lista de successions e confirma se existem incoming successions
-    private boolean checkIncomingSuccessions(Element first, List<SuccessionAsUsage> successions) {
-		//TODO Add code to check if the succession guards are true to consider them traversable
-    	NodeAdapter nodeAd = new NodeAdapter(first);
-		ISuccession[] incomings = nodeAd.getIncomings();
-		int count = 0;
-		for (ISuccession iSuccession : incomings) {
-			for (SuccessionAsUsage iSuccession2 : successions) {
-				if (iSuccession.getID().equals(iSuccession2.getElementId())) {
-					count++;
-				}
-			}
-		}
-		if (incomings.length == count) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
+    // Remove as incoming successions que foram consumidas pela execução do nó
+    private void removeConsumedSuccessions(Element node, SysMLV2Configuration configuration, NodeAdapter nodeAdapter) {
+        ISuccession[] incomings = nodeAdapter.getIncomings();
+        List<SuccessionAsUsage> newList = new ArrayList<>();
+        
+        for (SuccessionAsUsage succession : configuration.successions) {
+            boolean shouldRemove = false;
+            
+            for (ISuccession incoming : incomings) {
+                if (incoming.getID().equals(succession.getElementId())) {
+                    shouldRemove = true;
+                }
+            }
+            if (!shouldRemove) {
+                newList.add(succession);
+            }
+        }
+        configuration.successions = newList;
+    }
+    
+    @Override
     public List<SysMLV2Configuration> execute(Element node, SysMLV2Configuration configuration) {
-		configuration = configuration.clone();
-		System.out.println("Node name: " + node.getDeclaredName());
-		
-		NodeAdapter nodeAd = new NodeAdapter(node);
-		
-		ISuccession[] incomings = nodeAd.getIncomings();
-		List<SuccessionAsUsage> newList = new ArrayList<SuccessionAsUsage>();
-		for (ISuccession iSuccession : incomings) {
-			for (SuccessionAsUsage type: configuration.successions) {
-				if (!iSuccession.getID().equals(type.getElementId())) {
-					newList.add(type);
-				}
-			}
-		}
-		
-		configuration.successions = newList;
-		for (Element elem : act.getOwnedElement()) {
-			if (elem instanceof SuccessionAsUsage) {
-				SuccessionAsUsage s = (SuccessionAsUsage) elem;
-				Element source = s.getSource().getFirst();
-				if (source == node) {
-					configuration.successions.add(s);
-				}
-			}
-		}
-		
-    	return List.of(configuration);
+        configuration = configuration.clone();
+        System.out.println("Node name: " + node.getDeclaredName());
+        
+        NodeAdapter nodeAdapter = new NodeAdapter(node);
+        
+        // Remove incoming successions consumidas
+        removeConsumedSuccessions(node, configuration, nodeAdapter);
+        
+        // Adiciona outgoing successions baseado no tipo do nó
+        addOutgoingSuccessions(node, configuration, nodeAdapter);
+        
+        return List.of(configuration);
+    }
+    
+    // Adiciona outgoing successions baseado na semântica do nó
+    private void addOutgoingSuccessions(Element node, SysMLV2Configuration configuration, NodeAdapter nodeAdapter) {
+        if (node instanceof DecisionNode) {
+            // DecisionNode: escolhe UMA outgoing succession baseado em condição
+            addDecisionNodeOutgoing(node, configuration);
+        } 
+        else {
+            // ForkNode, JoinNode, MergeNode, ActionUsage 
+            // adiciona TODAS as outgoing successions
+            addAllOutgoingSuccessions(node, configuration);
+        }
+    }
+
+    // Adiciona todas as outgoing successions de um nó
+    private void addAllOutgoingSuccessions(Element node, SysMLV2Configuration configuration) {
+        for (Element elem : act.getOwnedElement()) {
+            if (elem instanceof SuccessionAsUsage s) {
+                Element source = s.getSource().getFirst();
+                if (source == node) {
+                    configuration.successions.add(s);
+                }
+            }
+        }
+    }
+    
+    // Para DecisionNode escolhe uma outgoing succession
+    // TODO: Implementar lógica de avaliação de guards para escolher o branch correto
+    private void addDecisionNodeOutgoing(Element node, SysMLV2Configuration configuration) {
+        List<SuccessionAsUsage> outgoingSuccessions = new ArrayList<>();
+        
+        // Coleta todas as outgoing successions
+        for (Element elem : act.getOwnedElement()) {
+            if (elem instanceof SuccessionAsUsage s) {
+                Element source = s.getSource().getFirst();
+                if (source == node) {
+                    outgoingSuccessions.add(s);
+                }
+            }
+        }
+        if (!outgoingSuccessions.isEmpty()) {
+            SuccessionAsUsage chosen = outgoingSuccessions.get(0); // Escolhe a primeira
+            configuration.successions.add(chosen);
+            
+            System.out.println("DecisionNode branch: " + 
+                             chosen.getTarget().getFirst().getDeclaredName());
+        }
     }
 }

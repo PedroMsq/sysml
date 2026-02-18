@@ -22,22 +22,16 @@ class SysMLV2SemanticsTest {
 	// Um arquivo por teste ou todos usam o mesmo arquivo?
 	@BeforeAll
 	static void init() {
-//		spec = new SysMLV2Spec();
-//	    spec.parseFile("behavior/SimpleSuccession.sysml");
-//	    rootNamespace = (Namespace) spec.getRootNamespace();
-//	    System.out.println("SimpleSuccession.sysml");
-//	    assertNotNull(rootNamespace, "Namespace não deve ser nulo");
+		spec = new SysMLV2Spec();
+	    spec.parseFile("behavior/SimpleSuccession.sysml");
+	    rootNamespace = (Namespace) spec.getRootNamespace();
+	    System.out.println("SimpleSuccessions.sysml");
+	    assertNotNull(rootNamespace, "Namespace não deve ser nulo");
 	}
 
 	@Test
 	void test() {
-		spec = new SysMLV2Spec();
-		spec.parseFile("behavior/SimpleSuccession.sysml");
-		
-		System.out.println("SimpleSuccession.sysml");
-		rootNamespace = (Namespace) spec.getRootNamespace();
 		org.omg.sysml.lang.sysml.Element first = rootNamespace.getOwnedMember().getFirst();
-
 		ActionDefinition actDef = (ActionDefinition) first.getOwnedElement().getFirst();
 
 		SysMLV2ActionSemantics semantics = new SysMLV2ActionSemantics(actDef);
@@ -56,10 +50,6 @@ class SysMLV2SemanticsTest {
 	
 	@Test
 	void test2() {
-		spec = new SysMLV2Spec();
-		spec.parseFile("behavior/SimpleForkSuccession.sysml");
-		rootNamespace = (Namespace) spec.getRootNamespace();
-		System.out.println("SimpleForkSuccession.sysml");
 		org.omg.sysml.lang.sysml.Element first = rootNamespace.getOwnedMember().getFirst();
 
 		ActionDefinition actDef = (ActionDefinition) first.getOwnedElement().getFirst();
@@ -80,10 +70,6 @@ class SysMLV2SemanticsTest {
 	
 	@Test
 	void test3() {
-		spec = new SysMLV2Spec();
-		spec.parseFile("behavior/SimpleForkSuccession.sysml");
-		rootNamespace = (Namespace) spec.getRootNamespace();
-		System.out.println("SimpleForkSuccession.sysml");
 		org.omg.sysml.lang.sysml.Element first = rootNamespace.getOwnedMember().getFirst();
 
 		ActionDefinition actDef = (ActionDefinition) first.getOwnedElement().getFirst();

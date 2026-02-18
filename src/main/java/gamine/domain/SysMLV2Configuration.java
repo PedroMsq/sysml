@@ -2,32 +2,34 @@ package gamine.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.omg.sysml.lang.sysml.SuccessionAsUsage;
 
-// Configuration de um determinado element, armazena as successions
 public class SysMLV2Configuration {
 	public List<SuccessionAsUsage> successions;
+	// List<SuccessionAdapter> successions
 	
 	public SysMLV2Configuration(List<SuccessionAsUsage> succs) {
 		successions = succs;
 	}
 	
+	public SysMLV2Configuration clone() {
+	    return new SysMLV2Configuration(new ArrayList<>(this.successions));
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SysMLV2Configuration that = (SysMLV2Configuration) o;
-        return Objects.equals(successions, that.successions);
+	    if (!(o instanceof SysMLV2Configuration that)) return false;
+	    return successions.equals(that.successions);
 	}
 	
 	@Override
-	public int hashCode() {
-		return Objects.hashCode(successions);
-	}
+    public int hashCode() {
+        return successions.hashCode();
+    }
 	
-	public SysMLV2Configuration clone() {
-		return new SysMLV2Configuration(new ArrayList<SuccessionAsUsage>(successions));
-	}
+	@Override
+    public String toString() {
+        return "Configuration" + successions;
+    }
 }

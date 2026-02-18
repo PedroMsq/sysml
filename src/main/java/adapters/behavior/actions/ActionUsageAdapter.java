@@ -38,6 +38,10 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
 		ArrayList<INode> nodeList = new ArrayList<>();
 		ArrayList<IFlow> flowList = new ArrayList<>();
 		
+		if (actionUsage.getActionDefinition().getFirst() != null) {
+			this.actionDefinition = (ActionDefinition) actionUsage.getActionDefinition().getFirst();
+		}
+		
 		for (Element element : actionUsage.getOwnedMember()) {
 			
 			// Initial / Final via Succession
@@ -79,10 +83,6 @@ public class ActionUsageAdapter extends NodeAdapter implements IActionUsage {
         		flowList.add(new FlowUsageAdapter(fu));
         	}
         }
-		
-		if (actionUsage.getActionDefinition().getFirst() != null) {
-			this.actionDefinition = (ActionDefinition) actionUsage.getActionDefinition().getFirst();
-		}
 		
 		this.parameters = parameterList.toArray(new IParameter[0]);
 		this.nodes = nodeList.toArray(new INode[0]);
