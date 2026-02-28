@@ -1,62 +1,67 @@
 # SysML v2 Model Project
 
-Este projeto contém exemplos e modelos baseados em **SysML v2**, integrados com a **Pilot Implementation**. O foco é a modelagem de sistemas utilizando as especificações mais recentes da linguagem em ambiente Java.
+This project contains examples and models based on **SysML v2**, integrated with the **Pilot Implementation**. The main goal is system modeling using the latest language specifications within a Java environment.
 
-## 📂 Estrutura do Projeto
+## 📂 Project Structure
 
-Abaixo, a organização dos diretórios principais:
-- `src/main/java/sysml` : Local centralizado para os arquivos de modelos SysML v2.
-- `src/main/resources/application.properties` : Configurações de caminhos e propriedades de execução.
-- `pom.xml` : Gerenciamento de dependências via Maven.
+Below is the organization of the main directories:
+- `src/main/java/sysml` : Central location for SysML v2 model files.
+- `src/main/resources/application.properties` : Execution paths and configuration properties.
+- `pom.xml` : Dependency management using Maven.
 
-## ⚙️ Setup do Ambiente
+## ⚙️ Environment Setup
 
-Siga os passos abaixo para configurar o ambiente de desenvolvimento corretamente.
-## 1. Pré-requisitos
-- JDK 23 instalado e configurado em: `Windows > Preferences > Java > Installed JREs` (no Eclipse).
-- SysML v2 Pilot Implementation clonado e configurado localmente.
+Follow the steps below to properly configure the development environment.
+## 1. Prerequisites
+- **JDK 23** installed and configured in: `Windows > Preferences > Java > Installed JREs` (in Eclipse).
+- **SysML v2 Pilot Implementation** cloned and locally configured.
 
-## 2. Configuração de Propriedades
+## 2. Properties Configuration
 
-- Edite o arquivo `src/main/resources/application.properties` com os caminhos da sua máquina:
+- Edit the file `src/main/resources/application.properties` with paths specific to your machine:
 ```properties 
-# Caminho absoluto até a pasta de modelos do projeto
+# Absolute path to the project's model folder
 app.baseFilePath=C:/.../sysml/src/main/java/sysml
 
-# Caminho absoluto até a biblioteca padrão da Pilot Implementation
+# Absolute path to the Pilot Implementation standard library
 app.systemLibPath=C:/.../SySML-v2-Pilot-Implementation/sysml.library
 ```
 
-## 3. Autenticação GitHub Packages (settings.xml)
+## 3. GitHub Packages Authentication (settings.xml)
 
-Para baixar as dependências do SysML v2 e do OBP3, você precisa configurar o Maven para acessar o GitHub Packages:
-- Gere um Personal Access Token (classic) no GitHub com a permissão read:packages.
-- Localize ou crie o arquivo settings.xml em `C:\Users\SEU_USER\.m2\`
-- Adicione a configuração de servidor com suas credenciais:
+To download **SysML v2** and **OBP3** dependencies, Maven must be configured to access **GitHub Packages**:
+- Generate a **Personal Access Token (classic)** on GitHub with the `read:packages` permission.
+- Locate or create the `settings.xml` file at: `C:\Users\YOUR_USER\.m2\`
+- Add the server configuration with your credentials:
 ```XML
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                              http://maven.apache.org/xsd/settings-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
     <servers>
         <server>
             <id>github-sysml</id>
-            <username>SEU_USER_GITHUB</username>
-            <password>SEU_TOKEN_GITHUB</password>
+            <username>YOUR_GITHUB_USER</username>
+            <password>YOUR_GITHUB_TOKEN</password>
         </server>
 
         <server>
             <id>github-obp3</id>
-            <username>SEU_USER_GITHUB</username>
-            <password>SEU_TOKEN_GITHUB</password>
+            <username>YOUR_GITHUB_USER</username>
+            <password>YOUR_GITHUB_TOKEN</password>
         </server>
     </servers>
+
 </settings>
 ```
 
-## 4. Atualização do Projeto
-Após configurar o settings.xml e o application.properties:
-- Remova o arquivo sysml-lib3.jar da pasta /lib (caso exista).
-- No Eclipse, clique com o botão direito no projeto.
-- Vá em Maven > Update Project...
-- Marque a opção Force Update of Snapshots/Releases e clique em OK.
+## 4. Project Update
+After configuring `settings.xml` and `application.properties`:
+
+- Remove the `sysml-lib3.jar` file from the `/lib` folder (if it exists).
+- In Eclipse, right-click the project.
+- Select `Maven > Update Project...`.
+- Enable **Force Update of Snapshots/Releases**.
+- Click **OK**.
+
+If `pom.xml` schema or dependency errors occur, performing a Maven update usually resolves the issue.
