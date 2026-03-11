@@ -64,4 +64,4 @@ After configuring `settings.xml` and `application.properties`:
 - Enable **Force Update of Snapshots/Releases**.
 - Click **OK**.
 
-If `pom.xml` schema or dependency errors occur, performing a Maven update usually resolves the issue.
+If `pom.xml` schema/dependency errors occur, performing a Maven update usually resolves the issue.
